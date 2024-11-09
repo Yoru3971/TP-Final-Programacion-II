@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Administrador extends Empleado{
-    //gonstructor
+    //constructor
     public Administrador(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, usuario, clave, salario);
     }
@@ -26,6 +26,8 @@ public class Administrador extends Empleado{
     /// El metodo hacerBackup deberia ser un metodo que cree una carpeta (con el nombre de la fecha actual) que dentro haga varios archivos.json donde almacene
     /// tanto empleados como clientes como habitaciones y reservas...
     /// Solucion:
+
+  /*
     public void hacerBackup(){
         // Obtener la fecha actual en formato yyyy-MM-dd
         LocalDate fechaActual = LocalDate.now();
@@ -49,4 +51,6 @@ public class Administrador extends Empleado{
             GestorDeArchivos.escribirEnJson(entry.getValue(), entry.getKey());
         }
     }
+    */
+
 }

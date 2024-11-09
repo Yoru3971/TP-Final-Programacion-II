@@ -7,7 +7,7 @@ public abstract class Empleado extends Persona{
     private String clave;
     private Double salario;
 
-    //gonstructor
+    //constructor
     public Empleado(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.usuario = usuario;
@@ -15,7 +15,7 @@ public abstract class Empleado extends Persona{
         this.salario = salario;
     }
 
-    //getters y getters
+    //getters y setters
     public String getUsuario() {
         return usuario;
     }

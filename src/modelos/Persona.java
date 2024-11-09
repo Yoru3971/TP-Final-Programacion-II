@@ -11,7 +11,7 @@ public abstract class Persona {
     private String telefono;
     private String mail;
 
-    //gonstructor
+    //constructor
     public Persona(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail) {
         this.dni = dni;
         this.nombre = nombre;
@@ -22,7 +22,7 @@ public abstract class Persona {
         this.mail = mail;
     }
 
-    //getters y getters
+    //getters y setters
     public Integer getDni() {
         return dni;
     }

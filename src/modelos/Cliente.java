@@ -5,13 +5,13 @@ import java.util.Objects;
 public class Cliente extends Persona{
     private Boolean clienteVip;
 
-    //gonstructor
+    //constructor
     public Cliente(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, Boolean clienteVip) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.clienteVip = clienteVip;
     }
 
-    //getters y getters
+    //getters y setters
     public Boolean getClienteVip() {
         return clienteVip;
     }
