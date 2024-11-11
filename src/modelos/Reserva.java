@@ -20,7 +20,7 @@ public class Reserva {
     }
 
     public Double calcularMontoTotal(LocalDateTime checkIn, LocalDateTime checkOut, Habitacion habitacion){
-        long cantidadDias = ChronoUnit.DAYS.between(checkIn, checkOut);
+        int cantidadDias = (int) ChronoUnit.DAYS.between(checkIn, checkOut);
         return cantidadDias * habitacion.getPrecioDiario();
     }
 

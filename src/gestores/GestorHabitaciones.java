@@ -1,6 +1,5 @@
 package gestores;
 
-import modelos.Cliente;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
@@ -23,7 +22,9 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
     //Para agregar y eliminar, queda pendiente agregar verificaciones de habitacion repetida/no encontrada
     @Override
     public void agregar(Habitacion habitacion) {
+
         habitaciones.add(habitacion);
+
         System.out.println("Habitacion agregada con éxito.");
     }
 
@@ -58,6 +59,8 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
                     int nuevoNumero = scanner.nextInt();
                     scanner.nextLine();
                     habitacionModificada.setNumeroHabitacion(nuevoNumero);
+
+                    //Al final de cada case, mostrar un mensaje de cambio guardado con exito
                     break;
                 case 2:
                     System.out.print("Ingrese la fecha para cambiar disponibilidad (YYYY-MM-DD HH:MM): ");
@@ -115,7 +118,6 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
                         System.out.println("Opción no válida. No se realizó ningún cambio.");
                     }
                     break;
-
                 case 5:
                     System.out.print("Ingrese nuevo precio diario: ");
                     double nuevoPrecio = scanner.nextDouble();
@@ -129,8 +131,12 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
+
+            //ACA VA LIMPIAR PANTALLA
+            //ACA preguntar si quiere hacer otra modificacion
         } while (opcion != 0);
 
+        //Agregar confirmacion
         habitaciones.set(index, habitacionModificada); // Actualiza la habitación en el arreglo
         System.out.println("Modificación completada.");
     }
