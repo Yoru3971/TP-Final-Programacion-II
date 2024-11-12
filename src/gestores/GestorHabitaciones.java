@@ -70,15 +70,19 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             switch (opcion) {
                 case 1:
                     habitacionModificada.setNumeroHabitacion(pedirNumeroHabitacion(scanner));
+                    System.out.println("Numero de habitacion modificado con éxito");
                     break;
                 case 2:
                     habitacionModificada.setEstadoActual(pedirEstadoHabitacion(scanner));
+                    System.out.println("Estado Actual modificado con éxito");
                     break;
                 case 3:
                     habitacionModificada.setTipoHabitacion(pedirTipoHabitacion(scanner));
+                    System.out.println("Tipo de habitacion modificado con éxito");
                     break;
                 case 4:
                     habitacionModificada.setPrecioDiario(pedirPrecioDiario(scanner));
+                    System.out.println("Precio diario modificado con éxito");
                     break;
                 case 0:
                     System.out.println("Saliendo de la modificación.");
@@ -87,13 +91,29 @@ public class GestorHabitaciones implements IGestionable<Integer> {
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
+            System.out.println("\nQuiere realizar otra modificacion?");
+            System.out.println("1.Si");
+            System.out.println("0.No");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
             //FALTA PODER MANEJAR LA DISPONIBILIDAD DE FECHAS
             //ACA VA LIMPIAR PANTALLA
-            //ACA preguntar si quiere hacer otra modificacion
         } while (opcion != 0);
 
-        habitaciones.set(indiceHabitacionModificada, habitacionModificada); // Actualiza la habitación en el arreglo
-        System.out.println("Modificación completada.");
+        System.out.println("\nHabitacion modificada");
+        System.out.println(habitacionModificada);
+        System.out.println("¿Desea confirmar los cambios?");
+        System.out.println("1.Si");
+        System.out.println("2.No");
+
+        int confirmar = scanner.nextInt();
+
+        if (confirmar == 1) {
+            habitaciones.set(indiceHabitacionModificada, habitacionModificada); // Actualiza la habitación en el arreglo
+            System.out.println("Modificación completada.");
+        } else {
+            System.out.println("Modificacion cancelada");
+        }
     }
 
     // Métodos para pedir cada atributo

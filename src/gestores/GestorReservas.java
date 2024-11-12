@@ -52,22 +52,26 @@ public class GestorReservas implements IGestionable<Reserva>{
                     System.out.println("Seleccione la nueva habitación:");
                     // Aquí deberías manejar la lógica para elegir una nueva habitación
                     // Asumo que tienes una lista de habitaciones
+                    System.out.println("Habitacion modificado con éxito");
                     break;
                 case 2:
                     System.out.println("Seleccione el nuevo cliente:");
                     // Lógica para seleccionar un nuevo cliente
+                    System.out.println("Cliente modificado con éxito");
                     break;
                 case 3:
                     System.out.print("Ingrese nueva fecha de Check-in (formato YYYY-MM-DDTHH:MM): ");
                     String nuevaFechaCheckIn = scanner.nextLine();
                     LocalDateTime nuevoCheckIn = LocalDateTime.parse(nuevaFechaCheckIn);
                     reservaModificada.setCheckIn(nuevoCheckIn);
+                    System.out.println("CheckIn modificado con éxito");
                     break;
                 case 4:
                     System.out.print("Ingrese nueva fecha de Check-out (formato YYYY-MM-DDTHH:MM): ");
                     String nuevaFechaCheckOut = scanner.nextLine();
                     LocalDateTime nuevoCheckOut = LocalDateTime.parse(nuevaFechaCheckOut);
                     reservaModificada.setCheckOut(nuevoCheckOut);
+                    System.out.println("CheckOut modificado con éxito");
                     break;
                 case 0:
                     System.out.println("Saliendo.");
@@ -75,10 +79,29 @@ public class GestorReservas implements IGestionable<Reserva>{
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
+
+            System.out.println("\nQuiere realizar otra modificacion?");
+            System.out.println("1.Si");
+            System.out.println("0.No");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+
         } while (opcion != 0);
 
-        reservas.set(index, reservaModificada); // Guardar los cambios de la reserva modificada
-        System.out.println("Modificación completada.");
+        System.out.println("\nReserva modificada");
+        System.out.println(reservaModificada);
+        System.out.println("¿Desea confirmar los cambios?");
+        System.out.println("1.Si");
+        System.out.println("2.No");
+
+        int confirmar = scanner.nextInt();
+
+        if (confirmar == 1) {
+            reservas.set(index, reservaModificada); // Guardar los cambios de la reserva modificada
+            System.out.println("Modificación completada.");
+        } else {
+            System.out.println("Modificacion cancelada");
+        }
     }
 
     private int buscarIndiceReserva(Reserva reserva) {

@@ -93,30 +93,39 @@ public class GestorEmpleados implements IGestionable<String> {
                     break;
                 case 2:
                     empleadoModificado.setNombre(pedirNombre());
+                    System.out.println("Nombre modificado con éxito");
                     break;
                 case 3:
                     empleadoModificado.setApellido(pedirApellido());
+                    System.out.println("Apellido modificado con éxito");
                     break;
                 case 4:
                     empleadoModificado.setNacionalidad(pedirNacionalidad());
+                    System.out.println("Nacionalidad modificado con éxito");
                     break;
                 case 5:
                     empleadoModificado.setDomicilio(pedirDomicilio());
+                    System.out.println("Domicilio modificado con éxito");
                     break;
                 case 6:
                     empleadoModificado.setTelefono(pedirTelefono());
+                    System.out.println("Telefono modificado con éxito");
                     break;
                 case 7:
                     empleadoModificado.setMail(pedirMail());
+                    System.out.println("Mail modificado con éxito");
                     break;
                 case 8:
                     empleadoModificado.setUsuario(pedirUsuario());
+                    System.out.println("Usuario modificado con éxito");
                     break;
                 case 9:
                     empleadoModificado.setClave(pedirClave());
+                    System.out.println("Clave modificado con éxito");
                     break;
                 case 10:
                     empleadoModificado.setSalario(pedirSalario());
+                    System.out.println("Salario modificado con éxito");
                     break;
                 case 0:
                     System.out.println("Saliendo.");
@@ -124,10 +133,29 @@ public class GestorEmpleados implements IGestionable<String> {
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
+
+            System.out.println("\nQuiere realizar otra modificacion?");
+            System.out.println("1.Si");
+            System.out.println("0.No");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+
         } while (opcion != 0);
 
-        empleados.set(indiceEmpleadoModificar, empleadoModificado);
-        System.out.println("Modificación completada.");
+        System.out.println("\nEmpleado modificado");
+        System.out.println(empleadoModificado);
+        System.out.println("¿Desea confirmar los cambios?");
+        System.out.println("1.Si");
+        System.out.println("2.No");
+
+        int confirmar = scanner.nextInt();
+
+        if (confirmar == 1) {
+            empleados.set(indiceEmpleadoModificar, empleadoModificado);
+            System.out.println("Modificación completada.");
+        } else {
+            System.out.println("Modificacion cancelada");
+        }
     }
 
 
