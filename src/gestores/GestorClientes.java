@@ -5,8 +5,9 @@ import modelos.Cliente;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GestorClientes implements IGestionable<Cliente>{
+public class GestorClientes implements IGestionable<String>{
     private ArrayList<Cliente> clientes;
+    private Scanner scanner = new Scanner(System.in);
 
     public GestorClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
@@ -16,27 +17,48 @@ public class GestorClientes implements IGestionable<Cliente>{
         clientes = new ArrayList<>();
     }
 
-
     //Faltan agregar las verificaciones
     @Override
-    public void agregar(Cliente cliente) {
-        clientes.add(cliente);
+    public void agregar() {
+        Cliente nuevoCliente = new Cliente(false);
+
+        nuevoCliente.setNombre(pedirNombre(scanner));
+        nuevoCliente.setApellido(pedirApellido(scanner));
+        nuevoCliente.setNacionalidad(pedirNacionalidad(scanner));
+        nuevoCliente.setDomicilio(pedirDomicilio(scanner));
+        nuevoCliente.setTelefono(pedirTelefono(scanner));
+        nuevoCliente.setMail(pedirEmail(scanner));
+        nuevoCliente.setClienteVip(pedirVipStatus(scanner));
+
+        clientes.add(nuevoCliente);
+
         System.out.println("Cliente agregado con éxito.");
     }
 
     @Override
-    public void eliminar(Cliente cliente) {
-        clientes.remove(cliente);
-        System.out.println("Cliente eliminado con éxito.");
+    public void eliminar(String dni) {
+        Cliente clienteEliminar = buscarPorDni(dni);
+
+        System.out.println("Confirmar eliminacion del cliente: ");
+        System.out.println(clienteEliminar);
+
+        System.out.println("1. Si");
+        System.out.println("2. No");
+
+        if(scanner.nextInt() == 1){
+            clientes.remove(clienteEliminar);
+            System.out.println("Cliente eliminado del sistema con exito.");
+        }else{
+            System.out.println("El cliente no fue eliminado del sistema.");
+        }
+
+        //Hay que ver donde hacemos la eliminacion del archivo (puede ser aca o en el metodo del backup del admin)
     }
 
     @Override
-    public void modificar(Cliente cliente) {
-        Scanner scanner = new Scanner(System.in);
-
-        int index = buscarIndiceCliente(cliente);
-
-        Cliente clienteModificado = clientes.get(index); // Obtener el cliente original
+    public void modificar(String dni) {
+        Cliente clienteModificado = buscarPorDni(dni);
+        Integer indiceClienteModificar = clientes.indexOf(clienteModificado);
 
         int opcion;
         do {
@@ -50,52 +72,29 @@ public class GestorClientes implements IGestionable<Cliente>{
             System.out.println("7. VIP (Sí/No)");
             System.out.println("0. Salir");
             opcion = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Limpiar el buffer
 
             switch (opcion) {
                 case 1:
-                    System.out.print("Ingrese nuevo nombre: ");
-                    String nuevoNombre = scanner.nextLine();
-                    clienteModificado.setNombre(nuevoNombre);
+                    clienteModificado.setNombre(pedirNombre(scanner));
                     break;
                 case 2:
-                    System.out.print("Ingrese nuevo apellido: ");
-
-                    String nuevoApellido = scanner.nextLine();
-                    clienteModificado.setApellido(nuevoApellido);
+                    clienteModificado.setApellido(pedirApellido(scanner));
                     break;
                 case 3:
-                    System.out.print("Ingrese nueva nacionalidad: ");
-                    String nuevaNacionalidad = scanner.nextLine();
-                    clienteModificado.setNacionalidad(nuevaNacionalidad);
+                    clienteModificado.setNacionalidad(pedirNacionalidad(scanner));
                     break;
                 case 4:
-                    System.out.print("Ingrese nuevo domicilio: ");
-                    String nuevoDomicilio = scanner.nextLine();
-                    clienteModificado.setDomicilio(nuevoDomicilio);
+                    clienteModificado.setDomicilio(pedirDomicilio(scanner));
                     break;
                 case 5:
-                    System.out.print("Ingrese nuevo teléfono: ");
-                    String nuevoTelefono = scanner.nextLine();
-                    clienteModificado.setTelefono(nuevoTelefono);
+                    clienteModificado.setTelefono(pedirTelefono(scanner));
                     break;
                 case 6:
-                    System.out.print("Ingrese nuevo email: ");
-                    String nuevoMail = scanner.nextLine();
-                    clienteModificado.setMail(nuevoMail);
+                    clienteModificado.setMail(pedirEmail(scanner));
                     break;
                 case 7:
-                    System.out.println("¿Es cliente VIP?");
-                    System.out.println("1. Sí");
-                    System.out.println("2. No");
-                    int vipOption = scanner.nextInt();
-                    if (vipOption == 1) {
-                        clienteModificado.setClienteVip(true);
-                    } else if (vipOption == 2) {
-                        clienteModificado.setClienteVip(false);
-                    } else {
-                        System.out.println("Opción no válida. Se mantiene el estado actual.");
-                    }
+                    clienteModificado.setClienteVip(pedirVipStatus(scanner));
                     break;
                 case 0:
                     System.out.println("Saliendo.");
@@ -105,16 +104,57 @@ public class GestorClientes implements IGestionable<Cliente>{
             }
         } while (opcion != 0);
 
-        clientes.set(index, clienteModificado); // Guardar los cambios del cliente modificado
+        clientes.set(indiceClienteModificar, clienteModificado);
         System.out.println("Modificación completada.");
     }
 
-    private int buscarIndiceCliente(Cliente cliente) {
+    private Cliente buscarPorDni(String dni){
+        Cliente cliente = null;
         for(Cliente c : clientes){
-            if(c.equals(cliente)){
-                return clientes.indexOf(c);
+            if(c.getDni().equals(dni)){
+                cliente = c;
             }
         }
-        return -1;
+        return cliente;
+    }
+
+    // Métodos para solicitar cada atributo
+    private String pedirNombre(Scanner scanner) {
+        System.out.print("Ingrese nombre: ");
+        return scanner.nextLine();
+    }
+
+    private String pedirApellido(Scanner scanner) {
+        System.out.print("Ingrese apellido: ");
+        return scanner.nextLine();
+    }
+
+    private String pedirNacionalidad(Scanner scanner) {
+        System.out.print("Ingrese nacionalidad: ");
+        return scanner.nextLine();
+    }
+
+    private String pedirDomicilio(Scanner scanner) {
+        System.out.print("Ingrese domicilio: ");
+        return scanner.nextLine();
+    }
+
+    private String pedirTelefono(Scanner scanner) {
+        System.out.print("Ingrese teléfono: ");
+        return scanner.nextLine();
+    }
+
+    private String pedirEmail(Scanner scanner) {
+        System.out.print("Ingrese email: ");
+        return scanner.nextLine();
+    }
+
+    private boolean pedirVipStatus(Scanner scanner) {
+        System.out.println("¿Es cliente VIP?");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer
+        return opcion == 1;
     }
 }
