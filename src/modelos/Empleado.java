@@ -11,12 +11,12 @@ public class Empleado extends Persona{
     private TipoEmpleado cargo;
 
     //constructor
-    public Empleado(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario, TipoEmpleado cargo) {
+    public Empleado(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.usuario = usuario;
         this.clave = clave;
         this.salario = salario;
-        this.cargo = cargo;
+        this.cargo = TipoEmpleado.RECEPCIONISTA;
     }
 
     //getters y setters

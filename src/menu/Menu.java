@@ -125,7 +125,7 @@ public class Menu {
         } while (opcion != 5);
     }
 
-    // Método para gestionar empleados (solo disponible para el Administrador)
+    // Metodo para gestionar empleados (solo disponible para el Administrador)
     private void gestionarEmpleados() {
         int opcion;
         do {
@@ -141,8 +141,8 @@ public class Menu {
             switch (opcion) {
                 case 1 -> gestorEmpleados.listar();
                 case 2 -> gestorEmpleados.agregar();
-                case 3 -> gestorEmpleados.modificar();
-                case 4 -> gestorEmpleados.eliminar();
+                case 3 -> gestorEmpleados.modificar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a modificar: "));
+                case 4 -> gestorEmpleados.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a eliminar: "));
                 case 5 -> buscarEmpleadoPorDNI();
                 case 6 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -150,7 +150,7 @@ public class Menu {
         } while (opcion != 6);
     }
 
-    // Método para buscar un empleado por DNI
+    // Metodo para buscar un empleado por DNI
     private void buscarEmpleadoPorDNI() {
         String dni = GestorEntradas.pedirCadena("Ingrese el DNI del empleado a buscar: ");
         Empleado empleado = gestorEmpleados.buscarEmpleadoPorDni(dni);
@@ -161,7 +161,7 @@ public class Menu {
         }
     }
 
-    // Método para gestionar habitaciones
+    // Metodo para gestionar habitaciones
     private void gestionarHabitaciones() {
         int opcion;
         do {
@@ -177,8 +177,8 @@ public class Menu {
             switch (opcion) {
                 case 1 -> gestorHabitaciones.listar();
                 case 2 -> gestorHabitaciones.agregar();
-                case 3 -> gestorHabitaciones.modificar();
-                case 4 -> gestorHabitaciones.eliminar();
+                case 3 -> gestorHabitaciones.modificar(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a modificar: "));
+                case 4 -> gestorHabitaciones.eliminar(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a eliminar: "));
                 case 5 -> buscarHabitacionPorNumero();
                 case 6 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -186,7 +186,8 @@ public class Menu {
         } while (opcion != 6);
     }
 
-    // Método para buscar una habitación por número
+
+    // Metodo para buscar una habitación por número
     private void buscarHabitacionPorNumero() {
         int numero = GestorEntradas.pedirEntero("Ingrese el número de la habitación a buscar: ");
         Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(numero);
@@ -197,7 +198,7 @@ public class Menu {
         }
     }
 
-    // Método para gestionar clientes
+    // Metodo para gestionar clientes
     private void gestionarClientes() {
         int opcion;
         do {
@@ -213,8 +214,8 @@ public class Menu {
             switch (opcion) {
                 case 1 -> gestorClientes.listar();
                 case 2 -> gestorClientes.agregar();
-                case 3 -> gestorClientes.modificar();
-                case 4 -> gestorClientes.eliminar();
+                case 3 -> gestorClientes.modificar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a modificar: "));
+                case 4 -> gestorClientes.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a eliminar: "));
                 case 5 -> buscarClientePorDNI();
                 case 6 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -222,7 +223,7 @@ public class Menu {
         } while (opcion != 6);
     }
 
-    // Método para buscar un cliente por DNI
+    // Metodo para buscar un cliente por DNI
     private void buscarClientePorDNI() {
         String dni = GestorEntradas.pedirCadena("Ingrese el DNI del cliente a buscar: ");
         Cliente cliente = gestorClientes.buscarClientePorDni(dni);
@@ -233,7 +234,7 @@ public class Menu {
         }
     }
 
-    // Método para gestionar reservas
+    // Metodo para gestionar reservas
     private void gestionarReservas() {
         int opcion;
         do {
@@ -247,9 +248,16 @@ public class Menu {
 
             switch (opcion) {
                 case 1 -> gestorReservas.listar();
-                case 2 -> gestorReservas.agregar();
-                case 3 -> gestorReservas.modificar();
-                case 4 -> gestorReservas.eliminar();
+                case 2 -> {
+                    System.out.println("Ingrese los datos de la nueva reserva: ");
+
+                    Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a reservar: "));
+                    Cliente cliente = gestorClientes.buscarClientePorDni(GestorEntradas.pedirCadena("Ingrese el dni del titular de la reserva: "));
+
+                    gestorReservas.agregar(habitacion, cliente);
+                }
+                case 3 -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "));
+                case 4 -> gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
                 case 5 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
