@@ -1,7 +1,10 @@
 package modelos;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,12 +30,52 @@ public class Reserva {
         return cantidadDias * habitacion.getPrecioDiario();
     }
 
-    public void hacerCheckIn(){
-        //Stand By
+    public void hacerCheckIn() {
+        LocalDate start = checkIn.toLocalDate();
+        LocalDate end = checkOut.toLocalDate();
+
+        // Bucle para recorrer los días entre checkIn y checkOut
+        while (!start.isAfter(end)) {
+            int day = start.getDayOfMonth();
+            if (habitacion.getDisponibilidadReserva().containsKey(day)) {
+                habitacion.getDisponibilidadReserva().put(day, true); // Marcar el día como ocupado
+            }
+            start = start.plusDays(1);
+
+            // Cambiar al siguiente mes si es necesario
+            if (start.getDayOfMonth() == 1) {
+                habitacion = actualizarDisponibilidadParaNuevoMes(habitacion);
+            }
+        }
     }
 
-    public void hacerCheckOut(){
-        //Stand By
+    public void hacerCheckOut() {
+        LocalDate start = checkIn.toLocalDate();
+        LocalDate end = checkOut.toLocalDate();
+
+        // Bucle para recorrer los días entre checkIn y checkOut
+        while (!start.isAfter(end)) {
+            int day = start.getDayOfMonth();
+            if (habitacion.getDisponibilidadReserva().containsKey(day)) {
+                habitacion.getDisponibilidadReserva().put(day, false); // Marcar el día como disponible
+            }
+            start = start.plusDays(1);
+
+            // Cambiar al siguiente mes si es necesario
+            if (start.getDayOfMonth() == 1) {
+                habitacion = actualizarDisponibilidadParaNuevoMes(habitacion);
+            }
+        }
+    }
+
+    // Metodo auxiliar para preparar la disponibilidad de una nueva habitación al cambiar de mes
+    private Habitacion actualizarDisponibilidadParaNuevoMes(Habitacion habitacion) {
+        HashMap<Integer, Boolean> nuevaDisponibilidad = new HashMap<>();
+        for (int i = 1; i <= 31; i++) {
+            nuevaDisponibilidad.put(i, false); // Asumimos que todos los días del nuevo mes están disponibles inicialmente
+        }
+        habitacion.setDisponibilidadReserva(nuevaDisponibilidad);
+        return habitacion;
     }
 
     //getters y setters
