@@ -31,6 +31,19 @@ public class GestorClientes implements IGestionable<Cliente>{
     }
 
     @Override
+    public void listar() {
+        System.out.println("\nLista de Clientes");
+        System.out.println("\n=========================");
+        if (clientes.isEmpty()) {
+            System.out.println("No hay Clientes registrados.");
+        } else {
+            for (Cliente c : clientes) {
+                System.out.println(c);
+            }
+        }
+    }
+
+    @Override
     public void modificar(Cliente cliente) {
         Scanner scanner = new Scanner(System.in);
 
@@ -116,5 +129,14 @@ public class GestorClientes implements IGestionable<Cliente>{
             }
         }
         return -1;
+    }
+
+    public Cliente buscarClientePorDNI (int DNI) {
+        for(Cliente c : clientes){
+            if(c.getDni()==DNI){
+                return c;
+            }
+        }
+        return null;
     }
 }

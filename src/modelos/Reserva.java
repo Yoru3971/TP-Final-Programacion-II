@@ -3,8 +3,10 @@ package modelos;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.util.UUID;
 
 public class Reserva {
+    private final String codigo;
     private Habitacion habitacion;
     private Cliente cliente;
     private LocalDateTime checkIn;
@@ -12,6 +14,7 @@ public class Reserva {
     private Double montoTotal;
 
     public Reserva(Habitacion habitacion, Cliente cliente, LocalDateTime checkIn, LocalDateTime checkOut) {
+        this.codigo = UUID.randomUUID().toString().toUpperCase();
         this.habitacion = habitacion;
         this.cliente = cliente;
         this.checkIn = checkIn;
@@ -30,6 +33,10 @@ public class Reserva {
 
     public void hacerCheckOut(){
         //Stand By
+    }
+
+    public String getCodigo() {
+        return codigo;
     }
 
     public Habitacion getHabitacion() {

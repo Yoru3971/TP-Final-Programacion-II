@@ -34,6 +34,19 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
         System.out.println("Habitacion eliminada con éxito.");
     }
 
+    @Override
+    public void listar() {
+        System.out.println("\nLista de Habitaciones");
+        System.out.println("=========================");
+        if (habitaciones.isEmpty()) {
+            System.out.println("No hay habitaciones registradas.");
+        } else {
+            for (Habitacion h : habitaciones) {
+                System.out.println(h);
+            }
+        }
+    }
+
     //En todos los caso hay que agregar verificaciones, habitacion no repetida, fecha no repetida, etc
     @Override
     public void modificar(Habitacion habitacion) {
@@ -148,5 +161,14 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
             }
         }
         return -1;
+    }
+
+    public Habitacion buscarHabitacionPorNumero(int numero) {
+        for(Habitacion h : habitaciones){
+            if(h.getNumeroHabitacion()==numero){
+                return h;
+            }
+        }
+        return null;
     }
 }

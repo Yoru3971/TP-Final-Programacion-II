@@ -29,6 +29,19 @@ public class GestorEmpleados implements IGestionable<Empleado> {
 
     }
 
+    @Override
+    public void listar() {
+        System.out.println("\nLista de Empleados");
+        System.out.println("=========================");
+        if (empleados.isEmpty()) {
+            System.out.println("No hay empleados registrados.");
+        } else {
+            for (Empleado e : empleados) {
+                System.out.println(e);
+            }
+        }
+    }
+
     //Algo a tener en cuenta, este metodo lo va a suar el admin para modificar empleados, pero si un empleado quiere
     //cambiar su usuario o clave, hay que hacerlo aparte, probablemente como metodo dentro de la clase Menu (que llama
     //a los metodos menuRecepcionista y menuAdmin
@@ -90,5 +103,14 @@ public class GestorEmpleados implements IGestionable<Empleado> {
             }
         }
         return -1;
+    }
+
+    public Empleado buscarEmpleadoPorDNI(int DNI){
+        for (Empleado e : empleados) {
+            if (e.getDni()==DNI){
+                return e;
+            }
+        }
+        return null;
     }
 }

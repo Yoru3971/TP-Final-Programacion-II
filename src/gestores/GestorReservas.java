@@ -29,6 +29,19 @@ public class GestorReservas implements IGestionable<Reserva>{
     }
 
     @Override
+    public void listar() {
+        System.out.println("\nLista de Reservas");
+        System.out.println("=========================");
+        if (reservas.isEmpty()) {
+            System.out.println("No hay reservas registradas.");
+        } else {
+            for (Reserva r : reservas) {
+                System.out.println(r);
+            }
+        }
+    }
+
+    @Override
     public void modificar(Reserva reserva) {
         Scanner scanner = new Scanner(System.in);
 
@@ -89,5 +102,15 @@ public class GestorReservas implements IGestionable<Reserva>{
         }
         return -1;
     }
+
+    public Reserva buscarReservaPorCodigo(String codigo) {
+        for (Reserva r : reservas) {
+            if (r.getCodigo().equals(codigo)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
 
 }

@@ -1,15 +1,17 @@
 package gestores;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class GestorArchivos {
 
-    public static <T> void EscribirArregloEnArchivo(ArrayList<T> arreglo, String nombreArchivo) {
+    public static <T> void escribirArregloEnArchivo(ArrayList<T> arreglo, String nombreArchivo) {
         Gson gson = new Gson();
 
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
@@ -20,16 +22,20 @@ public class GestorArchivos {
         }
     }
 
-    public static <T> ArrayList<T> LeerArregloDeArchivo(T objeto, String nombreArchivo) {
+    public static <T> ArrayList<T> leerArregloDeArchivo(String nombreArchivo, Class<T> clase) {
         Gson gson = new Gson();
-
-        ArrayList<T> elementos = null;
+        ArrayList<T> elementos = new ArrayList<>();
 
         try (FileReader reader = new FileReader(nombreArchivo)) {
+            // Utilizar TypeToken para deserializar un ArrayList del tipo T
+            Type listType = TypeToken.getParameterized(ArrayList.class, clase).getType();
+            elementos = gson.fromJson(reader, listType);
 
-            elementos = (ArrayList<T>) gson.fromJson(reader, objeto.getClass());
-
-            System.out.println("Archivo de "+elementos.getFirst().getClass().getName() +"s leido exitosamente.");
+            if (elementos != null && !elementos.isEmpty()) {
+                System.out.println("Archivo de " + clase.getSimpleName() + "s leído exitosamente.");
+            } else {
+                System.out.println("El archivo está vacío o no contiene elementos válidos.");
+            }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
