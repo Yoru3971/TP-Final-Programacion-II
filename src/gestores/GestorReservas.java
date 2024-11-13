@@ -76,14 +76,14 @@ public class GestorReservas {
                     System.out.println("Cliente modificado con éxito");
                     break;
                 case 3:
-                    String nuevaFechaCheckIn = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-in (formato YYYY-MM-DDTHH:MM): ");
-                    LocalDateTime nuevoCheckIn = LocalDateTime.parse(nuevaFechaCheckIn);
+                    String nuevaFechaCheckIn = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-in (formato YYYY-MM-DD): ");
+                    LocalDate nuevoCheckIn = LocalDate.parse(nuevaFechaCheckIn);
                     reservaModificada.setCheckIn(nuevoCheckIn);
                     System.out.println("Check-in modificado con éxito");
                     break;
                 case 4:
                     String nuevaFechaCheckOut = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-out (formato YYYY-MM-DDTHH:MM): ");
-                    LocalDateTime nuevoCheckOut = LocalDateTime.parse(nuevaFechaCheckOut);
+                    LocalDate nuevoCheckOut = LocalDate.parse(nuevaFechaCheckOut);
                     reservaModificada.setCheckOut(nuevoCheckOut);
                     System.out.println("Check-out modificado con éxito");
                     break;
