@@ -8,6 +8,8 @@ import excepciones.Verificador;
 
 import java.io.Console;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class Menu {
     private Empleado empleadoLogueado;
@@ -111,7 +113,8 @@ public class Menu {
             System.out.println("2. Gestionar Habitaciones");
             System.out.println("3. Gestionar Clientes");
             System.out.println("4. Gestionar Reservas");
-            System.out.println("5. Salir");
+            System.out.println("5. Realizar Backup");
+            System.out.println("6. Salir");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
@@ -119,7 +122,8 @@ public class Menu {
                 case 2 -> gestionarHabitaciones();
                 case 3 -> gestionarClientes();
                 case 4 -> gestionarReservas();
-                case 5 -> System.out.println("Saliendo del menú del Administrador...");
+                case 5 -> realizarBackup();
+                case 6 -> System.out.println("Saliendo del menú del Administrador...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 5);
@@ -262,5 +266,21 @@ public class Menu {
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 5);
+    }
+
+    // Metodo para hacer backup de todos los archivos (solo accesible por el administrador)
+    private void realizarBackup() {
+        System.out.println("Realizando backup...");
+
+        // Mapear los archivos con las listas (value) que deseo guardar con el nombre que
+        // le quiero dar al archivo (key)
+        Map<String, ArrayList<?>> datosBackup = Map.of(
+                "Empleados", gestorEmpleados.getEmpleados(),
+                "Clientes", gestorClientes.getClientes(),
+                "Habitaciones", gestorHabitaciones.getHabitaciones(),
+                "Reservas", gestorReservas.getReservas()
+        );
+        //Llamo metodo estatico hacerBackup del GestorDeArchivos
+        GestorArchivos.hacerBackup(datosBackup);
     }
 }

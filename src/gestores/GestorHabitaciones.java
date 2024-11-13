@@ -16,6 +16,14 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         habitaciones = new ArrayList<>();
     }
 
+    //getters y setters
+    public ArrayList<Habitacion> getHabitaciones() {
+        return habitaciones;
+    }
+    public void setHabitaciones(ArrayList<Habitacion> habitaciones) {
+        this.habitaciones = habitaciones;
+    }
+
     //implementacion metodos interfaz IGestionable
     @Override
     public void agregar() {

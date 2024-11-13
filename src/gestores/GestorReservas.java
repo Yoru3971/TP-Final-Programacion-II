@@ -9,12 +9,20 @@ import java.util.ArrayList;
 public class GestorReservas {
     private ArrayList<Reserva> reservas;
 
+    //constructores
     public GestorReservas(ArrayList<Reserva> reservas) {
         this.reservas = reservas;
     }
-
     public GestorReservas() {
         reservas = new ArrayList<>();
+    }
+
+    //getters y setters
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+    public void setReservas(ArrayList<Reserva> reservas) {
+        this.reservas = reservas;
     }
 
     // Faltan verificaciones
@@ -26,7 +34,6 @@ public class GestorReservas {
         reservas.add(nuevaReserva);
         System.out.println("Reserva agregada con éxito.");
     }
-
 
     public void eliminar(String codigo) {
         Reserva reserva = buscarReservaPorCodigo(codigo);

@@ -6,12 +6,20 @@ import java.util.ArrayList;
 public class GestorClientes implements IGestionable<String> {
     private ArrayList<Cliente> clientes;
 
+    //constructores
     public GestorClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
-
     public GestorClientes() {
         clientes = new ArrayList<>();
+    }
+
+    //getters y setters
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+    public void setClientes(ArrayList<Cliente> clientes) {
+        this.clientes = clientes;
     }
 
     @Override

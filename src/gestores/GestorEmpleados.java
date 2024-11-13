@@ -7,12 +7,20 @@ import java.util.ArrayList;
 public class GestorEmpleados implements IGestionable<String> {
     private ArrayList<Empleado> empleados;
 
+    //constructores
     public GestorEmpleados(ArrayList<Empleado> empleados) {
         this.empleados = empleados;
     }
-
     public GestorEmpleados() {
         empleados = new ArrayList<>();
+    }
+
+    //getters y setters
+    public ArrayList<Empleado> getEmpleados() {
+        return empleados;
+    }
+    public void setEmpleados(ArrayList<Empleado> empleados) {
+        this.empleados = empleados;
     }
 
     @Override
