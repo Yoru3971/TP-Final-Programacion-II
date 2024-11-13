@@ -3,6 +3,8 @@ package gestores;
 import modelos.Cliente;
 import modelos.Habitacion;
 import modelos.Reserva;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -19,8 +21,8 @@ public class GestorReservas {
 
     // Faltan verificaciones
     public void agregar(Habitacion habitacion, Cliente cliente) {
-        LocalDateTime checkIn = GestorEntradas.pedirFechaHora("Ingrese la fecha y hora de check-in (formato: yyyy-MM-dd HH:mm): ");
-        LocalDateTime checkOut = GestorEntradas.pedirFechaHora("Ingrese la fecha y hora de check-out (formato: yyyy-MM-dd HH:mm): ");
+        LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+        LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
 
         Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
         reservas.add(nuevaReserva);
