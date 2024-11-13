@@ -1,5 +1,7 @@
 package gestores;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class GestorEntradas {
@@ -22,5 +24,12 @@ public class GestorEntradas {
 
     public static void limpiarBuffer() {
         scanner.nextLine();
+    }
+
+    public static LocalDateTime pedirFechaHora(String mensaje) {
+        System.out.print(mensaje);
+        String input = scanner.nextLine();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(input, formatter);
     }
 }

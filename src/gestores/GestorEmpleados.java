@@ -31,7 +31,7 @@ public class GestorEmpleados implements IGestionable<String> {
         Double salario = GestorEntradas.pedirDouble("Ingrese salario: ");
 
         // Esto debe hacerse de manera genérica, pero por ahora está solo hecho para recepcionistas
-        Recepcionista nuevoEmpleado = new Recepcionista(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, usuario, clave, salario);
+        Empleado nuevoEmpleado = new Empleado(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, usuario, clave, salario);
         empleados.add(nuevoEmpleado);
         System.out.println("Empleado agregado con éxito.");
     }

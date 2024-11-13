@@ -8,17 +8,18 @@ import java.util.ArrayList;
 public class GestorHabitaciones implements IGestionable<Integer> {
     private ArrayList<Habitacion> habitaciones;
 
+    //constructores
     public GestorHabitaciones(ArrayList<Habitacion> habitaciones) {
         this.habitaciones = habitaciones;
     }
-
     public GestorHabitaciones() {
         habitaciones = new ArrayList<>();
     }
 
+    //implementacion metodos interfaz IGestionable
     @Override
     public void agregar() {
-        System.out.println("Ingrese los datos de la nueva habitación:");
+        System.out.println("Ingrese los datos de la nueva habitación: ");
 
         Integer numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el número de la habitación: ");
         if (buscarHabitacionPorNumero(numeroHabitacion) != null) {
