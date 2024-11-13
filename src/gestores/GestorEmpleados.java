@@ -1,7 +1,6 @@
 package gestores;
 
 import modelos.Empleado;
-import modelos.Recepcionista;
 
 import java.util.ArrayList;
 

@@ -1,18 +1,22 @@
 package modelos;
 
+import enumeraciones.TipoEmpleado;
+
 import java.util.Objects;
 
-public abstract class Empleado extends Persona{
+public class Empleado extends Persona{
     private String usuario;
     private String clave;
     private Double salario;
+    private TipoEmpleado cargo;
 
     //constructor
-    public Empleado(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
+    public Empleado(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario, TipoEmpleado cargo) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.usuario = usuario;
         this.clave = clave;
         this.salario = salario;
+        this.cargo = cargo;
     }
 
     //getters y setters
@@ -34,6 +38,12 @@ public abstract class Empleado extends Persona{
     public void setSalario(Double salario) {
         this.salario = salario;
     }
+    public TipoEmpleado getCargo() {
+        return cargo;
+    }
+    public void setCargo(TipoEmpleado cargo) {
+        this.cargo = cargo;
+    }
 
     //equals, hashCode y toString
     @Override
@@ -42,18 +52,13 @@ public abstract class Empleado extends Persona{
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         Empleado empleado = (Empleado) o;
-        return Objects.equals(usuario, empleado.usuario);
+        return Objects.equals(usuario, empleado.usuario) && cargo == empleado.cargo;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), usuario);
+        return Objects.hash(super.hashCode(), usuario, cargo);
     }
 
-    @Override
-    public String toString() {
-        return "Empleado{" +
-                "usuario='" + usuario + '\'' +
-                "} " + super.toString();
-    }
+
 }

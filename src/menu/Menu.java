@@ -1,5 +1,6 @@
 package menu;
 
+import enumeraciones.TipoEmpleado;
 import excepciones.CredencialesIncorrectasException;
 import gestores.*;
 import modelos.*;
@@ -28,7 +29,6 @@ public class Menu {
     public Empleado getEmpleadoLogueado() {
         return empleadoLogueado;
     }
-
     public void setEmpleadoLogueado(Empleado empleadoLogueado) {
         this.empleadoLogueado = empleadoLogueado;
     }
@@ -76,9 +76,9 @@ public class Menu {
 
     public void menuInicial() {
         logIn();
-        if (empleadoLogueado instanceof Administrador) {
+        if (empleadoLogueado.getCargo().equals(TipoEmpleado.ADMINISTRADOR)) {
             menuAdministrador();
-        } else if (empleadoLogueado instanceof Recepcionista) {
+        } else if (empleadoLogueado.getCargo().equals(TipoEmpleado.RECEPCIONISTA)) {
             menuRecepcionista();
         }
     }
