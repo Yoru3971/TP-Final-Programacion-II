@@ -1,7 +1,6 @@
 package modelos;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Objects;
@@ -11,11 +10,11 @@ public class Reserva {
     private final String codigo;
     private Habitacion habitacion;
     private Cliente cliente;
-    private LocalDateTime checkIn;
-    private LocalDateTime checkOut;
+    private LocalDate checkIn;
+    private LocalDate checkOut;
     private Double montoTotal;
 
-    public Reserva(Habitacion habitacion, Cliente cliente, LocalDateTime checkIn, LocalDateTime checkOut) {
+    public Reserva(Habitacion habitacion, Cliente cliente, LocalDate checkIn, LocalDate checkOut) {
         this.codigo = UUID.randomUUID().toString().toUpperCase();
         this.habitacion = habitacion;
         this.cliente = cliente;
@@ -24,44 +23,45 @@ public class Reserva {
         this.montoTotal = calcularMontoTotal(checkIn,checkOut,habitacion);
     }
 
-    public Double calcularMontoTotal(LocalDateTime checkIn, LocalDateTime checkOut, Habitacion habitacion){
+    public Double calcularMontoTotal(LocalDate checkIn, LocalDate checkOut, Habitacion habitacion) {
         int cantidadDias = (int) ChronoUnit.DAYS.between(checkIn, checkOut);
         return cantidadDias * habitacion.getPrecioDiario();
     }
 
+
     public void hacerCheckIn() {
-        LocalDate start = checkIn.toLocalDate();
-        LocalDate end = checkOut.toLocalDate();
+        LocalDate inicio = checkIn;
+        LocalDate fin = checkOut;
 
         // Bucle para recorrer los días entre checkIn y checkOut
-        while (!start.isAfter(end)) {
-            int day = start.getDayOfMonth();
+        while (!inicio.isAfter(fin)) {
+            int day = inicio.getDayOfMonth();
             if (habitacion.getDisponibilidadReserva().containsKey(day)) {
                 habitacion.getDisponibilidadReserva().put(day, true); // Marcar el día como ocupado
             }
-            start = start.plusDays(1);
+            inicio = inicio.plusDays(1);
 
             // Cambiar al siguiente mes si es necesario
-            if (start.getDayOfMonth() == 1) {
+            if (inicio.getDayOfMonth() == 1) {
                 habitacion = actualizarDisponibilidadParaNuevoMes(habitacion);
             }
         }
     }
 
     public void hacerCheckOut() {
-        LocalDate start = checkIn.toLocalDate();
-        LocalDate end = checkOut.toLocalDate();
+        LocalDate inicio = checkIn;
+        LocalDate fin = checkOut;
 
         // Bucle para recorrer los días entre checkIn y checkOut
-        while (!start.isAfter(end)) {
-            int day = start.getDayOfMonth();
+        while (!inicio.isAfter(fin)) {
+            int day = inicio.getDayOfMonth();
             if (habitacion.getDisponibilidadReserva().containsKey(day)) {
                 habitacion.getDisponibilidadReserva().put(day, false); // Marcar el día como disponible
             }
-            start = start.plusDays(1);
+            inicio = inicio.plusDays(1);
 
             // Cambiar al siguiente mes si es necesario
-            if (start.getDayOfMonth() == 1) {
+            if (inicio.getDayOfMonth() == 1) {
                 habitacion = actualizarDisponibilidadParaNuevoMes(habitacion);
             }
         }
@@ -93,16 +93,16 @@ public class Reserva {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-    public LocalDateTime getCheckIn() {
+    public LocalDate getCheckIn() {
         return checkIn;
     }
-    public void setCheckIn(LocalDateTime checkIn) {
+    public void setCheckIn(LocalDate checkIn) {
         this.checkIn = checkIn;
     }
-    public LocalDateTime getCheckOut() {
+    public LocalDate getCheckOut() {
         return checkOut;
     }
-    public void setCheckOut(LocalDateTime checkOut) {
+    public void setCheckOut(LocalDate checkOut) {
         this.checkOut = checkOut;
     }
     public Double getMontoTotal() {

@@ -3,6 +3,8 @@ package gestores;
 import modelos.Cliente;
 import modelos.Habitacion;
 import modelos.Reserva;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -27,8 +29,8 @@ public class GestorReservas {
 
     // Faltan verificaciones
     public void agregar(Habitacion habitacion, Cliente cliente) {
-        LocalDateTime checkIn = GestorEntradas.pedirFechaHora("Ingrese la fecha y hora de check-in (formato: yyyy-MM-dd HH:mm): ");
-        LocalDateTime checkOut = GestorEntradas.pedirFechaHora("Ingrese la fecha y hora de check-out (formato: yyyy-MM-dd HH:mm): ");
+        LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+        LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
 
         Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
         reservas.add(nuevaReserva);
@@ -81,14 +83,14 @@ public class GestorReservas {
                     System.out.println("Cliente modificado con éxito");
                     break;
                 case 3:
-                    String nuevaFechaCheckIn = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-in (formato YYYY-MM-DDTHH:MM): ");
-                    LocalDateTime nuevoCheckIn = LocalDateTime.parse(nuevaFechaCheckIn);
+                    String nuevaFechaCheckIn = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-in (formato YYYY-MM-DD): ");
+                    LocalDate nuevoCheckIn = LocalDate.parse(nuevaFechaCheckIn);
                     reservaModificada.setCheckIn(nuevoCheckIn);
                     System.out.println("Check-in modificado con éxito");
                     break;
                 case 4:
                     String nuevaFechaCheckOut = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-out (formato YYYY-MM-DDTHH:MM): ");
-                    LocalDateTime nuevoCheckOut = LocalDateTime.parse(nuevaFechaCheckOut);
+                    LocalDate nuevoCheckOut = LocalDate.parse(nuevaFechaCheckOut);
                     reservaModificada.setCheckOut(nuevoCheckOut);
                     System.out.println("Check-out modificado con éxito");
                     break;
