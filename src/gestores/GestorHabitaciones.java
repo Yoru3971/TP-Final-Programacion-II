@@ -5,9 +5,8 @@ import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.time.LocalDateTime;
 
-public class GestorHabitaciones implements IGestionable<Habitacion> {
+public class GestorHabitaciones implements IGestionable<Integer> {
     private ArrayList<Habitacion> habitaciones;
     private Scanner scanner = new Scanner(System.in);
 
@@ -19,19 +18,35 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
         habitaciones = new ArrayList<>();
     }
 
-    //Para agregar y eliminar, queda pendiente agregar verificaciones de habitacion repetida/no encontrada
+    //Faltan verificaciones
     @Override
-    public void agregar(Habitacion habitacion) {
+    public void agregar() {
+        Habitacion nuevaHabitacion = new Habitacion(
+                pedirNumeroHabitacion(scanner),
+                pedirEstadoHabitacion(scanner),
+                pedirTipoHabitacion(scanner),
+                pedirPrecioDiario(scanner)
+        );
 
-        habitaciones.add(habitacion);
-
-        System.out.println("Habitacion agregada con éxito.");
+        habitaciones.add(nuevaHabitacion);
+        System.out.println("Habitación agregada con éxito.");
     }
 
     @Override
-    public void eliminar(Habitacion habitacion) {
-        habitaciones.remove(habitacion);
-        System.out.println("Habitacion eliminada con éxito.");
+    public void eliminar(Integer nroHabitacion) {
+        Habitacion habitacionEliminar = buscarPorNumeroHabitacion(nroHabitacion);
+
+        System.out.println("Confirmar eliminacion de la habitacion " + nroHabitacion+": ");
+
+        System.out.println("1. Si");
+        System.out.println("2. No");
+
+        if(scanner.nextInt() == 1){
+            habitaciones.remove(habitacionEliminar);
+            System.out.println("Habitacion eliminada del sistema con exito.");
+        }else{
+            System.out.println("La habitacion no fue eliminada del sistema.");
+        }
     }
 
     @Override
@@ -49,94 +64,38 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
 
     //En todos los caso hay que agregar verificaciones, habitacion no repetida, fecha no repetida, etc
     @Override
-    public void modificar(Habitacion habitacion) {
-        int index = buscarIndiceHabitacion(habitacion);
+    public void modificar(Integer nroHabitacion) {
 
-        Habitacion habitacionModificada = habitaciones.get(index);
+        Habitacion habitacionModificada = buscarPorNumeroHabitacion(nroHabitacion);
+        int indiceHabitacionModificada = habitaciones.indexOf(habitacionModificada);
 
         int opcion;
         do {
             System.out.println("\n¿Qué desea modificar?");
             System.out.println("1. Número de Habitación");
-            System.out.println("2. Disponibilidad");
-            System.out.println("3. Estado Actual");
-            System.out.println("4. Tipo de Habitación");
-            System.out.println("5. Precio Diario");
+            System.out.println("2. Estado Actual");
+            System.out.println("3. Tipo de Habitación");
+            System.out.println("4. Precio Diario");
             System.out.println("0. Salir");
             opcion = scanner.nextInt();
-            scanner.nextLine();
+            scanner.nextLine(); // Limpiar el buffer
 
             switch (opcion) {
                 case 1:
-                    System.out.print("Ingrese nuevo número de habitación: ");
-                    int nuevoNumero = scanner.nextInt();
-                    scanner.nextLine();
-                    habitacionModificada.setNumeroHabitacion(nuevoNumero);
-
-                    //Al final de cada case, mostrar un mensaje de cambio guardado con exito
+                    habitacionModificada.setNumeroHabitacion(pedirNumeroHabitacion(scanner));
+                    System.out.println("Numero de habitacion modificado con éxito");
                     break;
                 case 2:
-                    System.out.print("Ingrese la fecha para cambiar disponibilidad (YYYY-MM-DD HH:MM): ");
-                    String fechaStr = scanner.nextLine();
-                    LocalDateTime fecha = LocalDateTime.parse(fechaStr);
-                    System.out.println("Seleccione disponibilidad:");
-                    System.out.println("1. Activa");
-                    System.out.println("2. Inactiva");
-                    int disponibilidadOpcion = scanner.nextInt();
-                    scanner.nextLine();
-
-                    boolean disponible = disponibilidadOpcion == 1; //Si disponiblidadOpcion es igual a 1, disponible es true, caso contrario, es false
-
-                    habitacionModificada.getDisponibilidadReserva().put(fecha, disponible);
+                    habitacionModificada.setEstadoActual(pedirEstadoHabitacion(scanner));
+                    System.out.println("Estado Actual modificado con éxito");
                     break;
                 case 3:
-                    System.out.println("Estado actual: " + habitacion.getEstadoActual());
-                    System.out.println("Seleccione el nuevo estado:");
-                    System.out.println("1. Limpieza");
-                    System.out.println("2. Reparación");
-                    System.out.println("3. Desinfección");
-                    System.out.println("4. Fumigación");
-
-                    int opcionEstado = scanner.nextInt();
-                    if (opcionEstado == 1) {
-                        habitacion.setEstadoActual(EstadoHabitacion.LIMPIEZA);
-                    } else if (opcionEstado == 2) {
-                        habitacion.setEstadoActual(EstadoHabitacion.REPARACION);
-                    } else if (opcionEstado == 3) {
-                        habitacion.setEstadoActual(EstadoHabitacion.DESINFECCION);
-                    } else if (opcionEstado == 4) {
-                        habitacion.setEstadoActual(EstadoHabitacion.FUMIGACION);
-                    } else {
-                        System.out.println("Opción no válida. No se realizó ningún cambio.");
-                    }
+                    habitacionModificada.setTipoHabitacion(pedirTipoHabitacion(scanner));
+                    System.out.println("Tipo de habitacion modificado con éxito");
                     break;
                 case 4:
-                    System.out.println("Tipo de habitación actual: " + habitacion.getTipoHabitacion());
-                    System.out.println("Seleccione el nuevo tipo:");
-                    System.out.println("1. Simple");
-                    System.out.println("2. Doble");
-                    System.out.println("3. Matrimonial");
-                    System.out.println("4. Suite");
-
-                    int opcionTipo = scanner.nextInt();
-                    if (opcionTipo == 1) {
-                        habitacion.setTipoHabitacion(TipoHabitacion.SIMPLE);
-                    } else if (opcionTipo == 2) {
-                        habitacion.setTipoHabitacion(TipoHabitacion.DOBLE);
-                    } else if (opcionTipo == 3) {
-                        habitacion.setTipoHabitacion(TipoHabitacion.MATRIMONIAL);
-                    } else if (opcionTipo == 4) {
-                        habitacion.setTipoHabitacion(TipoHabitacion.SUITE);
-                    } else {
-                        System.out.println("Opción no válida. No se realizó ningún cambio.");
-                    }
-                    break;
-                case 5:
-                    System.out.print("Ingrese nuevo precio diario: ");
-                    double nuevoPrecio = scanner.nextDouble();
-                    scanner.nextLine();
-
-                    habitacionModificada.setPrecioDiario(nuevoPrecio);
+                    habitacionModificada.setPrecioDiario(pedirPrecioDiario(scanner));
+                    System.out.println("Precio diario modificado con éxito");
                     break;
                 case 0:
                     System.out.println("Saliendo de la modificación.");
@@ -145,22 +104,86 @@ public class GestorHabitaciones implements IGestionable<Habitacion> {
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
+            System.out.println("\nQuiere realizar otra modificacion?");
+            System.out.println("1.Si");
+            System.out.println("0.No");
+            opcion = scanner.nextInt();
+            scanner.nextLine();
+            //FALTA PODER MANEJAR LA DISPONIBILIDAD DE FECHAS
             //ACA VA LIMPIAR PANTALLA
-            //ACA preguntar si quiere hacer otra modificacion
         } while (opcion != 0);
 
-        //Agregar confirmacion
-        habitaciones.set(index, habitacionModificada); // Actualiza la habitación en el arreglo
-        System.out.println("Modificación completada.");
+        System.out.println("\nHabitacion modificada");
+        System.out.println(habitacionModificada);
+        System.out.println("¿Desea confirmar los cambios?");
+        System.out.println("1.Si");
+        System.out.println("2.No");
+
+        int confirmar = scanner.nextInt();
+
+        if (confirmar == 1) {
+            habitaciones.set(indiceHabitacionModificada, habitacionModificada); // Actualiza la habitación en el arreglo
+            System.out.println("Modificación completada.");
+        } else {
+            System.out.println("Modificacion cancelada");
+        }
     }
 
-    private int buscarIndiceHabitacion(Habitacion habitacion) {
-        for(Habitacion h : habitaciones){
-            if(h.equals(habitacion)){
-                return habitaciones.indexOf(h);
+    // Métodos para pedir cada atributo
+
+    private Integer pedirNumeroHabitacion(Scanner scanner) {
+        System.out.print("Ingrese el número de la habitación: ");
+        return scanner.nextInt();
+    }
+
+    private EstadoHabitacion pedirEstadoHabitacion(Scanner scanner) {
+        System.out.println("Seleccione el estado de la habitación:");
+        System.out.println("1. Disponible");
+        System.out.println("2. Limpieza");
+        System.out.println("3. Reparación");
+        System.out.println("4. Desinfección");
+        System.out.println("5. Fumigación");
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer
+        switch (opcion) {
+            case 1: return EstadoHabitacion.DISPONIBLE;
+            case 2: return EstadoHabitacion.LIMPIEZA;
+            case 3: return EstadoHabitacion.REPARACION;
+            case 4: return EstadoHabitacion.DESINFECCION;
+            case 5: return EstadoHabitacion.FUMIGACION;
+            default: return EstadoHabitacion.DISPONIBLE; // Opción por defecto
+        }
+    }
+
+    private TipoHabitacion pedirTipoHabitacion(Scanner scanner) {
+        System.out.println("Seleccione el tipo de habitación:");
+        System.out.println("1. Simple");
+        System.out.println("2. Doble");
+        System.out.println("3. Matrimonial");
+        System.out.println("4. Suite");
+        int opcion = scanner.nextInt();
+        scanner.nextLine(); // Limpiar el buffer
+        switch (opcion) {
+            case 1: return TipoHabitacion.SIMPLE;
+            case 2: return TipoHabitacion.DOBLE;
+            case 3: return TipoHabitacion.MATRIMONIAL;
+            case 4: return TipoHabitacion.SUITE;
+            default: return TipoHabitacion.SIMPLE; // Opción por defecto
+        }
+    }
+
+    private Double pedirPrecioDiario(Scanner scanner) {
+        System.out.print("Ingrese el precio diario: ");
+        return scanner.nextDouble();
+    }
+
+    private Habitacion buscarPorNumeroHabitacion(Integer numeroHabitacion) {
+        for (Habitacion h : habitaciones) {
+            if (h.getNumeroHabitacion().equals(numeroHabitacion)) {
+                return h;
             }
         }
-        return -1;
+        return null;
     }
 
     public Habitacion buscarHabitacionPorNumero(int numero) {
