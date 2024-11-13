@@ -1,12 +1,10 @@
 package gestores;
 
 import modelos.Reserva;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class GestorReservas implements IGestionable<Reserva>{
+public class GestorReservas {
     private ArrayList<Reserva> reservas;
 
     public GestorReservas(ArrayList<Reserva> reservas) {
@@ -17,18 +15,17 @@ public class GestorReservas implements IGestionable<Reserva>{
         reservas = new ArrayList<>();
     }
 
-    //Faltan verificaciones
-    @Override
+    // Faltan verificaciones
     public void agregar(Reserva reserva) {
         reservas.add(reserva);
     }
 
-    @Override
-    public void eliminar(Reserva reserva) {
+
+    public void eliminar(String codigo) {
+        Reserva reserva = buscarReservaPorCodigo(codigo);
         reservas.remove(reserva);
     }
 
-    @Override
     public void listar() {
         System.out.println("\nLista de Reservas");
         System.out.println("=========================");
@@ -41,10 +38,8 @@ public class GestorReservas implements IGestionable<Reserva>{
         }
     }
 
-    @Override
-    public void modificar(Reserva reserva) {
-        Scanner scanner = new Scanner(System.in);
-
+    public void modificar(String codigo) {
+        Reserva reserva = buscarReservaPorCodigo(codigo);
         int index = buscarIndiceReserva(reserva);
 
         Reserva reservaModificada = reservas.get(index);
@@ -57,15 +52,14 @@ public class GestorReservas implements IGestionable<Reserva>{
             System.out.println("3. Fecha de Check-In");
             System.out.println("4. Fecha de Check-Out");
             System.out.println("0. Salir");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
             switch (opcion) {
                 case 1:
                     System.out.println("Seleccione la nueva habitación:");
                     // Aquí deberías manejar la lógica para elegir una nueva habitación
                     // Asumo que tienes una lista de habitaciones
-                    System.out.println("Habitacion modificado con éxito");
+                    System.out.println("Habitación modificada con éxito");
                     break;
                 case 2:
                     System.out.println("Seleccione el nuevo cliente:");
@@ -73,18 +67,16 @@ public class GestorReservas implements IGestionable<Reserva>{
                     System.out.println("Cliente modificado con éxito");
                     break;
                 case 3:
-                    System.out.print("Ingrese nueva fecha de Check-in (formato YYYY-MM-DDTHH:MM): ");
-                    String nuevaFechaCheckIn = scanner.nextLine();
+                    String nuevaFechaCheckIn = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-in (formato YYYY-MM-DDTHH:MM): ");
                     LocalDateTime nuevoCheckIn = LocalDateTime.parse(nuevaFechaCheckIn);
                     reservaModificada.setCheckIn(nuevoCheckIn);
-                    System.out.println("CheckIn modificado con éxito");
+                    System.out.println("Check-in modificado con éxito");
                     break;
                 case 4:
-                    System.out.print("Ingrese nueva fecha de Check-out (formato YYYY-MM-DDTHH:MM): ");
-                    String nuevaFechaCheckOut = scanner.nextLine();
+                    String nuevaFechaCheckOut = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-out (formato YYYY-MM-DDTHH:MM): ");
                     LocalDateTime nuevoCheckOut = LocalDateTime.parse(nuevaFechaCheckOut);
                     reservaModificada.setCheckOut(nuevoCheckOut);
-                    System.out.println("CheckOut modificado con éxito");
+                    System.out.println("Check-out modificado con éxito");
                     break;
                 case 0:
                     System.out.println("Saliendo.");
@@ -93,30 +85,30 @@ public class GestorReservas implements IGestionable<Reserva>{
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
-            System.out.println("\nQuiere realizar otra modificacion?");
-            System.out.println("1.Si");
-            System.out.println("0.No");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            System.out.println("\n¿Quiere realizar otra modificación?");
+            System.out.println("1. Sí");
+            System.out.println("0. No");
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
         } while (opcion != 0);
 
         System.out.println("\nReserva modificada");
         System.out.println(reservaModificada);
         System.out.println("¿Desea confirmar los cambios?");
-        System.out.println("1.Si");
-        System.out.println("2.No");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
 
-        int confirmar = scanner.nextInt();
+        int confirmar = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
         if (confirmar == 1) {
             reservas.set(index, reservaModificada); // Guardar los cambios de la reserva modificada
             System.out.println("Modificación completada.");
         } else {
-            System.out.println("Modificacion cancelada");
+            System.out.println("Modificación cancelada.");
         }
     }
 
+    // Métodos de busqueda
     private int buscarIndiceReserva(Reserva reserva) {
         for (Reserva r : reservas) {
             if (r.equals(reserva)) {
@@ -127,13 +119,12 @@ public class GestorReservas implements IGestionable<Reserva>{
     }
 
     public Reserva buscarReservaPorCodigo(String codigo) {
+        Reserva reserva = null;
         for (Reserva r : reservas) {
             if (r.getCodigo().equals(codigo)) {
-                return r;
+                reserva = r;
             }
         }
-        return null;
+        return reserva;
     }
-
-
 }

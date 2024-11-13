@@ -35,50 +35,42 @@ public class Reserva {
         //Stand By
     }
 
+    //getters y setters
     public String getCodigo() {
         return codigo;
     }
-
     public Habitacion getHabitacion() {
         return habitacion;
     }
-
     public void setHabitacion(Habitacion habitacion) {
         this.habitacion = habitacion;
     }
-
     public Cliente getCliente() {
         return cliente;
     }
-
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
-
     public LocalDateTime getCheckIn() {
         return checkIn;
     }
-
     public void setCheckIn(LocalDateTime checkIn) {
         this.checkIn = checkIn;
     }
-
     public LocalDateTime getCheckOut() {
         return checkOut;
     }
-
     public void setCheckOut(LocalDateTime checkOut) {
         this.checkOut = checkOut;
     }
-
     public Double getMontoTotal() {
         return montoTotal;
     }
-
     public void setMontoTotal(Double montoTotal) {
         this.montoTotal = montoTotal;
     }
 
+    //equals, hashCode y toString
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

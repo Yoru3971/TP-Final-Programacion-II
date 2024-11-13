@@ -4,7 +4,7 @@ public class Cliente extends Persona{
     private Boolean clienteVip;
 
     //constructor
-    public Cliente(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, Boolean clienteVip) {
+    public Cliente(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, Boolean clienteVip) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.clienteVip = clienteVip;
     }

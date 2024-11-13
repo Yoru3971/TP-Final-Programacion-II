@@ -8,7 +8,7 @@ public abstract class Empleado extends Persona{
     private Double salario;
 
     //constructor
-    public Empleado(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
+    public Empleado(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.usuario = usuario;
         this.clave = clave;

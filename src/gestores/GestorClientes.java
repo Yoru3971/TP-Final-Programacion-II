@@ -1,13 +1,10 @@
 package gestores;
 
 import modelos.Cliente;
-
 import java.util.ArrayList;
-import java.util.Scanner;
 
-public class GestorClientes implements IGestionable<String>{
+public class GestorClientes implements IGestionable<String> {
     private ArrayList<Cliente> clientes;
-    private Scanner scanner = new Scanner(System.in);
 
     public GestorClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
@@ -17,47 +14,53 @@ public class GestorClientes implements IGestionable<String>{
         clientes = new ArrayList<>();
     }
 
-    //Faltan agregar las verificaciones
     @Override
     public void agregar() {
         Cliente nuevoCliente = new Cliente(false);
 
-        nuevoCliente.setNombre(pedirNombre(scanner));
-        nuevoCliente.setApellido(pedirApellido(scanner));
-        nuevoCliente.setNacionalidad(pedirNacionalidad(scanner));
-        nuevoCliente.setDomicilio(pedirDomicilio(scanner));
-        nuevoCliente.setTelefono(pedirTelefono(scanner));
-        nuevoCliente.setMail(pedirEmail(scanner));
-        nuevoCliente.setClienteVip(pedirVipStatus(scanner));
+        nuevoCliente.setNombre(GestorEntradas.pedirCadena("Ingrese nombre: "));
+        nuevoCliente.setApellido(GestorEntradas.pedirCadena("Ingrese apellido: "));
+        nuevoCliente.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nacionalidad: "));
+        nuevoCliente.setDomicilio(GestorEntradas.pedirCadena("Ingrese domicilio: "));
+        nuevoCliente.setTelefono(GestorEntradas.pedirCadena("Ingrese teléfono: "));
+        nuevoCliente.setMail(GestorEntradas.pedirCadena("Ingrese email: "));
+        nuevoCliente.setClienteVip(GestorEntradas.pedirEntero("¿Es cliente VIP? 1. Sí 2. No") == 1);
 
         clientes.add(nuevoCliente);
-
         System.out.println("Cliente agregado con éxito.");
     }
 
     @Override
     public void eliminar(String dni) {
-        Cliente clienteEliminar = buscarPorDni(dni);
-
-        System.out.println("Confirmar eliminacion del cliente: ");
+        Cliente clienteEliminar = buscarClientePorDni(dni);
+        System.out.println("Confirmar eliminación del cliente: ");
         System.out.println(clienteEliminar);
 
-        System.out.println("1. Si");
-        System.out.println("2. No");
-
-        if(scanner.nextInt() == 1){
+        int opcion = GestorEntradas.pedirEntero("1. Sí 2. No");
+        if (opcion == 1) {
             clientes.remove(clienteEliminar);
-            System.out.println("Cliente eliminado del sistema con exito.");
-        }else{
+            System.out.println("Cliente eliminado del sistema con éxito.");
+        } else {
             System.out.println("El cliente no fue eliminado del sistema.");
         }
+    }
 
-        //Hay que ver donde hacemos la eliminacion del archivo (puede ser aca o en el metodo del backup del admin)
+    @Override
+    public void listar() {
+        System.out.println("\nLista de Clientes");
+        System.out.println("=========================");
+        if (clientes.isEmpty()) {
+            System.out.println("No hay clientes registrados.");
+        } else {
+            for (Cliente c : clientes) {
+                System.out.println(c);
+            }
+        }
     }
 
     @Override
     public void modificar(String dni) {
-        Cliente clienteModificado = buscarPorDni(dni);
+        Cliente clienteModificado = buscarClientePorDni(dni);
         Integer indiceClienteModificar = clientes.indexOf(clienteModificado);
 
         int opcion;
@@ -71,37 +74,37 @@ public class GestorClientes implements IGestionable<String>{
             System.out.println("6. Email");
             System.out.println("7. VIP (Sí/No)");
             System.out.println("0. Salir");
-            opcion = scanner.nextInt();
-            scanner.nextLine(); // Limpiar el buffer
+
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción:");
 
             switch (opcion) {
                 case 1:
-                    clienteModificado.setNombre(pedirNombre(scanner));
+                    clienteModificado.setNombre(GestorEntradas.pedirCadena("Ingrese nuevo nombre: "));
                     System.out.println("Nombre modificado con éxito");
                     break;
                 case 2:
-                    clienteModificado.setApellido(pedirApellido(scanner));
+                    clienteModificado.setApellido(GestorEntradas.pedirCadena("Ingrese nuevo apellido: "));
                     System.out.println("Apellido modificado con éxito");
                     break;
                 case 3:
-                    clienteModificado.setNacionalidad(pedirNacionalidad(scanner));
-                    System.out.println("Nacionalidad modificado con éxito");
+                    clienteModificado.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nueva nacionalidad: "));
+                    System.out.println("Nacionalidad modificada con éxito");
                     break;
                 case 4:
-                    clienteModificado.setDomicilio(pedirDomicilio(scanner));
+                    clienteModificado.setDomicilio(GestorEntradas.pedirCadena("Ingrese nuevo domicilio: "));
                     System.out.println("Domicilio modificado con éxito");
                     break;
                 case 5:
-                    clienteModificado.setTelefono(pedirTelefono(scanner));
-                    System.out.println("Telefono modificado con éxito");
+                    clienteModificado.setTelefono(GestorEntradas.pedirCadena("Ingrese nuevo teléfono: "));
+                    System.out.println("Teléfono modificado con éxito");
                     break;
                 case 6:
-                    clienteModificado.setMail(pedirEmail(scanner));
-                    System.out.println("Mail modificado con éxito");
+                    clienteModificado.setMail(GestorEntradas.pedirCadena("Ingrese nuevo email: "));
+                    System.out.println("Email modificado con éxito");
                     break;
                 case 7:
-                    clienteModificado.setClienteVip(pedirVipStatus(scanner));
-                    System.out.println("Estado Vip modificado con éxito");
+                    clienteModificado.setClienteVip(GestorEntradas.pedirEntero("¿Es cliente VIP? 1. Sí 2. No") == 1);
+                    System.out.println("Estado VIP modificado con éxito");
                     break;
                 case 0:
                     System.out.println("Saliendo.");
@@ -110,77 +113,31 @@ public class GestorClientes implements IGestionable<String>{
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
-            System.out.println("\nQuiere realizar otra modificacion?");
-            System.out.println("1.Si");
-            System.out.println("0.No");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            opcion = GestorEntradas.pedirEntero("\n¿Quiere realizar otra modificación? 1. Sí 0. No");
 
         } while (opcion != 0);
 
         System.out.println("\nCliente modificado");
         System.out.println(clienteModificado);
         System.out.println("¿Desea confirmar los cambios?");
-        System.out.println("1.Si");
-        System.out.println("2.No");
-
-        int confirmar = scanner.nextInt();
+        int confirmar = GestorEntradas.pedirEntero("1. Sí 2. No");
 
         if (confirmar == 1) {
             clientes.set(indiceClienteModificar, clienteModificado);
-            System.out.println("Modificacion completada con éxito");
+            System.out.println("Modificación completada con éxito");
         } else {
-            System.out.println("Modificacion cancelada");
+            System.out.println("Modificación cancelada");
         }
     }
 
-    private Cliente buscarPorDni(String dni){
+    // Métodos de busqueda
+    public Cliente buscarClientePorDni(String dni) {
         Cliente cliente = null;
-        for(Cliente c : clientes){
-            if(c.getDni().equals(dni)){
+        for(Cliente c : clientes) {
+            if(c.getDni().equals(dni)) {
                 cliente = c;
             }
         }
         return cliente;
-    }
-
-    // Métodos para solicitar cada atributo
-    private String pedirNombre(Scanner scanner) {
-        System.out.print("Ingrese nombre: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirApellido(Scanner scanner) {
-        System.out.print("Ingrese apellido: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirNacionalidad(Scanner scanner) {
-        System.out.print("Ingrese nacionalidad: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirDomicilio(Scanner scanner) {
-        System.out.print("Ingrese domicilio: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirTelefono(Scanner scanner) {
-        System.out.print("Ingrese teléfono: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirEmail(Scanner scanner) {
-        System.out.print("Ingrese email: ");
-        return scanner.nextLine();
-    }
-
-    private boolean pedirVipStatus(Scanner scanner) {
-        System.out.println("¿Es cliente VIP?");
-        System.out.println("1. Sí");
-        System.out.println("2. No");
-        int opcion = scanner.nextInt();
-        scanner.nextLine(); // Limpiar el buffer
-        return opcion == 1;
     }
 }

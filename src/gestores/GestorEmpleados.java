@@ -1,15 +1,12 @@
 package gestores;
 
-import modelos.Cliente;
 import modelos.Empleado;
 import modelos.Recepcionista;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GestorEmpleados implements IGestionable<String> {
     private ArrayList<Empleado> empleados;
-    private Scanner scanner = new Scanner(System.in);
 
     public GestorEmpleados(ArrayList<Empleado> empleados) {
         this.empleados = empleados;
@@ -19,30 +16,30 @@ public class GestorEmpleados implements IGestionable<String> {
         empleados = new ArrayList<>();
     }
 
-    //Faltan verificaciones
     @Override
     public void agregar() {
         System.out.println("Ingrese los datos del nuevo empleado:");
 
-        Integer dni = pedirDni();
-        String nombre = pedirNombre();
-        String apellido = pedirApellido();
-        String nacionalidad = pedirNacionalidad();
-        String domicilio = pedirDomicilio();
-        String telefono = pedirTelefono();
-        String mail = pedirMail();
-        String usuario = pedirUsuario();
-        String clave = pedirClave();
-        Double salario = pedirSalario();
+        String dni = GestorEntradas.pedirCadena("Ingrese dni: ");
+        String nombre = GestorEntradas.pedirCadena("Ingrese nombre:");
+        String apellido = GestorEntradas.pedirCadena("Ingrese apellido: ");
+        String nacionalidad = GestorEntradas.pedirCadena("Ingrese nacionalidad: ");
+        String domicilio = GestorEntradas.pedirCadena("Ingrese domicilio: ");
+        String telefono = GestorEntradas.pedirCadena("Ingrese Telefono: ");
+        String mail = GestorEntradas.pedirCadena("Ingrese mail: ");
+        String usuario = GestorEntradas.pedirCadena("Ingrese usuario: ");
+        String clave = GestorEntradas.pedirCadena("Ingrese clave: ");
+        Double salario = GestorEntradas.pedirDouble("Ingrese salario: ");
 
-        //Esto deberia poder hacerse de manera generica, pero por ahora esta solo hecho para recepcionistas
+        // Esto debe hacerse de manera genérica, pero por ahora está solo hecho para recepcionistas
         Recepcionista nuevoEmpleado = new Recepcionista(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, usuario, clave, salario);
         empleados.add(nuevoEmpleado);
         System.out.println("Empleado agregado con éxito.");
     }
 
+    @Override
     public void eliminar(String dni) {
-        Empleado empleadoEliminar = buscarPorDni(dni);
+        Empleado empleadoEliminar = buscarEmpleadoPorDni(dni);
 
         System.out.println("Confirmar eliminacion del empleado: ");
         System.out.println(empleadoEliminar);
@@ -50,14 +47,13 @@ public class GestorEmpleados implements IGestionable<String> {
         System.out.println("1. Si");
         System.out.println("2. No");
 
-        if(scanner.nextInt() == 1){
+        int opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
+        if(opcion == 1){
             empleados.remove(empleadoEliminar);
-            System.out.println("Empleado eliminado del sistema con exito.");
+            System.out.println("Empleado eliminado del sistema con éxito.");
         }else{
             System.out.println("El empleado no fue eliminado del sistema.");
         }
-
-        //Hay que ver donde hacemos la eliminacion del archivo (puede ser aca o en el metodo del backup del admin)
     }
 
     @Override
@@ -73,14 +69,10 @@ public class GestorEmpleados implements IGestionable<String> {
         }
     }
 
-    //Algo a tener en cuenta, este metodo lo va a suar el admin para modificar empleados, pero si un empleado quiere
-    //cambiar su usuario o clave, hay que hacerlo aparte, probablemente como metodo dentro de la clase Menu (que llama
-    //a los metodos menuRecepcionista y menuAdmin
-
     @Override
-    public void modificar(String dni) {
+    public void modificar(String Dni) {
 
-        Empleado empleadoModificado = buscarPorDni(dni);
+        Empleado empleadoModificado = buscarEmpleadoPorDni(Dni);
         Integer indiceEmpleadoModificar = empleados.indexOf(empleadoModificado);
 
         int opcion;
@@ -97,47 +89,46 @@ public class GestorEmpleados implements IGestionable<String> {
             System.out.println("9. Clave");
             System.out.println("10. Salario");
             System.out.println("0. Salir");
-            opcion = scanner.nextInt();
-            scanner.nextLine();  // Consumir nueva línea
+            opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
 
             switch (opcion) {
                 case 1:
                     System.out.println("No se puede modificar el DNI porque es un atributo final.");
                     break;
                 case 2:
-                    empleadoModificado.setNombre(pedirNombre());
+                    empleadoModificado.setNombre(GestorEntradas.pedirCadena("Ingrese nombre: "));
                     System.out.println("Nombre modificado con éxito");
                     break;
                 case 3:
-                    empleadoModificado.setApellido(pedirApellido());
+                    empleadoModificado.setApellido(GestorEntradas.pedirCadena("Ingrese apellido: "));
                     System.out.println("Apellido modificado con éxito");
                     break;
                 case 4:
-                    empleadoModificado.setNacionalidad(pedirNacionalidad());
+                    empleadoModificado.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nacionalidad: "));
                     System.out.println("Nacionalidad modificado con éxito");
                     break;
                 case 5:
-                    empleadoModificado.setDomicilio(pedirDomicilio());
+                    empleadoModificado.setDomicilio(GestorEntradas.pedirCadena("Ingrese domicilio: "));
                     System.out.println("Domicilio modificado con éxito");
                     break;
                 case 6:
-                    empleadoModificado.setTelefono(pedirTelefono());
+                    empleadoModificado.setTelefono(GestorEntradas.pedirCadena("Ingrese telefono: "));
                     System.out.println("Telefono modificado con éxito");
                     break;
                 case 7:
-                    empleadoModificado.setMail(pedirMail());
+                    empleadoModificado.setMail(GestorEntradas.pedirCadena("Ingrese mail: "));
                     System.out.println("Mail modificado con éxito");
                     break;
                 case 8:
-                    empleadoModificado.setUsuario(pedirUsuario());
+                    empleadoModificado.setUsuario(GestorEntradas.pedirCadena("Ingrese usuario: "));
                     System.out.println("Usuario modificado con éxito");
                     break;
                 case 9:
-                    empleadoModificado.setClave(pedirClave());
+                    empleadoModificado.setClave(GestorEntradas.pedirCadena("Ingrese clave: "));
                     System.out.println("Clave modificado con éxito");
                     break;
                 case 10:
-                    empleadoModificado.setSalario(pedirSalario());
+                    empleadoModificado.setSalario(GestorEntradas.pedirDouble("Ingrese salario: "));
                     System.out.println("Salario modificado con éxito");
                     break;
                 case 0:
@@ -147,92 +138,30 @@ public class GestorEmpleados implements IGestionable<String> {
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
 
-            System.out.println("\nQuiere realizar otra modificacion?");
-            System.out.println("1.Si");
-            System.out.println("0.No");
-            opcion = scanner.nextInt();
-            scanner.nextLine();
+            System.out.println("\n¿Quiere realizar otra modificación?");
+            System.out.println("1. Sí");
+            System.out.println("0. No");
+            opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
 
         } while (opcion != 0);
 
         System.out.println("\nEmpleado modificado");
         System.out.println(empleadoModificado);
         System.out.println("¿Desea confirmar los cambios?");
-        System.out.println("1.Si");
-        System.out.println("2.No");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
 
-        int confirmar = scanner.nextInt();
+        int confirmar = GestorEntradas.pedirEntero("Ingrese su opción: ");
 
         if (confirmar == 1) {
             empleados.set(indiceEmpleadoModificar, empleadoModificado);
             System.out.println("Modificación completada.");
         } else {
-            System.out.println("Modificacion cancelada");
+            System.out.println("Modificación cancelada.");
         }
     }
 
-
-    private Empleado buscarPorDni(String dni){
-        Empleado empleado = null;
-        for(Empleado e : empleados){
-            if(e.getDni().equals(dni)){
-                empleado = e;
-            }
-        }
-        return empleado;
-    }
-
-    // Métodos para pedir cada atributo
-    private Integer pedirDni() {
-        System.out.print("Ingrese DNI: ");
-        return scanner.nextInt();
-    }
-
-    private String pedirNombre() {
-        System.out.print("Ingrese nombre: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirApellido() {
-        System.out.print("Ingrese apellido: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirNacionalidad() {
-        System.out.print("Ingrese nacionalidad: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirDomicilio() {
-        System.out.print("Ingrese domicilio: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirTelefono() {
-        System.out.print("Ingrese teléfono: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirMail() {
-        System.out.print("Ingrese email: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirUsuario() {
-        System.out.print("Ingrese usuario: ");
-        return scanner.nextLine();
-    }
-
-    private String pedirClave() {
-        System.out.print("Ingrese clave: ");
-        return scanner.nextLine();
-    }
-
-    private Double pedirSalario() {
-        System.out.print("Ingrese salario: ");
-        return scanner.nextDouble();
-    }
-
+    //Métodos de Busqueda
     private int buscarIndiceEmpleado(Empleado empleado) {
         for (Empleado e : empleados) {
             if (e.equals(empleado)) {
@@ -242,12 +171,13 @@ public class GestorEmpleados implements IGestionable<String> {
         return -1;
     }
 
-    public Empleado buscarEmpleadoPorDNI(int DNI){
+    public Empleado buscarEmpleadoPorDni(String dni) {
+        Empleado empleado = null;
         for (Empleado e : empleados) {
-            if (e.getDni()==DNI){
-                return e;
+            if (e.getDni().equals(dni)) {
+                empleado = e;
             }
         }
-        return null;
+        return empleado;
     }
 }

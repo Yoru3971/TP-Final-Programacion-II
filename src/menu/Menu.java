@@ -1,25 +1,22 @@
 package menu;
 
-import enumeraciones.TipoHabitacion;
 import excepciones.CredencialesIncorrectasException;
 import gestores.*;
 import modelos.*;
 import excepciones.Verificador;
 
+import java.io.Console;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Menu {
-    private Scanner scanner;
     private Empleado empleadoLogueado;
     private GestorEmpleados gestorEmpleados;
     private GestorClientes gestorClientes;
     private GestorHabitaciones gestorHabitaciones;
     private GestorReservas gestorReservas;
 
-    //constructor
+    // Constructor
     public Menu() {
-        this.scanner = new Scanner(System.in);
         this.empleadoLogueado = null;
         this.gestorEmpleados = new GestorEmpleados();
         this.gestorClientes = new GestorClientes();
@@ -27,30 +24,44 @@ public class Menu {
         this.gestorReservas = new GestorReservas();
     }
 
+    // Getters y setters
     public Empleado getEmpleadoLogueado() {
         return empleadoLogueado;
     }
+
     public void setEmpleadoLogueado(Empleado empleadoLogueado) {
         this.empleadoLogueado = empleadoLogueado;
     }
 
     public void logIn() {
-        // levanto la lista de empleados y chekeo que no este vacia
+        // Levanto la lista de empleados
         ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
-        String usuario, clave;
+        String usuario;
+        char[] claveArray;
         int i = 0;
 
-        // pido usuario y clave por teclado hasta q ingrese bien o supere los 3 intentos
-        while (empleadoLogueado == null && i < 3){
+        // Obtengo el Console para leer la contraseña de manera oculta
+        Console console = System.console();
+        if (console == null) {
+            System.out.println("No se puede obtener la consola.");
+            return;
+        }
+
+        // Pido usuario y clave por teclado hasta que ingrese bien o supere los 3 intentos
+        while (empleadoLogueado == null && i < 3) {
             System.out.println("Usuario:");
-            usuario = scanner.nextLine();
+            usuario = GestorEntradas.pedirCadena("");  // Usando GestorEntradas
+
             System.out.println("Clave:");
-            clave = scanner.nextLine();
+            claveArray = console.readPassword();  // Leo la contraseña sin mostrarla
+
+            // Convertir el array de char a String
+            String clave = new String(claveArray);
             i++;
 
-            try{
+            try {
                 empleadoLogueado = Verificador.verificarCredenciales(empleados, usuario, clave);
-            } catch (CredencialesIncorrectasException e){
+            } catch (CredencialesIncorrectasException e) {
                 System.err.println(e.getMessage());
                 if (i < 3) {
                     System.out.println("Intentos restantes: " + (3 - i));
@@ -59,11 +70,11 @@ public class Menu {
         }
 
         if (empleadoLogueado == null) {
-            System.err.println("Numero maximo de intentos alcandazos");
+            System.err.println("Número máximo de intentos alcanzado");
         }
     }
 
-    public void menuInicial(){
+    public void menuInicial() {
         logIn();
         if (empleadoLogueado instanceof Administrador) {
             menuAdministrador();
@@ -80,8 +91,7 @@ public class Menu {
             System.out.println("2. Gestionar Clientes");
             System.out.println("3. Gestionar Reservas");
             System.out.println("4. Salir");
-            System.out.print("Seleccione una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestionarHabitaciones();
@@ -93,7 +103,6 @@ public class Menu {
         } while (opcion != 4);
     }
 
-
     public void menuAdministrador() {
         int opcion;
         do {
@@ -103,8 +112,7 @@ public class Menu {
             System.out.println("3. Gestionar Clientes");
             System.out.println("4. Gestionar Reservas");
             System.out.println("5. Salir");
-            System.out.print("Seleccione una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestionarEmpleados();
@@ -128,8 +136,7 @@ public class Menu {
             System.out.println("4. Eliminar Empleado");
             System.out.println("5. Buscar Empleado por DNI");
             System.out.println("6. Volver al menú anterior");
-            System.out.print("Seleccione una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestorEmpleados.listar();
@@ -145,16 +152,14 @@ public class Menu {
 
     // Método para buscar un empleado por DNI
     private void buscarEmpleadoPorDNI() {
-        System.out.print("Ingrese el DNI del empleado a buscar: ");
-        Integer dni = Integer.parseInt(scanner.nextLine());
-        Empleado empleado = gestorEmpleados.buscarEmpleadoPorDNI(dni);
+        String dni = GestorEntradas.pedirCadena("Ingrese el DNI del empleado a buscar: ");
+        Empleado empleado = gestorEmpleados.buscarEmpleadoPorDni(dni);
         if (empleado != null) {
             System.out.println("Empleado encontrado: " + empleado);
         } else {
             System.out.println("Empleado no encontrado.");
         }
     }
-
 
     // Método para gestionar habitaciones
     private void gestionarHabitaciones() {
@@ -167,12 +172,11 @@ public class Menu {
             System.out.println("4. Eliminar Habitación");
             System.out.println("5. Buscar Habitación por Número");
             System.out.println("6. Volver al menú anterior");
-            System.out.print("Seleccione una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestorHabitaciones.listar();
-                case 2 -> gestorHabitaciones.agregar(leerHabitacion());
+                case 2 -> gestorHabitaciones.agregar();
                 case 3 -> gestorHabitaciones.modificar();
                 case 4 -> gestorHabitaciones.eliminar();
                 case 5 -> buscarHabitacionPorNumero();
@@ -182,17 +186,9 @@ public class Menu {
         } while (opcion != 6);
     }
 
-    ///Funcion en stand by, discutir futuro del codigo, si se opta por esta opcion se aplicara el metodo leer para todos los objetos.
-    private Habitacion leerHabitacion() {
-        Habitacion habitacion;
-        //Logica para consultar al usuario todos los datos de la habitacion a agregar
-        return habitacion;
-    }
-
     // Método para buscar una habitación por número
     private void buscarHabitacionPorNumero() {
-        System.out.print("Ingrese el número de la habitación a buscar: ");
-        int numero = Integer.parseInt(scanner.nextLine());
+        int numero = GestorEntradas.pedirEntero("Ingrese el número de la habitación a buscar: ");
         Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(numero);
         if (habitacion != null) {
             System.out.println("Habitación encontrada: " + habitacion);
@@ -200,7 +196,6 @@ public class Menu {
             System.out.println("Habitación no encontrada.");
         }
     }
-
 
     // Método para gestionar clientes
     private void gestionarClientes() {
@@ -213,8 +208,7 @@ public class Menu {
             System.out.println("4. Eliminar Cliente");
             System.out.println("5. Buscar Cliente por DNI");
             System.out.println("6. Volver al menú anterior");
-            System.out.print("Seleccione una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestorClientes.listar();
@@ -230,9 +224,8 @@ public class Menu {
 
     // Método para buscar un cliente por DNI
     private void buscarClientePorDNI() {
-        System.out.print("Ingrese el DNI del cliente a buscar: ");
-        Integer dni = Integer.parseInt(scanner.nextLine());
-        Cliente cliente = gestorClientes.buscarClientePorDNI(dni);
+        String dni = GestorEntradas.pedirCadena("Ingrese el DNI del cliente a buscar: ");
+        Cliente cliente = gestorClientes.buscarClientePorDni(dni);
         if (cliente != null) {
             System.out.println("Cliente encontrado: " + cliente);
         } else {
@@ -249,32 +242,17 @@ public class Menu {
             System.out.println("2. Agregar Reserva");
             System.out.println("3. Modificar Reserva");
             System.out.println("4. Eliminar Reserva");
-            System.out.println("5. Buscar Reserva por Código");
-            System.out.println("6. Volver al menú anterior");
-            System.out.print("Seleccione una opción: ");
-            opcion = Integer.parseInt(scanner.nextLine());
+            System.out.println("5. Volver al menú anterior");
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestorReservas.listar();
                 case 2 -> gestorReservas.agregar();
                 case 3 -> gestorReservas.modificar();
                 case 4 -> gestorReservas.eliminar();
-                case 5 -> buscarReservaPorCodigo();
-                case 6 -> System.out.println("Volviendo al menú anterior...");
+                case 5 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 6);
-    }
-
-    // Método para buscar una reserva por código
-    private void buscarReservaPorCodigo() {
-        System.out.print("Ingrese el código de la reserva a buscar: ");
-        String codigo = scanner.nextLine();
-        Reserva reserva = gestorReservas.buscarReservaPorCodigo(codigo);
-        if (reserva != null) {
-            System.out.println("Reserva encontrada: " + reserva);
-        } else {
-            System.out.println("Reserva no encontrada.");
-        }
+        } while (opcion != 5);
     }
 }

@@ -3,7 +3,7 @@ package modelos;
 import java.util.Objects;
 
 public abstract class Persona {
-    private final Integer dni;
+    private final String dni;
     private String nombre;
     private String apellido;
     private String nacionalidad;
@@ -12,7 +12,7 @@ public abstract class Persona {
     private String mail;
 
     //constructor
-    public Persona(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail) {
+    public Persona(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -23,7 +23,7 @@ public abstract class Persona {
     }
 
     //getters y setters
-    public Integer getDni() {
+    public String getDni() {
         return dni;
     }
     public String getNombre() {

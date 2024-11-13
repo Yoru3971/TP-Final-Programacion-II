@@ -12,6 +12,7 @@ public class Habitacion {
     private TipoHabitacion tipoHabitacion;
     private Double precioDiario;
 
+    //constructor
     public Habitacion(Integer numeroHabitacion, EstadoHabitacion estadoActual, TipoHabitacion tipoHabitacion, Double precioDiario) {
         this.numeroHabitacion = numeroHabitacion;
         this.estadoActual = estadoActual;
@@ -25,46 +26,39 @@ public class Habitacion {
         }
     }
 
+    //getters y setters
     public Integer getNumeroHabitacion() {
         return numeroHabitacion;
     }
-
     public void setNumeroHabitacion(Integer numeroHabitacion) {
         this.numeroHabitacion = numeroHabitacion;
     }
-
     public EstadoHabitacion getEstadoActual() {
         return estadoActual;
     }
-
     public void setEstadoActual(EstadoHabitacion estadoActual) {
         this.estadoActual = estadoActual;
     }
-
     public TipoHabitacion getTipoHabitacion() {
         return tipoHabitacion;
     }
-
     public void setTipoHabitacion(TipoHabitacion tipoHabitacion) {
         this.tipoHabitacion = tipoHabitacion;
     }
-
     public Double getPrecioDiario() {
         return precioDiario;
     }
-
     public void setPrecioDiario(Double precioDiario) {
         this.precioDiario = precioDiario;
     }
-
     public HashMap<Integer, Boolean> getDisponibilidadReserva() {
         return disponibilidadReserva;
     }
-
     public void setDisponibilidadReserva(HashMap<Integer, Boolean> disponibilidadReserva) {
         this.disponibilidadReserva = disponibilidadReserva;
     }
 
+    //equals, hashCode y toString
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

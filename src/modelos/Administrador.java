@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Administrador extends Empleado{
     //constructor
-    public Administrador(Integer dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
+    public Administrador(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, String usuario, String clave, Double salario) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, usuario, clave, salario);
     }
 
