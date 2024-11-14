@@ -6,12 +6,11 @@ import gestores.*;
 import modelos.*;
 import excepciones.Verificador;
 
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class Menu {
+
     private Empleado empleadoLogueado;
     private GestorEmpleados gestorEmpleados;
     private GestorClientes gestorClientes;
@@ -21,10 +20,10 @@ public class Menu {
     // Constructor
     public Menu() {
         this.empleadoLogueado = null;
-        this.gestorEmpleados = new GestorEmpleados();
-        this.gestorClientes = new GestorClientes();
-        this.gestorHabitaciones = new GestorHabitaciones();
-        this.gestorReservas = new GestorReservas();
+        this.gestorEmpleados = new GestorEmpleados(GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class));
+        this.gestorClientes = new GestorClientes(GestorArchivos.leerArregloDeArchivo("clientes.json", Cliente.class));
+        this.gestorHabitaciones = new GestorHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
+        this.gestorReservas = new GestorReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
     }
 
     // Getters y setters
@@ -37,28 +36,20 @@ public class Menu {
 
     public void logIn() {
         // Levanto la lista de empleados
-        ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
+        ArrayList<Empleado> empleados = gestorEmpleados.getEmpleados();
         String usuario;
-        char[] claveArray;
-        int i = 0;
+        String clave;
 
-        // Obtengo el Console para leer la contraseña de manera oculta
-        Console console = System.console();
-        if (console == null) {
-            System.out.println("No se puede obtener la consola.");
-            return;
-        }
+        int i = 0;
 
         // Pido usuario y clave por teclado hasta que ingrese bien o supere los 3 intentos
         while (empleadoLogueado == null && i < 3) {
             System.out.println("Usuario:");
-            usuario = GestorEntradas.pedirCadena("");  // Usando GestorEntradas
+            usuario = GestorEntradas.pedirCadena("");
 
             System.out.println("Clave:");
-            claveArray = console.readPassword();  // Leo la contraseña sin mostrarla
+            clave = GestorEntradas.pedirCadena("");
 
-            // Convertir el array de char a String
-            String clave = new String(claveArray);
             i++;
 
             try {
@@ -77,12 +68,18 @@ public class Menu {
     }
 
     public void menuInicial() {
-        logIn();
-        if (empleadoLogueado.getCargo().equals(TipoEmpleado.ADMINISTRADOR)) {
-            menuAdministrador();
-        } else if (empleadoLogueado.getCargo().equals(TipoEmpleado.RECEPCIONISTA)) {
-            menuRecepcionista();
+        //Aca va un try catch para evitar nullPointerException
+        try{
+            logIn();
+            if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
+                menuAdministrador();
+            } else if (empleadoLogueado.getCargo() == TipoEmpleado.RECEPCIONISTA) {
+                menuRecepcionista();
+            }
+        }catch(NullPointerException e){
+            System.err.println("Hubo un error en el LogIn");
         }
+
     }
 
     public void menuRecepcionista() {
@@ -126,7 +123,7 @@ public class Menu {
                 case 6 -> System.out.println("Saliendo del menú del Administrador...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 5);
+        } while (opcion != 6);
     }
 
     // Metodo para gestionar empleados (solo disponible para el Administrador)

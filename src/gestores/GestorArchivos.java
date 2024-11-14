@@ -54,6 +54,7 @@ public class GestorArchivos {
 
     public static <T> ArrayList<T> leerArregloDeArchivo(String nombreArchivo, Class<T> clase) {
         Gson gson = new Gson();
+
         ArrayList<T> elementos = new ArrayList<>();
 
         try (FileReader reader = new FileReader(nombreArchivo)) {
