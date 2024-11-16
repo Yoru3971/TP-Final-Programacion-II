@@ -17,29 +17,30 @@ import java.util.Map;
 
 public class GestorArchivos {
 
-    ///TESTEAR
-    public static void hacerBackup(Map<String, ArrayList<?>> datosBackup){
-        // Obtener la fecha actual en formato yyyy-MM-dd
-        LocalDate fechaActual = LocalDate.now();
-        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String nombreCarpeta = "Backup_" + fechaActual.format(formatoFecha);
+//    public static void hacerBackup(Map<String, ArrayList<?>> datosBackup){
+//        // Obtener la fecha actual en formato yyyy-MM-dd
+//        LocalDate fechaActual = LocalDate.now();
+//        DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+//        String nombreCarpeta = "Backup_" + fechaActual.format(formatoFecha);
+//
+//        // Crear la carpeta con el nombre de la fecha
+//        File carpetaBackup = new File(nombreCarpeta);
+//        if (!carpetaBackup.exists()) {
+//            carpetaBackup.mkdir();
+//        }
+//
+//        // Guardar cada lista en su respectivo archivo JSON
+//        for (Map.Entry<String, ArrayList<?>> entry : datosBackup.entrySet()) {
+//            // Obtener la ruta del archivo como String
+//            String rutaArchivo = new File(carpetaBackup, entry.getKey() + ".json").getAbsolutePath();
+//            // Escribir la lista en el archivo
+//            escribirArregloEnArchivo(entry.getValue(), rutaArchivo);
+//        }
+//
+//        System.out.println("Backup realizado exitosamente en la carpeta: " + nombreCarpeta);
+//    }
 
-        // Crear la carpeta con el nombre de la fecha
-        File carpetaBackup = new File(nombreCarpeta);
-        if (!carpetaBackup.exists()) {
-            carpetaBackup.mkdir();
-        }
-
-        // Guardar cada lista en su respectivo archivo JSON
-        for (Map.Entry<String, ArrayList<?>> entry : datosBackup.entrySet()) {
-            // Obtener la ruta del archivo como String
-            String rutaArchivo = new File(carpetaBackup, entry.getKey() + ".json").getAbsolutePath();
-            // Escribir la lista en el archivo
-            escribirArregloEnArchivo(entry.getValue(), rutaArchivo);
-        }
-
-        System.out.println("Backup realizado exitosamente en la carpeta: " + nombreCarpeta);
-    }
+    ///Metodo testeado, no funciona solucionar
 
     public static <T> void escribirArregloEnArchivo(ArrayList<T> arreglo, String nombreArchivo) {
         Gson gson = new Gson();

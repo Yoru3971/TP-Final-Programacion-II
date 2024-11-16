@@ -22,8 +22,8 @@ public class Menu {
         this.empleadoLogueado = null;
         this.gestorEmpleados = new GestorEmpleados(GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class));
         this.gestorClientes = new GestorClientes(GestorArchivos.leerArregloDeArchivo("clientes.json", Cliente.class));
-        this.gestorHabitaciones = new GestorHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
-        this.gestorReservas = new GestorReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
+        //this.gestorHabitaciones = new GestorHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
+        //this.gestorReservas = new GestorReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
     }
 
     // Getters y setters
@@ -79,7 +79,6 @@ public class Menu {
         }catch(NullPointerException e){
             System.err.println("Hubo un error en el LogIn");
         }
-
     }
 
     public void menuRecepcionista() {
@@ -128,6 +127,8 @@ public class Menu {
 
     // Metodo para gestionar empleados (solo disponible para el Administrador)
     private void gestionarEmpleados() {
+        ///Levantar la lista del archivo cada que se vaya a trabajar con dicho gestor...
+        gestorEmpleados.setEmpleados(GestorArchivos.leerArregloDeArchivo("empleados", Empleado.class));
         int opcion;
         do {
             System.out.println("\n=== Gestión de Empleados ===");
@@ -145,7 +146,11 @@ public class Menu {
                 case 3 -> gestorEmpleados.modificar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a modificar: "));
                 case 4 -> gestorEmpleados.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a eliminar: "));
                 case 5 -> buscarEmpleadoPorDNI();
-                case 6 -> System.out.println("Volviendo al menú anterior...");
+                case 6 -> {
+                    ///Guardar la lista actualizada en el archivo en caso de que hayan cambios... x las dudas xd
+                    GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados");
+                    System.out.println("Volviendo al menú anterior...");
+                }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 6);
@@ -250,6 +255,7 @@ public class Menu {
             switch (opcion) {
                 case 1 -> gestorReservas.listar();
                 case 2 -> {
+                    //Falta verificar que las fechas de dicha habitacion esten disponibles para realizar la reserva
                     System.out.println("Ingrese los datos de la nueva reserva: ");
 
                     Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a reservar: "));
@@ -278,6 +284,7 @@ public class Menu {
                 "Reservas", gestorReservas.getReservas()
         );
         //Llamo metodo estatico hacerBackup del GestorDeArchivos
-        GestorArchivos.hacerBackup(datosBackup);
+        ///GestorArchivos.hacerBackup(datosBackup);
     }
 }
+

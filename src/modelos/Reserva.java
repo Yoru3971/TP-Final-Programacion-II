@@ -2,7 +2,6 @@ package modelos;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -14,70 +13,45 @@ public class Reserva {
     private LocalDate checkOut;
     private Double montoTotal;
 
+    //Constructor
     public Reserva(Habitacion habitacion, Cliente cliente, LocalDate checkIn, LocalDate checkOut) {
         this.codigo = UUID.randomUUID().toString().toUpperCase();
         this.habitacion = habitacion;
         this.cliente = cliente;
         this.checkIn = checkIn;
         this.checkOut = checkOut;
-        this.montoTotal = calcularMontoTotal(checkIn,checkOut,habitacion);
+        this.montoTotal = calcularMontoTotal(checkIn, checkOut, habitacion);
     }
 
+    //Metodo para calcular el Monto de la Reserva
     public Double calcularMontoTotal(LocalDate checkIn, LocalDate checkOut, Habitacion habitacion) {
         int cantidadDias = (int) ChronoUnit.DAYS.between(checkIn, checkOut);
         return cantidadDias * habitacion.getPrecioDiario();
     }
 
-
-    public void hacerCheckIn() {
+    //Metodo para bloquear los días reservados (check-in)
+    public void bloquearFechas() {
         LocalDate inicio = checkIn;
         LocalDate fin = checkOut;
-
-        // Bucle para recorrer los días entre checkIn y checkOut
         while (!inicio.isAfter(fin)) {
-            int day = inicio.getDayOfMonth();
-            if (habitacion.getDisponibilidadReserva().containsKey(day)) {
-                habitacion.getDisponibilidadReserva().put(day, true); // Marcar el día como ocupado
+            if (habitacion.isDisponible(inicio)) {
+                habitacion.reservarDia(inicio);
             }
             inicio = inicio.plusDays(1);
-
-            // Cambiar al siguiente mes si es necesario
-            if (inicio.getDayOfMonth() == 1) {
-                habitacion = actualizarDisponibilidadParaNuevoMes(habitacion);
-            }
         }
     }
 
-    public void hacerCheckOut() {
+    //Metodo para liberar los días reservados (check-out)
+    public void liberarFechas() {
         LocalDate inicio = checkIn;
         LocalDate fin = checkOut;
-
-        // Bucle para recorrer los días entre checkIn y checkOut
         while (!inicio.isAfter(fin)) {
-            int day = inicio.getDayOfMonth();
-            if (habitacion.getDisponibilidadReserva().containsKey(day)) {
-                habitacion.getDisponibilidadReserva().put(day, false); // Marcar el día como disponible
-            }
+            habitacion.cancelarReserva(inicio);
             inicio = inicio.plusDays(1);
-
-            // Cambiar al siguiente mes si es necesario
-            if (inicio.getDayOfMonth() == 1) {
-                habitacion = actualizarDisponibilidadParaNuevoMes(habitacion);
-            }
         }
     }
 
-    // Metodo auxiliar para preparar la disponibilidad de una nueva habitación al cambiar de mes
-    private Habitacion actualizarDisponibilidadParaNuevoMes(Habitacion habitacion) {
-        HashMap<Integer, Boolean> nuevaDisponibilidad = new HashMap<>();
-        for (int i = 1; i <= 31; i++) {
-            nuevaDisponibilidad.put(i, false); // Asumimos que todos los días del nuevo mes están disponibles inicialmente
-        }
-        habitacion.setDisponibilidadReserva(nuevaDisponibilidad);
-        return habitacion;
-    }
-
-    //getters y setters
+    //Getters y Setters
     public String getCodigo() {
         return codigo;
     }
@@ -118,18 +92,21 @@ public class Reserva {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reserva reserva = (Reserva) o;
-        return Objects.equals(habitacion, reserva.habitacion) && Objects.equals(cliente, reserva.cliente) && Objects.equals(checkIn, reserva.checkIn) && Objects.equals(checkOut, reserva.checkOut) && Objects.equals(montoTotal, reserva.montoTotal);
+        return Objects.equals(habitacion, reserva.habitacion) &&
+                Objects.equals(cliente, reserva.cliente) &&
+                Objects.equals(checkIn, reserva.checkIn) &&
+                Objects.equals(checkOut, reserva.checkOut) &&
+                Objects.equals(montoTotal, reserva.montoTotal);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(habitacion, cliente, checkIn, checkOut, montoTotal);
     }
-
     @Override
     public String toString() {
         return "Reserva{" +
-                "habitacion=" + habitacion +
+                "codigo='" + codigo + '\'' +
+                ", habitacion=" + habitacion +
                 ", cliente=" + cliente +
                 ", checkIn=" + checkIn +
                 ", checkOut=" + checkOut +

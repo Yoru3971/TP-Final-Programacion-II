@@ -26,6 +26,22 @@ public class GestorClientes implements IGestionable<String> {
     public void agregar() {
         Cliente nuevoCliente = new Cliente(false);
 
+//        boolean nombreValido = false;
+//        do {
+//            try {
+//                String nombre = GestorEntradas.pedirCadena("Ingrese nombre: ");
+//                ValidadorCliente.validarNombre(nombre);
+//                nuevoCliente.setNombre(nombre);
+//                nombreValido = true;
+//            } catch (NombreInvalidoException e) {
+//                System.out.println(e.getMessage());
+//            }
+//        } while (!nombreValido);
+        ///Forma de Validar dato por dato para implementar en todos los metodos agregar() o metodos que necesiten pasar datos por filtro de verificaciones
+        ///Se usa un try catch por dato dentro de un bucle que te imprime el mensaje de la excepcion personalizada y no se detiene hasta que el dato sea valido
+        ///Desvetajas: si el usuario quiere dejar de ingresar datos no puede XD
+        ///Usar try catch en el momento y no usar throw hace que sea mas sencillo manejar las excepciones ya que no la delegas al metodo que invoco el agregar()
+
         nuevoCliente.setNombre(GestorEntradas.pedirCadena("Ingrese nombre: "));
         nuevoCliente.setApellido(GestorEntradas.pedirCadena("Ingrese apellido: "));
         nuevoCliente.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nacionalidad: "));
@@ -68,9 +84,9 @@ public class GestorClientes implements IGestionable<String> {
 
     @Override
     public void modificar(String dni) {
-        Cliente clienteModificado = buscarClientePorDni(dni);
-        Integer indiceClienteModificar = clientes.indexOf(clienteModificado);
+        Cliente clienteModificar = buscarClientePorDni(dni);
 
+        int indiceClienteModificar = clientes.indexOf(clienteModificar);
         int opcion;
         do {
             System.out.println("\n¿Qué desea modificar?");
@@ -84,34 +100,35 @@ public class GestorClientes implements IGestionable<String> {
             System.out.println("0. Salir");
 
             opcion = GestorEntradas.pedirEntero("Seleccione una opción:");
+            GestorEntradas.limpiarBuffer();
 
             switch (opcion) {
                 case 1:
-                    clienteModificado.setNombre(GestorEntradas.pedirCadena("Ingrese nuevo nombre: "));
+                    clienteModificar.setNombre(GestorEntradas.pedirCadena("Ingrese nuevo nombre: "));
                     System.out.println("Nombre modificado con éxito");
                     break;
                 case 2:
-                    clienteModificado.setApellido(GestorEntradas.pedirCadena("Ingrese nuevo apellido: "));
+                    clienteModificar.setApellido(GestorEntradas.pedirCadena("Ingrese nuevo apellido: "));
                     System.out.println("Apellido modificado con éxito");
                     break;
                 case 3:
-                    clienteModificado.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nueva nacionalidad: "));
+                    clienteModificar.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nueva nacionalidad: "));
                     System.out.println("Nacionalidad modificada con éxito");
                     break;
                 case 4:
-                    clienteModificado.setDomicilio(GestorEntradas.pedirCadena("Ingrese nuevo domicilio: "));
+                    clienteModificar.setDomicilio(GestorEntradas.pedirCadena("Ingrese nuevo domicilio: "));
                     System.out.println("Domicilio modificado con éxito");
                     break;
                 case 5:
-                    clienteModificado.setTelefono(GestorEntradas.pedirCadena("Ingrese nuevo teléfono: "));
+                    clienteModificar.setTelefono(GestorEntradas.pedirCadena("Ingrese nuevo teléfono: "));
                     System.out.println("Teléfono modificado con éxito");
                     break;
                 case 6:
-                    clienteModificado.setMail(GestorEntradas.pedirCadena("Ingrese nuevo email: "));
+                    clienteModificar.setMail(GestorEntradas.pedirCadena("Ingrese nuevo email: "));
                     System.out.println("Email modificado con éxito");
                     break;
                 case 7:
-                    clienteModificado.setClienteVip(GestorEntradas.pedirEntero("¿Es cliente VIP? 1. Sí 2. No") == 1);
+                    clienteModificar.setClienteVip(GestorEntradas.pedirEntero("¿Es cliente VIP? 1. Sí 2. No") == 1);
                     System.out.println("Estado VIP modificado con éxito");
                     break;
                 case 0:
@@ -126,12 +143,12 @@ public class GestorClientes implements IGestionable<String> {
         } while (opcion != 0);
 
         System.out.println("\nCliente modificado");
-        System.out.println(clienteModificado);
+        System.out.println(clienteModificar);
         System.out.println("¿Desea confirmar los cambios?");
         int confirmar = GestorEntradas.pedirEntero("1. Sí 2. No");
 
         if (confirmar == 1) {
-            clientes.set(indiceClienteModificar, clienteModificado);
+            clientes.set(indiceClienteModificar, clienteModificar);
             System.out.println("Modificación completada con éxito");
         } else {
             System.out.println("Modificación cancelada");

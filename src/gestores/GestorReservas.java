@@ -38,6 +38,7 @@ public class GestorReservas {
     }
 
     public void eliminar(String codigo) {
+        //Cuando se elimine una reserva se deben liberar los dias que se bloquearon para dicha reserva en la habitacion
         Reserva reserva = buscarReservaPorCodigo(codigo);
         reservas.remove(reserva);
     }
@@ -55,11 +56,9 @@ public class GestorReservas {
     }
 
     public void modificar(String codigo) {
-        Reserva reserva = buscarReservaPorCodigo(codigo);
-        int index = buscarIndiceReserva(reserva);
+        Reserva reservaModificar = buscarReservaPorCodigo(codigo);
 
-        Reserva reservaModificada = reservas.get(index);
-
+        int indiceReservaModificar = reservas.indexOf(reservaModificar);
         int opcion;
         do {
             System.out.println("\n¿Qué desea modificar?");
@@ -68,7 +67,9 @@ public class GestorReservas {
             System.out.println("3. Fecha de Check-In");
             System.out.println("4. Fecha de Check-Out");
             System.out.println("0. Salir");
+
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
+            GestorEntradas.limpiarBuffer();
 
             switch (opcion) {
                 case 1:
@@ -85,13 +86,13 @@ public class GestorReservas {
                 case 3:
                     String nuevaFechaCheckIn = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-in (formato YYYY-MM-DD): ");
                     LocalDate nuevoCheckIn = LocalDate.parse(nuevaFechaCheckIn);
-                    reservaModificada.setCheckIn(nuevoCheckIn);
+                    reservaModificar.setCheckIn(nuevoCheckIn);
                     System.out.println("Check-in modificado con éxito");
                     break;
                 case 4:
                     String nuevaFechaCheckOut = GestorEntradas.pedirCadena("Ingrese nueva fecha de Check-out (formato YYYY-MM-DDTHH:MM): ");
                     LocalDate nuevoCheckOut = LocalDate.parse(nuevaFechaCheckOut);
-                    reservaModificada.setCheckOut(nuevoCheckOut);
+                    reservaModificar.setCheckOut(nuevoCheckOut);
                     System.out.println("Check-out modificado con éxito");
                     break;
                 case 0:
@@ -109,7 +110,7 @@ public class GestorReservas {
         } while (opcion != 0);
 
         System.out.println("\nReserva modificada");
-        System.out.println(reservaModificada);
+        System.out.println(reservaModificar);
         System.out.println("¿Desea confirmar los cambios?");
         System.out.println("1. Sí");
         System.out.println("2. No");
@@ -117,7 +118,7 @@ public class GestorReservas {
         int confirmar = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
         if (confirmar == 1) {
-            reservas.set(index, reservaModificada); // Guardar los cambios de la reserva modificada
+            reservas.set(indiceReservaModificar, reservaModificar); // Guardar los cambios de la reserva modificada
             System.out.println("Modificación completada.");
         } else {
             System.out.println("Modificación cancelada.");

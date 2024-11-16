@@ -83,15 +83,10 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
     @Override
     public void modificar(Integer nroHabitacion) {
-        Habitacion habitacionModificada = buscarHabitacionPorNumero(nroHabitacion);
-        if (habitacionModificada == null) {
-            System.out.println("No se encontró la habitación con el número proporcionado.");
-            return;
-        }
+        Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
 
-        int indiceHabitacionModificada = habitaciones.indexOf(habitacionModificada);
+        int indiceHabitacionModificar = habitaciones.indexOf(habitacionModificar);
         int opcion;
-
         do {
             System.out.println("\n¿Qué desea modificar?");
             System.out.println("1. Número de Habitación");
@@ -105,19 +100,19 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
             switch (opcion) {
                 case 1:
-                    habitacionModificada.setNumeroHabitacion(GestorEntradas.pedirEntero("Ingrese el nuevo número de la habitación: "));
+                    habitacionModificar.setNumeroHabitacion(GestorEntradas.pedirEntero("Ingrese el nuevo número de la habitación: "));
                     System.out.println("Número de habitación modificado con éxito");
                     break;
                 case 2:
-                    habitacionModificada.setEstadoActual(pedirEstadoHabitacion());
+                    habitacionModificar.setEstadoActual(pedirEstadoHabitacion());
                     System.out.println("Estado Actual modificado con éxito");
                     break;
                 case 3:
-                    habitacionModificada.setTipoHabitacion(pedirTipoHabitacion());
+                    habitacionModificar.setTipoHabitacion(pedirTipoHabitacion());
                     System.out.println("Tipo de habitación modificado con éxito");
                     break;
                 case 4:
-                    habitacionModificada.setPrecioDiario(GestorEntradas.pedirDouble("Ingrese el nuevo precio diario: "));
+                    habitacionModificar.setPrecioDiario(GestorEntradas.pedirDouble("Ingrese el nuevo precio diario: "));
                     System.out.println("Precio diario modificado con éxito");
                     break;
                 case 0:
@@ -126,10 +121,21 @@ public class GestorHabitaciones implements IGestionable<Integer> {
                 default:
                     System.out.println("Opción no válida. Intente nuevamente.");
             }
+            opcion = GestorEntradas.pedirEntero("\n¿Quiere realizar otra modificación? 1. Sí 0. No");
+
         } while (opcion != 0);
 
-        habitaciones.set(indiceHabitacionModificada, habitacionModificada);
-        System.out.println("Modificación completada.");
+        System.out.println("\nHabitacion modificada");
+        System.out.println(habitacionModificar);
+        System.out.println("¿Desea confirmar los cambios?");
+        int confirmar = GestorEntradas.pedirEntero("1. Sí 2. No");
+
+        if (confirmar == 1) {
+            habitaciones.set(indiceHabitacionModificar, habitacionModificar);
+            System.out.println("Modificación completada con éxito");
+        } else {
+            System.out.println("Modificación cancelada");
+        }
     }
 
     // Métodos para pedir atributos unicos de Habitacion
