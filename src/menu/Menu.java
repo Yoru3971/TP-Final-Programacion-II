@@ -179,7 +179,8 @@ public class Menu {
             System.out.println("3. Modificar Habitación");
             System.out.println("4. Eliminar Habitación");
             System.out.println("5. Buscar Habitación por Número");
-            System.out.println("6. Volver al menú anterior");
+            System.out.println("6. Ver Disponibilidad de una Habitacion");
+            System.out.println("7. Volver al menú anterior");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
@@ -188,7 +189,8 @@ public class Menu {
                 case 3 -> gestorHabitaciones.modificar(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a modificar: "));
                 case 4 -> gestorHabitaciones.eliminar(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a eliminar: "));
                 case 5 -> buscarHabitacionPorNumero();
-                case 6 -> System.out.println("Volviendo al menú anterior...");
+                case 6 -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion de la cual desea ver el calendario: "));
+                case 7 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 6);
@@ -203,6 +205,7 @@ public class Menu {
             System.out.println("1. Listar Habitaciones");
             System.out.println("2. Modificar estado de una habitación");
             System.out.println("3. Buscar Habitación por Número");
+            System.out.println("6. Ver Disponibilidad de una Habitacion");
             System.out.println("0. Volver al menú anterior");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
@@ -210,6 +213,7 @@ public class Menu {
                 case 1 -> gestorHabitaciones.listar();
                 case 2 -> {}//hacer metodo q modifique SOLO EL ESTADO
                 case 3 -> buscarHabitacionPorNumero();
+                case 4 -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion de la cual desea ver el calendario: "));
                 case 0 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }

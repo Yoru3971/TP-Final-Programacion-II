@@ -1,4 +1,5 @@
-[{"usuario":"jPerez",
+[
+  {"usuario":"jPerez",
   "clave":"admin123",
   "salario":50000.0,
   "cargo":"ADMINISTRADOR",
@@ -16,4 +17,12 @@
     "clave":"recep456",
     "salario":30000.0,
     "cargo":"RECEPCIONISTA",
-    "dni":"87654321","nombre":"Maria","apellido":"González","nacionalidad":"Uruguaya","domicilio":"Calle Falsa 123","telefono":"0987654321","mail":"maria.gonzalez@example.com"}]
+    "dni":"87654321",
+    "nombre":"Maria",
+    "apellido":"González",
+    "nacionalidad":"Uruguaya",
+    "domicilio":"Calle Falsa 123",
+    "telefono":"0987654321",
+    "mail":"maria.gonzalez@example.com"
+  }
+]

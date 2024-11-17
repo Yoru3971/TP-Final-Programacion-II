@@ -23,38 +23,33 @@ public class Reserva {
         this.montoTotal = calcularMontoTotal(checkIn, checkOut, habitacion);
     }
 
-    //Metodo para calcular el Monto de la Reserva
+    // Metodo para calcular el Monto de la Reserva
     public Double calcularMontoTotal(LocalDate checkIn, LocalDate checkOut, Habitacion habitacion) {
         int cantidadDias = (int) ChronoUnit.DAYS.between(checkIn, checkOut);
-
         Double total = cantidadDias * habitacion.getPrecioDiario();
 
-        if(cliente.getClienteVip()){
-            total -= 0.2*total; //Descuento del 20% en la reserva para cliente vip
+        if (cliente.getClienteVip()) {
+            total -= 0.2 * total; // Descuento del 20% para cliente VIP
         }
 
         return total;
     }
 
-    //Metodo para bloquear los días reservados (check-in)
-    public void bloquearFechas() {
-        LocalDate inicio = checkIn;
-        LocalDate fin = checkOut;
-        while (!inicio.isAfter(fin)) {
-            if (habitacion.isDisponible(inicio)) {
-                habitacion.reservarDia(inicio);
-            }
-            inicio = inicio.plusDays(1);
+    // Metodo para bloquear los días reservados
+    public void reservarFechas() {
+        LocalDate fecha = checkIn;
+        while (!fecha.isAfter(checkOut)) {
+            habitacion.reservarDia(fecha);
+            fecha = fecha.plusDays(1);
         }
     }
 
-    //Metodo para liberar los días reservados (check-out)
+    // Metodo para liberar los días reservados
     public void liberarFechas() {
-        LocalDate inicio = checkIn;
-        LocalDate fin = checkOut;
-        while (!inicio.isAfter(fin)) {
-            habitacion.cancelarReserva(inicio);
-            inicio = inicio.plusDays(1);
+        LocalDate fecha = checkIn;
+        while (!fecha.isAfter(checkOut)) {
+            habitacion.liberarDia(fecha);
+            fecha = fecha.plusDays(1);
         }
     }
 

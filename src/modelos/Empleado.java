@@ -59,6 +59,4 @@ public class Empleado extends Persona{
     public int hashCode() {
         return Objects.hash(super.hashCode(), usuario, cargo);
     }
-
-
 }
