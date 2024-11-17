@@ -95,7 +95,7 @@ public class Menu {
 
             switch (opcion) {
                 case 1 -> gestionarEmpleados();
-                case 2 -> gestionarHabitaciones();
+                case 2 -> gestionarHabitacionesAdmin();
                 case 3 -> gestionarClientes();
                 case 4 -> gestionarReservas();
                 case 5 -> realizarBackup();
@@ -116,7 +116,7 @@ public class Menu {
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
-                case 1 -> gestionarHabitaciones();
+                case 1 -> gestionarHabitacionesRecep();
                 case 2 -> gestionarClientes();
                 case 3 -> gestionarReservas();
                 case 0 -> System.out.println("Saliendo del menú del Recepcionista...");
@@ -137,7 +137,7 @@ public class Menu {
             System.out.println("4. Eliminar Empleado");
             System.out.println("5. Buscar Empleado por DNI");
             System.out.println("6. Volver al menú anterior");
-            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
             switch (opcion) {
                 case 1 -> gestorEmpleados.listar();
@@ -145,14 +145,14 @@ public class Menu {
                 case 3 -> gestorEmpleados.modificar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a modificar: "));
                 case 4 -> gestorEmpleados.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a eliminar: "));
                 case 5 -> buscarEmpleadoPorDNI();
-                case 6 -> {
+                case 0 -> {
                     ///Guardar la lista actualizada en el archivo en caso de que hayan cambios... x las dudas xd
                     GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados.json");
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 6);
+        } while (opcion != 0);
     }
 
     // Metodo para buscar un empleado por DNI
@@ -166,9 +166,8 @@ public class Menu {
         }
     }
 
-    // Metodo para gestionar habitaciones
-    //Agregar gestionarHabitacionesRecepcionista
-    private void gestionarHabitaciones() {
+    //Metodo para gestionar habitaciones
+    private void gestionarHabitacionesAdmin() {
 
         gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
 
@@ -195,6 +194,28 @@ public class Menu {
         } while (opcion != 6);
     }
 
+    private void gestionarHabitacionesRecep() {
+        gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
+
+        int opcion;
+        do {
+            System.out.println("\n--- Gestión de Habitaciones ---");
+            System.out.println("1. Listar Habitaciones");
+            System.out.println("2. Modificar estado de una habitación");
+            System.out.println("3. Buscar Habitación por Número");
+            System.out.println("0. Volver al menú anterior");
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
+
+            switch (opcion) {
+                case 1 -> gestorHabitaciones.listar();
+                case 2 -> {}//hacer metodo q modifique SOLO EL ESTADO
+                case 3 -> buscarHabitacionPorNumero();
+                case 0 -> System.out.println("Volviendo al menú anterior...");
+                default -> System.out.println("Opción inválida. Intente nuevamente.");
+            }
+        } while (opcion != 0);
+    }
+
     // Metodo para buscar una habitación por número
     private void buscarHabitacionPorNumero() {
         int numero = GestorEntradas.pedirEntero("Ingrese el número de la habitación a buscar: ");
@@ -218,8 +239,8 @@ public class Menu {
             System.out.println("3. Modificar Cliente");
             System.out.println("4. Eliminar Cliente");
             System.out.println("5. Buscar Cliente por DNI");
-            System.out.println("6. Volver al menú anterior");
-            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
+            System.out.println("0. Volver al menú anterior");
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
             switch (opcion) {
                 case 1 -> gestorClientes.listar();
@@ -227,7 +248,7 @@ public class Menu {
                 case 3 -> gestorClientes.modificar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a modificar: "));
                 case 4 -> gestorClientes.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a eliminar: "));
                 case 5 -> buscarClientePorDNI();
-                case 6 -> System.out.println("Volviendo al menú anterior...");
+                case 0 -> System.out.println("Volviendo al menú anterior...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 6);

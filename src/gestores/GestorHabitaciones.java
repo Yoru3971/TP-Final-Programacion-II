@@ -30,10 +30,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         System.out.println("Ingrese los datos de la nueva habitación: ");
 
         Integer numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el número de la habitación: ");
-        if (buscarHabitacionPorNumero(numeroHabitacion) != null) {
-            System.out.println("El número de habitación ya existe.");
-            return;
-        }
 
         EstadoHabitacion estado = pedirEstadoHabitacion();
         TipoHabitacion tipo = pedirTipoHabitacion();
