@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class GestorClientes implements IGestionable<String> {
     private ArrayList<Cliente> clientes;
 
-    //constructores
+    //Constructores
     public GestorClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
@@ -14,7 +14,7 @@ public class GestorClientes implements IGestionable<String> {
         clientes = new ArrayList<>();
     }
 
-    //getters y setters
+    //Getters y Setters
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
@@ -22,6 +22,7 @@ public class GestorClientes implements IGestionable<String> {
         this.clientes = clientes;
     }
 
+    //Metodos ABM y Listar de IGestionable
     @Override
     public void agregar() {
         Cliente nuevoCliente = new Cliente(false);
@@ -155,14 +156,13 @@ public class GestorClientes implements IGestionable<String> {
         }
     }
 
-    // Métodos de busqueda
+    //Metodos de busqueda
     public Cliente buscarClientePorDni(String dni) {
-        Cliente cliente = null;
         for(Cliente c : clientes) {
             if(c.getDni().equals(dni)) {
-                cliente = c;
+                return c;
             }
         }
-        return cliente;
+        return null;
     }
 }

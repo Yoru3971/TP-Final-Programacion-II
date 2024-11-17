@@ -1,17 +1,14 @@
 package gestores;
 
-import modelos.Cliente;
-import modelos.Habitacion;
 import modelos.Reserva;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class GestorReservas {
     private ArrayList<Reserva> reservas;
 
-    //constructores
+    //Constructores
     public GestorReservas(ArrayList<Reserva> reservas) {
         this.reservas = reservas;
     }
@@ -19,7 +16,7 @@ public class GestorReservas {
         reservas = new ArrayList<>();
     }
 
-    //getters y setters
+    //Getters y Setters
     public ArrayList<Reserva> getReservas() {
         return reservas;
     }
@@ -27,12 +24,8 @@ public class GestorReservas {
         this.reservas = reservas;
     }
 
-    // Faltan verificaciones
-    public void agregar(Habitacion habitacion, Cliente cliente) {
-        LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
-        LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
-
-        Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
+    //Metodos ABM y Listar
+    public void agregar(Reserva nuevaReserva) {
         reservas.add(nuevaReserva);
         System.out.println("Reserva agregada con éxito.");
     }
@@ -125,7 +118,7 @@ public class GestorReservas {
         }
     }
 
-    // Métodos de busqueda
+    //Metodos de busqueda
     private int buscarIndiceReserva(Reserva reserva) {
         for (Reserva r : reservas) {
             if (r.equals(reserva)) {

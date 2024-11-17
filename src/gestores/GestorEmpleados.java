@@ -1,13 +1,12 @@
 package gestores;
 
 import modelos.Empleado;
-
 import java.util.ArrayList;
 
 public class GestorEmpleados implements IGestionable<String> {
     private ArrayList<Empleado> empleados;
 
-    //constructores
+    //Constructores
     public GestorEmpleados(ArrayList<Empleado> empleados) {
         this.empleados = empleados;
     }
@@ -15,7 +14,7 @@ public class GestorEmpleados implements IGestionable<String> {
         empleados = new ArrayList<>();
     }
 
-    //getters y setters
+    //Getters y Setters
     public ArrayList<Empleado> getEmpleados() {
         return empleados;
     }
@@ -23,6 +22,7 @@ public class GestorEmpleados implements IGestionable<String> {
         this.empleados = empleados;
     }
 
+    //Metodos ABM y Listar de IGestionable
     @Override
     public void agregar() {
         System.out.println("Ingrese los datos del nuevo empleado:");
@@ -168,7 +168,7 @@ public class GestorEmpleados implements IGestionable<String> {
         }
     }
 
-    //Métodos de Busqueda
+    //Metodos de Busqueda
     private int buscarIndiceEmpleado(Empleado empleado) {
         for (Empleado e : empleados) {
             if (e.equals(empleado)) {
@@ -179,12 +179,11 @@ public class GestorEmpleados implements IGestionable<String> {
     }
 
     public Empleado buscarEmpleadoPorDni(String dni) {
-        Empleado empleado = null;
         for (Empleado e : empleados) {
             if (e.getDni().equals(dni)) {
-                empleado = e;
+                return e;
             }
         }
-        return empleado;
+        return null;
     }
 }

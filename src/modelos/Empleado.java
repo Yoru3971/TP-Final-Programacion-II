@@ -2,15 +2,13 @@ package modelos;
 
 import enumeraciones.TipoEmpleado;
 
-import java.util.Objects;
-
 public class Empleado extends Persona{
     private String usuario;
     private String clave;
     private Double salario;
     private TipoEmpleado cargo;
 
-    //constructor
+    //Constructores
     public Empleado(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail, Double salario) {
         super(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail);
         this.usuario = nombre.concat(apellido);
@@ -19,7 +17,7 @@ public class Empleado extends Persona{
         this.cargo = TipoEmpleado.RECEPCIONISTA;
     }
 
-    //getters y setters
+    //Getters y Setters
     public String getUsuario() {
         return usuario;
     }
@@ -46,17 +44,14 @@ public class Empleado extends Persona{
     }
 
     //equals, hashCode y toString
+    ///equals y hashCode heredados de Persona
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Empleado empleado = (Empleado) o;
-        return Objects.equals(usuario, empleado.usuario) && cargo == empleado.cargo;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), usuario, cargo);
+    public String toString() {
+        return "Empleado{" +
+                "usuario='" + usuario + '\'' +
+                ", clave='" + clave + '\'' +
+                ", salario=" + salario +
+                ", cargo=" + cargo +
+                "} " + super.toString();
     }
 }

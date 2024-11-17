@@ -3,6 +3,8 @@ package modelos;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.HashSet;
+import java.util.Objects;
+
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
 
@@ -13,7 +15,7 @@ public class Habitacion {
     private TipoHabitacion tipoHabitacion;
     private Double precioDiario;
 
-    //Constructor
+    //Constructores
     public Habitacion(Integer numeroHabitacion, EstadoHabitacion estadoActual, TipoHabitacion tipoHabitacion, Double precioDiario) {
         this.numeroHabitacion = numeroHabitacion;
         this.estadoActual = estadoActual;
@@ -37,7 +39,7 @@ public class Habitacion {
         return false;
     }
 
-    //Metodo para cancelar una reserva
+    //Metodo para cancelar la reserva de un dia
     public void liberarDia(LocalDate fecha) {
         disponibilidadReserva.remove(fecha); // Elimina la fecha del conjunto
     }
@@ -83,7 +85,7 @@ public class Habitacion {
 
     //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses
     ///Es un tipo de solucion al metodo de arriba que solo mostraba la disponibilidad del ultimo mes
-    ///Este metodo no tiene la mecanica de mostrar unicamente la disponibilidad que solicita el usuario
+    ///Este metodo lo hizo chatgpt, no tiene la mecanica de mostrar unicamente la disponibilidad que solicita el usuario
     ///pero al mostrar los ultimos 12 meses es mas util que el anterior <3
     ///Nota: si este funciona a la perfeccion estaria bueno eliminar el de arriba q esta medio useless xd
     public void mostrarCalendarioProximos12MesesEnFilas() {
@@ -142,7 +144,7 @@ public class Habitacion {
         }
     }
 
-    // Getters y Setters
+    //Getters y Setters
     public Integer getNumeroHabitacion() {
         return numeroHabitacion;
     }
@@ -174,14 +176,26 @@ public class Habitacion {
         this.precioDiario = precioDiario;
     }
 
+    //equals, hashCode y toString
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Habitacion that = (Habitacion) o;
+        return Objects.equals(numeroHabitacion, that.numeroHabitacion) && tipoHabitacion == that.tipoHabitacion;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(numeroHabitacion, tipoHabitacion);
+    }
     @Override
     public String toString() {
         return "Habitacion{" +
                 "numeroHabitacion=" + numeroHabitacion +
+                ", disponibilidadReserva=" + disponibilidadReserva +
                 ", estadoActual=" + estadoActual +
                 ", tipoHabitacion=" + tipoHabitacion +
                 ", precioDiario=" + precioDiario +
-                ", fechasReservadas=" + disponibilidadReserva +
                 '}';
     }
 }

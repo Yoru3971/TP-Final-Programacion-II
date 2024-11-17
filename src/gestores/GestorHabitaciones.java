@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class GestorHabitaciones implements IGestionable<Integer> {
     private ArrayList<Habitacion> habitaciones;
 
-    //constructores
+    //Constructores
     public GestorHabitaciones(ArrayList<Habitacion> habitaciones) {
         this.habitaciones = habitaciones;
     }
@@ -16,7 +16,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         habitaciones = new ArrayList<>();
     }
 
-    //getters y setters
+    //Getters y Setters
     public ArrayList<Habitacion> getHabitaciones() {
         return habitaciones;
     }
@@ -24,7 +24,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         this.habitaciones = habitaciones;
     }
 
-    //implementacion metodos interfaz IGestionable
+    //Metodos ABM y Listar de IGestionable
     @Override
     public void agregar() {
         System.out.println("Ingrese los datos de la nueva habitación: ");
@@ -134,7 +134,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         }
     }
 
-    // Métodos para pedir atributos unicos de Habitacion
+    //Metodos para pedir atributos unicos de Habitacion
     private EstadoHabitacion pedirEstadoHabitacion() {
         System.out.println("Seleccione el estado de la habitación:");
         System.out.println("1. Disponible");
@@ -181,7 +181,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         habitacion.mostrarCalendarioProximos12MesesEnFilas();
     }
 
-    // Métodos de busqueda
+    //Metodos de busqueda
     public Habitacion buscarHabitacionPorNumero(Integer numeroHabitacion) {
         for(Habitacion h : habitaciones){
             if(h.getNumeroHabitacion().equals(numeroHabitacion)){

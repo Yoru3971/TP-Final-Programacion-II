@@ -1,7 +1,6 @@
 package gestores;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -38,5 +37,4 @@ public class GestorEntradas {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(input, formatter);
     }
-
 }

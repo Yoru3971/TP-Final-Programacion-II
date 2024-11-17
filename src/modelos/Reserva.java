@@ -13,7 +13,7 @@ public class Reserva {
     private LocalDate checkOut;
     private Double montoTotal;
 
-    //Constructor
+    //Constructores
     public Reserva(Habitacion habitacion, Cliente cliente, LocalDate checkIn, LocalDate checkOut) {
         this.codigo = UUID.randomUUID().toString().toUpperCase();
         this.habitacion = habitacion;
@@ -23,7 +23,7 @@ public class Reserva {
         this.montoTotal = calcularMontoTotal(checkIn, checkOut, habitacion);
     }
 
-    // Metodo para calcular el Monto de la Reserva
+    //Metodo para calcular el Monto de la Reserva
     public Double calcularMontoTotal(LocalDate checkIn, LocalDate checkOut, Habitacion habitacion) {
         int cantidadDias = (int) ChronoUnit.DAYS.between(checkIn, checkOut);
         Double total = cantidadDias * habitacion.getPrecioDiario();
@@ -35,7 +35,7 @@ public class Reserva {
         return total;
     }
 
-    // Metodo para bloquear los días reservados
+    //Metodo para bloquear los días reservados
     public void reservarFechas() {
         LocalDate fecha = checkIn;
         while (!fecha.isAfter(checkOut)) {
@@ -44,7 +44,7 @@ public class Reserva {
         }
     }
 
-    // Metodo para liberar los días reservados
+    //Metodo para liberar los días reservados
     public void liberarFechas() {
         LocalDate fecha = checkIn;
         while (!fecha.isAfter(checkOut)) {
@@ -94,15 +94,11 @@ public class Reserva {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reserva reserva = (Reserva) o;
-        return Objects.equals(habitacion, reserva.habitacion) &&
-                Objects.equals(cliente, reserva.cliente) &&
-                Objects.equals(checkIn, reserva.checkIn) &&
-                Objects.equals(checkOut, reserva.checkOut) &&
-                Objects.equals(montoTotal, reserva.montoTotal);
+        return Objects.equals(codigo, reserva.codigo) && Objects.equals(habitacion, reserva.habitacion) && Objects.equals(cliente, reserva.cliente);
     }
     @Override
     public int hashCode() {
-        return Objects.hash(habitacion, cliente, checkIn, checkOut, montoTotal);
+        return Objects.hash(codigo, habitacion, cliente);
     }
     @Override
     public String toString() {

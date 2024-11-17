@@ -11,7 +11,7 @@ public abstract class Persona {
     private String telefono;
     private String mail;
 
-    //constructor
+    //Constructores
     public Persona(String dni, String nombre, String apellido, String nacionalidad, String domicilio, String telefono, String mail) {
         this.dni = dni;
         this.nombre = nombre;
@@ -22,7 +22,7 @@ public abstract class Persona {
         this.mail = mail;
     }
 
-    //getters y setters
+    //Getters y Setters
     public String getDni() {
         return dni;
     }
@@ -74,12 +74,10 @@ public abstract class Persona {
         Persona persona = (Persona) o;
         return Objects.equals(dni, persona.dni);
     }
-
     @Override
     public int hashCode() {
         return Objects.hashCode(dni);
     }
-
     @Override
     public String toString() {
         return "Persona{" +
