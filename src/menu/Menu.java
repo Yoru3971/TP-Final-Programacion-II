@@ -6,8 +6,10 @@ import gestores.*;
 import modelos.*;
 import excepciones.Verificador;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
 
 public class Menu {
 
@@ -68,16 +70,20 @@ public class Menu {
         }
     }
 
-    public void menuInicial() {
+    public void ejecutarPrograma() {
         try{
             logIn();
+        }catch(NullPointerException e){
+            System.err.println("Hubo un error en el LogIn.");
+        }
+        try{
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
                 menuAdministrador();
             } else if (empleadoLogueado.getCargo() == TipoEmpleado.RECEPCIONISTA) {
                 menuRecepcionista();
             }
-        }catch(NullPointerException e){
-            System.err.println("Hubo un error en el LogIn");
+        }catch(RuntimeException re){
+            System.err.println("Hubo un error en la ejecución del programa.");
         }
     }
 
@@ -168,7 +174,6 @@ public class Menu {
 
     //Metodo para gestionar habitaciones
     private void gestionarHabitacionesAdmin() {
-
         gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
 
         int opcion;
@@ -293,15 +298,16 @@ public class Menu {
                     //Opcional, mostrar habitacion y cliente
                     Cliente cliente = gestorClientes.buscarClientePorDni(GestorEntradas.pedirCadena("Ingrese el dni del titular de la reserva: "));
 
-                    //haces pedido de fechas
+                    LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+                    LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
 
-                    //Reserva reserva = new Reserva(habitacion, cliente, fecha1,fecha2);
+                    Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
 
                     //Aca verifico que la reserva no pise las fechas disponibles para esa habitacion
-                    //Con un for que revise el hashmap de la habitacion y en cada vuelta veriffique que fecha1 y fecha2 no esten dentro del rango del arreglo de cada reserva
+                    //Con un for que revise el hashset de la habitacion y en cada vuelta verifique que las fechas
+                    //entre el intervalo fecha1 y fecha2 no esten dentro del rango del arreglo de cada habitacion
 
-                    //gestorReservas.agregar(reserva)
-                    gestorReservas.agregar(habitacion, cliente);
+                    gestorReservas.agregar(nuevaReserva);
 
                     //modificar fechas en la habitacion correspondiente
                     //guardarla en el archivo
@@ -314,20 +320,43 @@ public class Menu {
         } while (opcion != 5);
     }
 
-    // Metodo para hacer backup de todos los archivos (solo accesible por el administrador)
+    //Metodo para hacer backup de todos los archivos (solo accesible por el administrador)
     private void realizarBackup() {
         System.out.println("Realizando backup...");
 
-        // Mapear los archivos con las listas (value) que deseo guardar con el nombre que
-        // le quiero dar al archivo (key)
-        Map<String, ArrayList<?>> datosBackup = Map.of(
-                "Empleados", gestorEmpleados.getEmpleados(),
-                "Clientes", gestorClientes.getClientes(),
-                "Habitaciones", gestorHabitaciones.getHabitaciones(),
-                "Reservas", gestorReservas.getReservas()
-        );
-        //Llamo metodo estatico hacerBackup del GestorDeArchivos
-        ///GestorArchivos.hacerBackup(datosBackup);
+        //Levanto las listas de los archivos actuales (asumiendo que no estan corruptos)
+        ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
+        ArrayList<Cliente> clientes = GestorArchivos.leerArregloDeArchivo("clientes.json", Cliente.class);
+        ArrayList<Habitacion> habitaciones = GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class);
+        ArrayList<Reserva> reservas = GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class);
+
+        //Creo un HashMap para los datos de backup y agrega cada lista al hashmap si no esta vacia
+        HashMap<String, ArrayList<?>> datosBackup = new HashMap<>();
+
+        if (empleados != null && !empleados.isEmpty()) {
+            datosBackup.put("Empleados", empleados);
+        }
+        if (clientes != null && !clientes.isEmpty()) {
+            datosBackup.put("Clientes", clientes);
+        }
+        if (habitaciones != null && !habitaciones.isEmpty()) {
+            datosBackup.put("Habitaciones", habitaciones);
+        }
+        if (reservas != null && !reservas.isEmpty()) {
+            datosBackup.put("Reservas", reservas);
+        }
+
+        //Llama al metodo hacerBackup del GestorArchivos si hay datos que respaldar
+        try {
+            if (!datosBackup.isEmpty()) {
+                GestorArchivos.hacerBackup(datosBackup);
+                System.out.println("Backup realizado exitosamente.");
+            } else {
+                System.out.println("No hay datos para realizar el backup.");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al realizar el backup: " + e.getMessage());
+        }
     }
 }
 
