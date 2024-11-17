@@ -3,6 +3,7 @@ package excepciones;
 import modelos.Empleado;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class Verificador {
     public static boolean verificarUsuario(String usuario) throws UsuarioInvalidoException{
@@ -59,5 +60,35 @@ public class Verificador {
             }
         }
         throw new CredencialesIncorrectasException("Usuario o clave incorrectos");
+    }
+
+    public static <T> boolean verificarExistente(T elemento, Collection<T> coleccion) throws ElementoExistenteException {
+        boolean valido = true;
+
+        if(coleccion.contains(elemento)){
+            throw new ElementoExistenteException(elemento.getClass().getName() + " ya existente en el sistema.");
+        }
+
+        return valido;
+    }
+
+    public static <T> boolean verificarNoExistente(T elemento, Collection<T> coleccion) throws ElementoNoExistenteException {
+        boolean valido = true;
+
+        if(!coleccion.contains(elemento)){
+            throw new ElementoNoExistenteException(elemento.getClass().getName() + " no existente en el sistema.");
+        }
+
+        return valido;
+    }
+
+    public static <T> boolean verificarArregloVacio(ArrayList<T> arreglo) throws ArregloVacioException {
+        boolean valido = true;
+
+        if(arreglo.isEmpty()){
+            throw new ArregloVacioException("No hay "+arreglo.getFirst().getClass().getName()+"s en el sistema.");
+        }
+
+        return valido;
     }
 }
