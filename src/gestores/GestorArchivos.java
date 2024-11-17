@@ -47,6 +47,7 @@ public class GestorArchivos {
 
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
             gson.toJson(arreglo, writer);
+            //Eliminar, esto sirve para testing
             System.out.println("Archivo de "+  arreglo.getFirst().getClass().getName()+"s guardado exitosamente.");
         } catch (IOException e) {
             System.out.println("Error al escribir el archivo.");

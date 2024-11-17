@@ -20,10 +20,10 @@ public class Menu {
     // Constructor
     public Menu() {
         this.empleadoLogueado = null;
-        this.gestorEmpleados = new GestorEmpleados(GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class));
-        this.gestorClientes = new GestorClientes(GestorArchivos.leerArregloDeArchivo("clientes.json", Cliente.class));
-        //this.gestorHabitaciones = new GestorHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
-        //this.gestorReservas = new GestorReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
+        this.gestorEmpleados = new GestorEmpleados();
+        this.gestorClientes = new GestorClientes();
+        this.gestorHabitaciones = new GestorHabitaciones();
+        this.gestorReservas = new GestorReservas();
     }
 
     // Getters y setters
@@ -36,7 +36,8 @@ public class Menu {
 
     public void logIn() {
         // Levanto la lista de empleados
-        ArrayList<Empleado> empleados = gestorEmpleados.getEmpleados();
+        ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
+
         String usuario;
         String clave;
 
@@ -44,10 +45,10 @@ public class Menu {
 
         // Pido usuario y clave por teclado hasta que ingrese bien o supere los 3 intentos
         while (empleadoLogueado == null && i < 3) {
-            System.out.println("Usuario:");
+            System.out.print("Usuario: ");
             usuario = GestorEntradas.pedirCadena("");
 
-            System.out.println("Clave:");
+            System.out.print("Clave: ");
             clave = GestorEntradas.pedirCadena("");
 
             i++;
@@ -68,7 +69,6 @@ public class Menu {
     }
 
     public void menuInicial() {
-        //Aca va un try catch para evitar nullPointerException
         try{
             logIn();
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
@@ -79,6 +79,30 @@ public class Menu {
         }catch(NullPointerException e){
             System.err.println("Hubo un error en el LogIn");
         }
+    }
+
+    public void menuAdministrador() {
+        int opcion;
+        do {
+            System.out.println("\n=== Menú del Administrador ===");
+            System.out.println("1. Gestionar Empleados");
+            System.out.println("2. Gestionar Habitaciones");
+            System.out.println("3. Gestionar Clientes");
+            System.out.println("4. Gestionar Reservas");
+            System.out.println("5. Realizar Backup");
+            System.out.println("0. Salir");
+            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
+
+            switch (opcion) {
+                case 1 -> gestionarEmpleados();
+                case 2 -> gestionarHabitaciones();
+                case 3 -> gestionarClientes();
+                case 4 -> gestionarReservas();
+                case 5 -> realizarBackup();
+                case 0 -> System.out.println("Saliendo del menú del Administrador...");
+                default -> System.out.println("Opción inválida. Intente nuevamente.");
+            }
+        } while (opcion != 0);
     }
 
     public void menuRecepcionista() {
@@ -95,40 +119,15 @@ public class Menu {
                 case 1 -> gestionarHabitaciones();
                 case 2 -> gestionarClientes();
                 case 3 -> gestionarReservas();
-                case 4 -> System.out.println("Saliendo del menú del Recepcionista...");
+                case 0 -> System.out.println("Saliendo del menú del Recepcionista...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 4);
+        } while (opcion != 0);
     }
 
-    public void menuAdministrador() {
-        int opcion;
-        do {
-            System.out.println("\n=== Menú del Administrador ===");
-            System.out.println("1. Gestionar Empleados");
-            System.out.println("2. Gestionar Habitaciones");
-            System.out.println("3. Gestionar Clientes");
-            System.out.println("4. Gestionar Reservas");
-            System.out.println("5. Realizar Backup");
-            System.out.println("6. Salir");
-            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
-
-            switch (opcion) {
-                case 1 -> gestionarEmpleados();
-                case 2 -> gestionarHabitaciones();
-                case 3 -> gestionarClientes();
-                case 4 -> gestionarReservas();
-                case 5 -> realizarBackup();
-                case 6 -> System.out.println("Saliendo del menú del Administrador...");
-                default -> System.out.println("Opción inválida. Intente nuevamente.");
-            }
-        } while (opcion != 6);
-    }
-
-    // Metodo para gestionar empleados (solo disponible para el Administrador)
+    //Metodo para gestionar empleados (solo disponible para el Administrador)
     private void gestionarEmpleados() {
-        ///Levantar la lista del archivo cada que se vaya a trabajar con dicho gestor...
-        gestorEmpleados.setEmpleados(GestorArchivos.leerArregloDeArchivo("empleados", Empleado.class));
+        gestorEmpleados.setEmpleados(GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class));
         int opcion;
         do {
             System.out.println("\n=== Gestión de Empleados ===");
@@ -148,7 +147,7 @@ public class Menu {
                 case 5 -> buscarEmpleadoPorDNI();
                 case 6 -> {
                     ///Guardar la lista actualizada en el archivo en caso de que hayan cambios... x las dudas xd
-                    GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados");
+                    GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados.json");
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -168,7 +167,11 @@ public class Menu {
     }
 
     // Metodo para gestionar habitaciones
+    //Agregar gestionarHabitacionesRecepcionista
     private void gestionarHabitaciones() {
+
+        gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
+
         int opcion;
         do {
             System.out.println("\n--- Gestión de Habitaciones ---");
@@ -192,7 +195,6 @@ public class Menu {
         } while (opcion != 6);
     }
 
-
     // Metodo para buscar una habitación por número
     private void buscarHabitacionPorNumero() {
         int numero = GestorEntradas.pedirEntero("Ingrese el número de la habitación a buscar: ");
@@ -206,6 +208,8 @@ public class Menu {
 
     // Metodo para gestionar clientes
     private void gestionarClientes() {
+        gestorClientes.setClientes(GestorArchivos.leerArregloDeArchivo("clientes.json", Cliente.class));
+
         int opcion;
         do {
             System.out.println("\n--- Gestión de Clientes ---");
@@ -242,6 +246,8 @@ public class Menu {
 
     // Metodo para gestionar reservas
     private void gestionarReservas() {
+        gestorReservas.setReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
+
         int opcion;
         do {
             System.out.println("\n--- Gestión de Reservas ---");
@@ -255,13 +261,25 @@ public class Menu {
             switch (opcion) {
                 case 1 -> gestorReservas.listar();
                 case 2 -> {
-                    //Falta verificar que las fechas de dicha habitacion esten disponibles para realizar la reserva
                     System.out.println("Ingrese los datos de la nueva reserva: ");
 
+                    //faltan respectivas verificaciones
                     Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a reservar: "));
+                    //Opcional, mostrar habitacion y cliente
                     Cliente cliente = gestorClientes.buscarClientePorDni(GestorEntradas.pedirCadena("Ingrese el dni del titular de la reserva: "));
 
+                    //haces pedido de fechas
+
+                    //Reserva reserva = new Reserva(habitacion, cliente, fecha1,fecha2);
+
+                    //Aca verifico que la reserva no pise las fechas disponibles para esa habitacion
+                    //Con un for que revise el hashmap de la habitacion y en cada vuelta veriffique que fecha1 y fecha2 no esten dentro del rango del arreglo de cada reserva
+
+                    //gestorReservas.agregar(reserva)
                     gestorReservas.agregar(habitacion, cliente);
+
+                    //modificar fechas en la habitacion correspondiente
+                    //guardarla en el archivo
                 }
                 case 3 -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "));
                 case 4 -> gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));

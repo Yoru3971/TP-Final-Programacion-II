@@ -3,7 +3,7 @@ package modelos;
 import java.util.Objects;
 
 public abstract class Persona {
-    private final String dni;
+    private String dni;
     private String nombre;
     private String apellido;
     private String nacionalidad;
@@ -25,6 +25,9 @@ public abstract class Persona {
     //getters y setters
     public String getDni() {
         return dni;
+    }
+    public void setDni(String dni) {
+        this.dni = dni;
     }
     public String getNombre() {
         return nombre;

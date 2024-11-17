@@ -1,28 +1,19 @@
-[
-    {
-        "dni": "12345678",
-        "nombre": "Juan",
-        "apellido": "Pérez",
-        "nacionalidad": "Argentino",
-        "domicilio": "Av. Siempre Viva 742",
-        "telefono": "1234567890",
-        "mail": "juan.perez@example.com",
-        "usuario": "jPerez",
-        "clave": "admin123",
-        "salario": 50000.0,
-        "cargo": "ADMINISTRADOR"
-    },
-    {
-        "dni": "87654321",
-        "nombre": "Maria",
-        "apellido": "González",
-        "nacionalidad": "Uruguaya",
-        "domicilio": "Calle Falsa 123",
-        "telefono": "0987654321",
-        "mail": "maria.gonzalez@example.com",
-        "usuario": "mGonzalez",
-        "clave": "recep456",
-        "salario": 30000.0,
-        "cargo": "RECEPCIONISTA"
-    }
-]
+[{"usuario":"jPerez",
+  "clave":"admin123",
+  "salario":50000.0,
+  "cargo":"ADMINISTRADOR",
+  "dni":"12345678",
+  "nombre":"Juan",
+  "apellido":"Pérez",
+  "nacionalidad":"Argentino",
+  "domicilio":"Av. Siempre Viva 742",
+  "telefono":"1234567890",
+  "mail":"juan.perez@example.com"
+}
+,
+  {
+    "usuario":"mGonzalez",
+    "clave":"recep456",
+    "salario":30000.0,
+    "cargo":"RECEPCIONISTA",
+    "dni":"87654321","nombre":"Maria","apellido":"González","nacionalidad":"Uruguaya","domicilio":"Calle Falsa 123","telefono":"0987654321","mail":"maria.gonzalez@example.com"}]
