@@ -28,19 +28,19 @@ public class GestorEmpleados implements IGestionable<String> {
         System.out.println("Ingrese los datos del nuevo empleado:");
 
         String dni = GestorEntradas.pedirCadena("Ingrese dni: ");
-        String nombre = GestorEntradas.pedirCadena("Ingrese nombre:");
+        String nombre = GestorEntradas.pedirCadena("Ingrese nombre: ");
         String apellido = GestorEntradas.pedirCadena("Ingrese apellido: ");
         String nacionalidad = GestorEntradas.pedirCadena("Ingrese nacionalidad: ");
         String domicilio = GestorEntradas.pedirCadena("Ingrese domicilio: ");
-        String telefono = GestorEntradas.pedirCadena("Ingrese Telefono: ");
+        String telefono = GestorEntradas.pedirCadena("Ingrese telefono: ");
         String mail = GestorEntradas.pedirCadena("Ingrese mail: ");
-        String usuario = GestorEntradas.pedirCadena("Ingrese usuario: ");
-        String clave = GestorEntradas.pedirCadena("Ingrese clave: ");
         Double salario = GestorEntradas.pedirDouble("Ingrese salario: ");
+        
 
-        // Esto debe hacerse de manera genérica, pero por ahora está solo hecho para recepcionistas
-        Empleado nuevoEmpleado = new Empleado(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, usuario, clave, salario);
+        Empleado nuevoEmpleado = new Empleado(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, salario);
         empleados.add(nuevoEmpleado);
+        System.out.println("Usuario creado por default: " + nuevoEmpleado.getUsuario());
+        System.out.println("Clave creada por default: " + nuevoEmpleado.getClave());
         System.out.println("Empleado agregado con éxito.");
     }
 
