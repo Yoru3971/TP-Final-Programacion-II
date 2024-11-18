@@ -1,8 +1,6 @@
 package gestores;
 
-import excepciones.ArregloVacioException;
-import excepciones.ObjetoNuloException;
-import excepciones.Verificador;
+import excepciones.*;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
@@ -32,12 +30,35 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     public void agregar() {
         System.out.println("Ingrese los datos de la nueva habitación: ");
 
-        Integer numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el número de la habitación: ");
+        Integer numeroHabitacion = null;
+        boolean numeroValido = false;
+        Double precioDiario = null;
+        boolean precioValido = false;
+
+        do {
+            try {
+                numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el número de la habitación: ");
+                Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones);
+                numeroValido = true;
+            } catch (NumeroHabitacionInvalidoException e) {
+                System.err.println(e.getMessage());
+            } catch (HabitacionExistenteException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!numeroValido);
 
         EstadoHabitacion estado = pedirEstadoHabitacion();
         TipoHabitacion tipo = pedirTipoHabitacion();
-        Double precioDiario = GestorEntradas.pedirDouble("Ingrese el precio diario: ");
-        GestorEntradas.limpiarBuffer();
+
+        do {
+            try {
+                precioDiario = GestorEntradas.pedirDouble("Ingrese el precio diario: ");
+                Verificador.verificarPrecioHabitacion(precioDiario);
+                precioValido = true;
+            } catch (PrecioInvalidoException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!precioValido);
 
         Habitacion nuevaHabitacion = new Habitacion(numeroHabitacion, estado, tipo, precioDiario);
         habitaciones.add(nuevaHabitacion);
@@ -70,22 +91,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
                 }
             }while (opcion < 1 && opcion > 2);
         }catch(ObjetoNuloException e){
-            System.out.println(e.getMessage());
-        }
-    }
-
-    @Override
-    public void listar() {
-        System.out.println("\nLista de Habitaciones");
-        System.out.println("=========================");
-
-        try{
-            if (Verificador.verificarArregloVacio(habitaciones)){
-                for (Habitacion habitacion : habitaciones){
-                    System.out.println(habitacion);
-                }
-            }
-        } catch (ArregloVacioException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -144,6 +149,22 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             System.out.println("Modificación completada con éxito");
         } else {
             System.out.println("Modificación cancelada");
+        }
+    }
+
+    @Override
+    public void listar() {
+        System.out.println("\nLista de Habitaciones");
+        System.out.println("=========================");
+
+        try{
+            if (Verificador.verificarArregloVacio(habitaciones)){
+                for (Habitacion habitacion : habitaciones){
+                    System.out.println(habitacion);
+                }
+            }
+        } catch (ArregloVacioException e) {
+            System.out.println(e.getMessage());
         }
     }
 

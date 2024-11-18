@@ -2,6 +2,8 @@ package modelos;
 
 import enumeraciones.TipoEmpleado;
 
+import java.util.Objects;
+
 public class Empleado extends Persona{
     private String usuario;
     private String clave;
@@ -16,6 +18,15 @@ public class Empleado extends Persona{
         this.salario = salario;
         this.cargo = TipoEmpleado.RECEPCIONISTA;
     }
+
+    public Empleado() {
+        super(null, null, null, null, null, null, null); // Llamada al constructor de Persona
+        this.usuario = null;
+        this.clave = null;
+        this.salario = 0.0;
+        this.cargo = TipoEmpleado.RECEPCIONISTA; // O dejarlo como null
+    }
+
 
     //Getters y Setters
     public String getUsuario() {
@@ -44,6 +55,20 @@ public class Empleado extends Persona{
     }
 
     //equals, hashCode y toString
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Empleado empleado = (Empleado) o;
+        return Objects.equals(usuario, empleado.usuario) && Objects.equals(clave, empleado.clave);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), usuario, clave);
+    }
+
     @Override
     public String toString() {
         String colorAzul = "\u001B[34m";
