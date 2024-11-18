@@ -1,5 +1,7 @@
 package gestores;
 
+import excepciones.ArregloVacioException;
+import excepciones.Verificador;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
@@ -68,12 +70,15 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     public void listar() {
         System.out.println("\nLista de Habitaciones");
         System.out.println("=========================");
-        if (habitaciones.isEmpty()) {
-            System.out.println("No hay habitaciones registradas.");
-        } else {
-            for (Habitacion h : habitaciones) {
-                System.out.println(h);
+
+        try{
+            if (Verificador.verificarArregloVacio(habitaciones)){
+                for (Habitacion habitacion : habitaciones){
+                    System.out.println(habitacion);
+                }
             }
+        } catch (ArregloVacioException e) {
+            System.out.println(e.getMessage());
         }
     }
 

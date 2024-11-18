@@ -1,14 +1,13 @@
 package excepciones;
 
-import modelos.Empleado;
+import modelos.*;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class Verificador {
     public static boolean verificarUsuario(String usuario) throws UsuarioInvalidoException{
-        boolean valido = true;
-
         // Verifico que el usuario ingresado no este vacio
         if(usuario == null || usuario.trim().isEmpty()){
             throw new UsuarioInvalidoException("El nombre del usuario no puede estar vacio.");
@@ -22,11 +21,10 @@ public class Verificador {
             throw new UsuarioInvalidoException("El nombre de usuario solo puede contener letras, números y guiones bajos.");
         }
 
-        return valido;
+        return true;
     }
 
     public static boolean verificarClave(String clave) throws ClaveInvalidaException{
-        boolean valido = true;
 
         // verifico que la clave ingresada no este vacia
         if(clave == null || clave.trim().isEmpty()){
@@ -49,7 +47,7 @@ public class Verificador {
             throw new ClaveInvalidaException("La clave debe contener al menos un carácter especial.");
         }
 
-        return valido;
+        return true;
     }
 
     public static Empleado verificarCredenciales(ArrayList<Empleado> empleados, String usuario, String clave) throws CredencialesIncorrectasException {
@@ -63,32 +61,77 @@ public class Verificador {
     }
 
     public static <T> boolean verificarExistente(T elemento, Collection<T> coleccion) throws ElementoExistenteException {
-        boolean valido = true;
-
         if(coleccion.contains(elemento)){
             throw new ElementoExistenteException(elemento.getClass().getName() + " ya existente en el sistema.");
         }
-
-        return valido;
+        return true;
     }
 
     public static <T> boolean verificarNoExistente(T elemento, Collection<T> coleccion) throws ElementoNoExistenteException {
-        boolean valido = true;
-
         if(!coleccion.contains(elemento)){
             throw new ElementoNoExistenteException(elemento.getClass().getName() + " no existente en el sistema.");
         }
 
-        return valido;
+        return true;
     }
 
     public static <T> boolean verificarArregloVacio(ArrayList<T> arreglo) throws ArregloVacioException {
-        boolean valido = true;
-
         if(arreglo.isEmpty()){
-            throw new ArregloVacioException("No hay "+arreglo.getFirst().getClass().getName()+"s en el sistema.");
+            if (arreglo.getFirst() instanceof Habitacion){
+                throw new ArregloVacioException("No hay "+arreglo.getFirst().getClass().getName().toLowerCase()+"es en el sistema.");
+            }
+            throw new ArregloVacioException("No hay "+arreglo.getFirst().getClass().getName().toLowerCase()+"s en el sistema.");
         }
 
-        return valido;
+        return true;
     }
+
+    ///VERIFICACIONES NULL
+
+    public static <T> boolean verificarObjetoNulo(T objeto) throws ObjetoNuloException{
+        if (objeto.equals(null)){
+            throw new ObjetoNuloException(objeto.getClass().getName() + "con datos invalidos");
+        }
+        return true;
+    }
+
+    public static boolean verificarHabitacionNula(Habitacion habitacion) throws HabitacionNulaException{
+        if (habitacion.getNumeroHabitacion().equals(null) || habitacion.getEstadoActual().equals(null) || habitacion.getTipoHabitacion().equals(null) || habitacion.getPrecioDiario().equals(null)){
+            throw new HabitacionNulaException("Habitacion invalida");
+        }
+        return true;
+    }
+
+    public static boolean verificarClienteNulo(Cliente cliente) throws ClienteNuloException{
+        if (verificarPersonaNula(cliente) || cliente.getClienteVip().equals(null)){
+            throw new ClienteNuloException("Cliente invalido");
+        }
+        return true;
+    }
+
+    public static boolean verificarPersonaNula(Persona persona){
+        if (persona.getDni().equals(null) || persona.getNombre().equals(null) || persona.getApellido().equals(null)||
+                persona.getNacionalidad().equals(null) || persona.getDomicilio().equals(null) || persona.getTelefono().equals(null)||
+                persona.getMail().equals(null)){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean verificarEmpleadoNulo(Empleado empleado) throws EmpleadoNuloException{
+        if (verificarPersonaNula(empleado) || empleado.getUsuario().equals(null) || empleado.getClave().equals(null) || empleado.getSalario().equals(null) || empleado.getCargo().equals(null)){
+            throw new EmpleadoNuloException("Empleado invalido");
+        }
+        return true;
+    }
+
+    public static boolean verificarReservaNula(Reserva reserva) throws ReservaNulaException, HabitacionNulaException, ClienteNuloException {
+        if (Verificador.verificarClienteNulo(reserva.getCliente()) || Verificador.verificarHabitacionNula(reserva.getHabitacion())
+                || reserva.getCodigo().equals(null) || reserva.getCheckIn().equals(null) ||
+                reserva.getCheckOut().equals(null) || reserva.getMontoTotal().equals(null)){
+                throw new ReservaNulaException("Reserva invalida");
+        }
+        return true;
+    }
+
 }

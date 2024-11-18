@@ -18,7 +18,7 @@
             "2024-11-29",
             "2024-11-30"
         ],
-        "estadoActual": "LIBRE",
+        "estadoActual": "DISPONIBLE",
         "tipoHabitacion": "SIMPLE",
         "precioDiario": 50.0
     },
@@ -38,7 +38,7 @@
             "2024-11-29",
             "2024-11-30"
         ],
-        "estadoActual": "OCUPADA",
+        "estadoActual": "DISPONIBLE",
         "tipoHabitacion": "DOBLE",
         "precioDiario": 100.0
     },
@@ -59,7 +59,7 @@
             "2024-11-29",
             "2024-11-30"
         ],
-        "estadoActual": "MANTENIMIENTO",
+        "estadoActual": "DISPONIBLE",
         "tipoHabitacion": "SUITE",
         "precioDiario": 200.0
     }
