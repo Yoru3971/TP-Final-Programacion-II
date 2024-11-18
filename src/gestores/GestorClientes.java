@@ -47,9 +47,9 @@ public class GestorClientes implements IGestionable<String> {
                     nuevoCliente.setDni(dni);
                     dniValido = true;
                 }
-            } catch (NombreInvalidoException e) {
+            } catch (DNIInvalidoException e) {
                 System.err.println(e.getMessage());
-            } catch (ClienteExistenteException e) {
+            } catch (DNIExistenteException e) {
                 System.err.println(e.getMessage());
             }
         } while (!dniValido);
