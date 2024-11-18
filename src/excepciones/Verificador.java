@@ -252,4 +252,11 @@ public class Verificador {
         return true;
     }
 
+    public static boolean verificarUsuarioRepetido(String usuario, Empleado empleado) throws UsuarioRepetidoException{
+        if (empleado.getUsuario().equals(usuario)){
+            throw new UsuarioRepetidoException("Usuario repetido");
+        }
+        return true;
+    }
+
 }

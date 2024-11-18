@@ -1,11 +1,9 @@
 package menu;
 
 import enumeraciones.TipoEmpleado;
-import excepciones.CredencialesIncorrectasException;
-import excepciones.ObjetoNuloException;
+import excepciones.*;
 import gestores.*;
 import modelos.*;
-import excepciones.Verificador;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -107,8 +105,42 @@ public class Menu {
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
                 menuAdministrador();
             } else if (empleadoLogueado.getCargo() == TipoEmpleado.RECEPCIONISTA) {
-               // if empleadoLogeado.getUsuario = empleadoLogueado.nombre.concat(empleadoLogueado.getApellido)
-                // pedir que meta clave y usuario nuevos
+                if (empleadoLogueado.getUsuario().equals(empleadoLogueado.getNombre().concat(empleadoLogueado.getApellido()))
+                    && empleadoLogueado.getClave().equals(empleadoLogueado.getDni())){
+                    System.out.println("Registramos que usted es un nuevo recepcionista, porfavor renueve su clave y usuario");
+                    boolean valido = false;
+                        do {
+                            try {
+                                String clave = GestorEntradas.pedirCadena("Ingrese nueva clave: ");
+                                if(Verificador.verificarClave(clave)){
+                                //No es necesario verificar si el la clave es igual al DNI ya que el verificarClave te pide 12 caracteres
+                                //por lo que ya lo filtra por logica.
+                                    empleadoLogueado.setClave(clave);
+                                    valido = true;
+                                }
+                            } catch (ClaveInvalidaException e) {
+                                System.err.println(e.getMessage());
+                            }
+                        }while(!valido);
+                        System.out.println("Clave modificada con éxito");
+
+                        valido = false; // Volvemos a asumir q es falso hasta que sea valido.
+
+                        do {
+                            try {
+                                String usuario = GestorEntradas.pedirCadena("Ingrese nuevo usuario: ");
+                                if(Verificador.verificarUsuario(usuario) && Verificador.verificarUsuarioRepetido(usuario, empleadoLogueado)){
+                                    empleadoLogueado.setUsuario(usuario);
+                                    valido = true;
+                                }
+                            } catch (UsuarioInvalidoException e){
+                                System.err.println(e.getMessage());
+                            }catch (UsuarioRepetidoException e){
+                                System.err.println(e.getMessage());
+                            }
+                        } while (!valido);
+                        System.out.println("Usuario modificado con éxito");
+                }
 
                 menuRecepcionista();
             }
