@@ -22,11 +22,21 @@ public class Cliente extends Persona{
     }
 
     //equals, hashCode y toString
-    ///equals y hashCode heredados de Persona
     @Override
     public String toString() {
-        return "Cliente{" +
-                "clienteVip=" + clienteVip +
-                '}';
+        // Códigos de color
+        String colorRojo = "\u001B[31m";
+        String colorVerde = "\u001B[32m";
+        String colorAzul = "\u001B[34m";
+        String resetColor = "\u001B[0m";
+
+        return "[" + colorAzul + "Cliente" + resetColor + ": " +
+                "DNI: " + colorVerde + getDni() + resetColor +
+                ", Nombre: " + colorVerde + getNombre() + " " + getApellido() + resetColor +
+                ", Nacionalidad: " + colorRojo + getNacionalidad() + resetColor +
+                ", Domicilio: " + colorVerde + getDomicilio() + resetColor +
+                ", Teléfono: " + colorAzul + getTelefono() + resetColor +
+                ", Mail: " + colorRojo + getMail() + resetColor +
+                ", VIP: " + colorVerde + (clienteVip ? "Sí" : "No") + resetColor + "]";
     }
 }

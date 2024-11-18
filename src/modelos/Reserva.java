@@ -100,15 +100,20 @@ public class Reserva {
     public int hashCode() {
         return Objects.hash(codigo, habitacion, cliente);
     }
+
     @Override
     public String toString() {
-        return "Reserva{" +
-                "codigo='" + codigo + '\'' +
-                ", habitacion=" + habitacion +
-                ", cliente=" + cliente +
-                ", checkIn=" + checkIn +
-                ", checkOut=" + checkOut +
-                ", montoTotal=" + montoTotal +
-                '}';
+        String colorAzul = "\u001B[34m";
+        String colorVerde = "\u001B[32m";
+        String colorRojo = "\u001B[31m";
+        String resetColor = "\u001B[0m";
+
+        return "[" + colorAzul + "Reserva" + resetColor + ": " +
+                "Código: " + colorVerde + codigo + resetColor +
+                ", N° Habitación: " + colorAzul + habitacion.getNumeroHabitacion() + resetColor +
+                ", DNI Cliente: " + colorRojo + cliente.getDni() + resetColor +
+                ", Fecha Inicio: " + colorVerde + checkIn + resetColor +
+                ", Fecha Fin: " + colorRojo + checkOut + resetColor +
+                ", Monto Total: " + colorAzul + montoTotal + resetColor + "]";
     }
 }

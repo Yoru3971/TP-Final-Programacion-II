@@ -78,16 +78,20 @@ public abstract class Persona {
     public int hashCode() {
         return Objects.hashCode(dni);
     }
+
     @Override
     public String toString() {
-        return "Persona{" +
-                "dni=" + dni +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                ", domicilio='" + domicilio + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", mail='" + mail + '\'' +
-                '}';
+        String colorAzul = "\u001B[34m";
+        String colorVerde = "\u001B[32m";
+        String colorRojo = "\u001B[31m";
+        String resetColor = "\u001B[0m";
+
+        return "[" + colorAzul + "Persona" + resetColor + ": " +
+                "DNI: " + colorVerde + dni + resetColor +
+                ", Nombre: " + colorVerde + nombre + " " + apellido + resetColor +
+                ", Nacionalidad: " + colorRojo + nacionalidad + resetColor +
+                ", Domicilio: " + colorVerde + domicilio + resetColor +
+                ", Teléfono: " + colorAzul + telefono + resetColor +
+                ", Mail: " + colorRojo + mail + resetColor + "]";
     }
 }

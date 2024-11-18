@@ -188,14 +188,15 @@ public class Habitacion {
     public int hashCode() {
         return Objects.hash(numeroHabitacion, tipoHabitacion);
     }
+
     @Override
     public String toString() {
-        return "Habitacion{" +
-                "numeroHabitacion=" + numeroHabitacion +
-                ", disponibilidadReserva=" + disponibilidadReserva +
-                ", estadoActual=" + estadoActual +
-                ", tipoHabitacion=" + tipoHabitacion +
-                ", precioDiario=" + precioDiario +
-                '}';
+        String colorAzul = "\u001B[34m";
+        String colorRojo = "\u001B[31m";
+        String resetColor = "\u001B[0m";
+
+        return "[" + colorAzul + "Habitación N° " + numeroHabitacion+ resetColor + ": " +
+                "Tipo: " + colorRojo + tipoHabitacion + resetColor +
+                ", Estado: " + colorAzul + estadoActual + resetColor + "]]";
     }
 }

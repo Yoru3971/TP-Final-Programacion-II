@@ -44,14 +44,21 @@ public class Empleado extends Persona{
     }
 
     //equals, hashCode y toString
-    ///equals y hashCode heredados de Persona
     @Override
     public String toString() {
-        return "Empleado{" +
-                "usuario='" + usuario + '\'' +
-                ", clave='" + clave + '\'' +
-                ", salario=" + salario +
-                ", cargo=" + cargo +
-                "} " + super.toString();
+        String colorAzul = "\u001B[34m";
+        String colorVerde = "\u001B[32m";
+        String colorRojo = "\u001B[31m";
+        String resetColor = "\u001B[0m";
+
+        return "[" + colorAzul + "Empleado" + resetColor + ": " +
+                "DNI: " + colorVerde + getDni() + resetColor +
+                ", Nombre: " + colorVerde + getNombre() + " " + getApellido() + resetColor +
+                ", Nacionalidad: " + colorRojo + getNacionalidad() + resetColor +
+                ", Domicilio: " + colorVerde + getDomicilio() + resetColor +
+                ", Teléfono: " + colorAzul + getTelefono() + resetColor +
+                ", Mail: " + colorRojo + getMail() + resetColor +
+                ", Cargo: " + colorAzul + cargo + resetColor +
+                ", Salario: " + colorVerde + salario + resetColor +"]";
     }
 }
