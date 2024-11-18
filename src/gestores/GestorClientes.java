@@ -1,5 +1,7 @@
 package gestores;
 
+import excepciones.ArregloVacioException;
+import excepciones.Verificador;
 import modelos.Cliente;
 import java.util.ArrayList;
 
@@ -74,13 +76,18 @@ public class GestorClientes implements IGestionable<String> {
     public void listar() {
         System.out.println("\nLista de Clientes");
         System.out.println("=========================");
-        if (clientes.isEmpty()) {
-            System.out.println("No hay clientes registrados.");
-        } else {
-            for (Cliente c : clientes) {
-                System.out.println(c);
+
+        try{
+            if(Verificador.verificarArregloVacio(clientes)){
+                for (Cliente c : clientes) {
+                    System.out.println(c);
+                }
             }
+        }catch(ArregloVacioException e){
+            System.out.println(e.getMessage());
         }
+
+
     }
 
     @Override

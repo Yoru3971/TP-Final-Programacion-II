@@ -25,23 +25,22 @@ public class GestorEmpleados implements IGestionable<String> {
     //Metodos ABM y Listar de IGestionable
     @Override
     public void agregar() {
-        System.out.println("Ingrese los datos del nuevo empleado:");
+        System.out.println("\nIngrese los datos del nuevo empleado:");
 
-        String dni = GestorEntradas.pedirCadena("Ingrese dni: ");
-        String nombre = GestorEntradas.pedirCadena("Ingrese nombre: ");
-        String apellido = GestorEntradas.pedirCadena("Ingrese apellido: ");
-        String nacionalidad = GestorEntradas.pedirCadena("Ingrese nacionalidad: ");
-        String domicilio = GestorEntradas.pedirCadena("Ingrese domicilio: ");
-        String telefono = GestorEntradas.pedirCadena("Ingrese telefono: ");
-        String mail = GestorEntradas.pedirCadena("Ingrese mail: ");
+        String dni = GestorEntradas.pedirCadena("\nIngrese DNI: ");
+        String nombre = GestorEntradas.pedirCadena("Ingrese Nombre: ");
+        String apellido = GestorEntradas.pedirCadena("Ingrese Apellido: ");
+        String nacionalidad = GestorEntradas.pedirCadena("Ingrese Nacionalidad: ");
+        String domicilio = GestorEntradas.pedirCadena("Ingrese Domicilio: ");
+        String telefono = GestorEntradas.pedirCadena("Ingrese Telefono: ");
+        String mail = GestorEntradas.pedirCadena("Ingrese Mail: ");
         Double salario = GestorEntradas.pedirDouble("Ingrese salario: ");
-        
 
         Empleado nuevoEmpleado = new Empleado(dni, nombre, apellido, nacionalidad, domicilio, telefono, mail, salario);
         empleados.add(nuevoEmpleado);
-        System.out.println("Usuario creado por default: " + nuevoEmpleado.getUsuario());
+        System.out.println("\nUsuario creado por default: " + nuevoEmpleado.getUsuario());
         System.out.println("Clave creada por default: " + nuevoEmpleado.getClave());
-        System.out.println("Empleado agregado con éxito.");
+        System.out.println("\nEmpleado agregado con éxito.");
     }
 
     @Override

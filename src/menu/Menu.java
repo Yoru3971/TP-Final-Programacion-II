@@ -38,6 +38,7 @@ public class Menu {
 
     public void logIn() {
         // Levanto la lista de empleados
+        //Esto deberia ir dentro de un try que catchee el error de apertura del archivo, y un finally que lo cierre
         ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
 
         String usuario;
@@ -76,6 +77,7 @@ public class Menu {
         }catch(NullPointerException e){
             System.err.println("Hubo un error en el LogIn.");
         }
+
         try{
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
                 menuAdministrador();
@@ -142,7 +144,7 @@ public class Menu {
             System.out.println("3. Modificar Empleado");
             System.out.println("4. Eliminar Empleado");
             System.out.println("5. Buscar Empleado por DNI");
-            System.out.println("6. Volver al menú anterior");
+            System.out.println("0. Volver al menú anterior");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
 
             switch (opcion) {
@@ -152,7 +154,6 @@ public class Menu {
                 case 4 -> gestorEmpleados.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a eliminar: "));
                 case 5 -> buscarEmpleadoPorDNI();
                 case 0 -> {
-                    ///Guardar la lista actualizada en el archivo en caso de que hayan cambios... x las dudas xd
                     GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados.json");
                     System.out.println("Volviendo al menú anterior...");
                 }
@@ -185,7 +186,7 @@ public class Menu {
             System.out.println("4. Eliminar Habitación");
             System.out.println("5. Buscar Habitación por Número");
             System.out.println("6. Ver Disponibilidad de una Habitacion");
-            System.out.println("7. Volver al menú anterior");
+            System.out.println("0. Volver al menú anterior");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
@@ -195,10 +196,13 @@ public class Menu {
                 case 4 -> gestorHabitaciones.eliminar(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a eliminar: "));
                 case 5 -> buscarHabitacionPorNumero();
                 case 6 -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion de la cual desea ver el calendario: "));
-                case 7 -> System.out.println("Volviendo al menú anterior...");
+                case 0 -> {
+                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json");
+                    System.out.println("Volviendo al menú anterior...");
+                }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 6);
+        } while (opcion != 0);
     }
 
     private void gestionarHabitacionesRecep() {
@@ -219,7 +223,10 @@ public class Menu {
                 case 2 -> {}//hacer metodo q modifique SOLO EL ESTADO
                 case 3 -> buscarHabitacionPorNumero();
                 case 4 -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion de la cual desea ver el calendario: "));
-                case 0 -> System.out.println("Volviendo al menú anterior...");
+                case 0 -> {
+                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json");
+                    System.out.println("Volviendo al menú anterior...");
+                }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 0);
@@ -257,10 +264,13 @@ public class Menu {
                 case 3 -> gestorClientes.modificar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a modificar: "));
                 case 4 -> gestorClientes.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a eliminar: "));
                 case 5 -> buscarClientePorDNI();
-                case 0 -> System.out.println("Volviendo al menú anterior...");
+                case 0 -> {
+                    GestorArchivos.escribirArregloEnArchivo(gestorClientes.getClientes(), "clientes.json");
+                    System.out.println("Volviendo al menú anterior...");
+                }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 6);
+        } while (opcion != 0);
     }
 
     // Metodo para buscar un cliente por DNI
@@ -285,7 +295,7 @@ public class Menu {
             System.out.println("2. Agregar Reserva");
             System.out.println("3. Modificar Reserva");
             System.out.println("4. Eliminar Reserva");
-            System.out.println("5. Volver al menú anterior");
+            System.out.println("0. Volver al menú anterior");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
@@ -314,10 +324,13 @@ public class Menu {
                 }
                 case 3 -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "));
                 case 4 -> gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
-                case 5 -> System.out.println("Volviendo al menú anterior...");
+                case 0 -> {
+                    GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json");
+                    System.out.println("Volviendo al menú anterior...");
+                }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
-        } while (opcion != 5);
+        } while (opcion != 0);
     }
 
     //Metodo para hacer backup de todos los archivos (solo accesible por el administrador)
