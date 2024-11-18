@@ -6,9 +6,11 @@ import gestores.*;
 import modelos.*;
 import excepciones.Verificador;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class Menu {
@@ -37,37 +39,59 @@ public class Menu {
     }
 
     public void logIn() {
-        // Levanto la lista de empleados
-        //Esto deberia ir dentro de un try que catchee el error de apertura del archivo, y un finally que lo cierre
-        ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
+        GestorEntradas.limpiarConsola();
+        try {
+            ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
+            String usuario = null;
+            char[] claveArray = null;
 
-        String usuario;
-        String clave;
+            int intentos = 0;
 
-        int i = 0;
+            while (empleadoLogueado == null && intentos < 3) {
+                // Solicitar usuario
+                usuario = JOptionPane.showInputDialog(null, "Ingrese su usuario:", "Login", JOptionPane.PLAIN_MESSAGE);
 
-        // Pido usuario y clave por teclado hasta que ingrese bien o supere los 3 intentos
-        while (empleadoLogueado == null && i < 3) {
-            System.out.print("Usuario: ");
-            usuario = GestorEntradas.pedirCadena("");
+                // Verificar si se canceló el diálogo de usuario
+                if (usuario == null) {
+                    System.out.println("Operación cancelada.");
+                    break;
+                }
 
-            System.out.print("Clave: ");
-            clave = GestorEntradas.pedirCadena("");
+                // Crear el campo de contraseña
+                JPasswordField passwordField = new JPasswordField();
+                int option = JOptionPane.showConfirmDialog(null, passwordField, "Ingrese su contraseña:", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
-            i++;
+                if (option == JOptionPane.OK_OPTION) {
+                    // Obtener la contraseña ingresada
+                    claveArray = passwordField.getPassword();
+                    String clave = new String(claveArray);
 
-            try {
-                empleadoLogueado = Verificador.verificarCredenciales(empleados, usuario, clave);
-            } catch (CredencialesIncorrectasException e) {
-                System.err.println(e.getMessage());
-                if (i < 3) {
-                    System.out.println("Intentos restantes: " + (3 - i));
+                    // Intentar autenticar
+                    try {
+                        empleadoLogueado = Verificador.verificarCredenciales(empleados, usuario, clave);
+                    } catch (CredencialesIncorrectasException e) {
+                        System.err.println(e.getMessage());
+                        intentos++;
+                        if (intentos < 3) {
+                            JOptionPane.showMessageDialog(null, "Intentos restantes: " + (3 - intentos), "Error de autenticación", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
+                    // Limpiar el array de contraseñas
+                    Arrays.fill(claveArray, '\u0000');
+                } else {
+                    System.out.println("Operación cancelada.");
+                    break;
                 }
             }
-        }
 
-        if (empleadoLogueado == null) {
-            System.err.println("Número máximo de intentos alcanzado");
+            if (empleadoLogueado == null && intentos >= 3) {
+                JOptionPane.showMessageDialog(null, "Número máximo de intentos alcanzado.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (empleadoLogueado != null) {
+                JOptionPane.showMessageDialog(null, "¡Bienvenido, " + empleadoLogueado.getNombre() + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (RuntimeException e) {
+            System.err.println("No se pudo abrir el archivo.");
         }
     }
 
@@ -92,6 +116,7 @@ public class Menu {
     public void menuAdministrador() {
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n=== Menú del Administrador ===");
             System.out.println("1. Gestionar Empleados");
             System.out.println("2. Gestionar Habitaciones");
@@ -116,6 +141,7 @@ public class Menu {
     public void menuRecepcionista() {
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n=== Menú del Recepcionista ===");
             System.out.println("1. Gestionar Habitaciones");
             System.out.println("2. Gestionar Clientes");
@@ -138,6 +164,7 @@ public class Menu {
         gestorEmpleados.setEmpleados(GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class));
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n=== Gestión de Empleados ===");
             System.out.println("1. Listar Empleados");
             System.out.println("2. Agregar Empleado");
@@ -173,12 +200,13 @@ public class Menu {
         }
     }
 
-    //Metodo para gestionar habitaciones
+    //Metodos para gestionar habitaciones
     private void gestionarHabitacionesAdmin() {
         gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
 
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n--- Gestión de Habitaciones ---");
             System.out.println("1. Listar Habitaciones");
             System.out.println("2. Agregar Habitación");
@@ -210,6 +238,7 @@ public class Menu {
 
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n--- Gestión de Habitaciones ---");
             System.out.println("1. Listar Habitaciones");
             System.out.println("2. Modificar estado de una habitación");
@@ -249,6 +278,7 @@ public class Menu {
 
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n--- Gestión de Clientes ---");
             System.out.println("1. Listar Clientes");
             System.out.println("2. Agregar Cliente");
@@ -290,6 +320,7 @@ public class Menu {
 
         int opcion;
         do {
+            GestorEntradas.limpiarConsola();
             System.out.println("\n--- Gestión de Reservas ---");
             System.out.println("1. Listar Reservas");
             System.out.println("2. Agregar Reserva");

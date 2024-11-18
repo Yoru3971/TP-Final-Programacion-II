@@ -37,4 +37,12 @@ public class GestorEntradas {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return LocalDate.parse(input, formatter);
     }
+
+    public static void limpiarConsola() {
+        try {
+            new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+        } catch (Exception e) {
+            System.err.println("Error al intentar limpiar la consola.");
+        }
+    }
 }
