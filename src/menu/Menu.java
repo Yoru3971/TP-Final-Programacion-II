@@ -107,6 +107,9 @@ public class Menu {
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
                 menuAdministrador();
             } else if (empleadoLogueado.getCargo() == TipoEmpleado.RECEPCIONISTA) {
+               // if empleadoLogeado.getUsuario = empleadoLogueado.nombre.concat(empleadoLogueado.getApellido)
+                // pedir que meta clave y usuario nuevos
+
                 menuRecepcionista();
             }
         }catch(RuntimeException re){
