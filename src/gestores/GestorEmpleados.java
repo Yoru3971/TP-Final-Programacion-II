@@ -57,10 +57,11 @@ public class GestorEmpleados implements IGestionable<String> {
         // Validación del nombre
         do {
             try {
-                String nombre = GestorEntradas.pedirCadena("Ingrese Nombre: ");
-                Verificador.verificarNombre(nombre);
-                nuevoEmpleado.setNombre(nombre);
-                nombreValido = true;
+                String nombre = GestorEntradas.pedirCadena("Ingrese nombre: ");
+                if(Verificador.verificarNombre(nombre)){
+                    nuevoEmpleado.setNombre(nombre);
+                    nombreValido = true;
+                }
             } catch (NombreInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -69,10 +70,11 @@ public class GestorEmpleados implements IGestionable<String> {
         // Validación del apellido
         do {
             try {
-                String apellido = GestorEntradas.pedirCadena("Ingrese Apellido: ");
-                Verificador.verificarApellido(apellido);
-                nuevoEmpleado.setApellido(apellido);
-                apellidoValido = true;
+                String apellido = GestorEntradas.pedirCadena("Ingrese apellido: ");
+                if(Verificador.verificarApellido(apellido)){
+                    nuevoEmpleado.setApellido(apellido);
+                    apellidoValido = true;
+                }
             } catch (ApellidoInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -81,10 +83,11 @@ public class GestorEmpleados implements IGestionable<String> {
         // Validación de la nacionalidad
         do {
             try {
-                String nacionalidad = GestorEntradas.pedirCadena("Ingrese Nacionalidad: ");
-                Verificador.verificarNacionalidad(nacionalidad);
-                nuevoEmpleado.setNacionalidad(nacionalidad);
-                nacionalidadValida = true;
+                String nacionalidad = GestorEntradas.pedirCadena("Ingrese nacionalidad: ");
+                if(Verificador.verificarNacionalidad(nacionalidad)){
+                    nuevoEmpleado.setNacionalidad(nacionalidad);
+                    nacionalidadValida = true;
+                }
             } catch (NacionalidadInvalidaException e) {
                 System.err.println(e.getMessage());
             }
@@ -93,10 +96,11 @@ public class GestorEmpleados implements IGestionable<String> {
         // Validación del domicilio
         do {
             try {
-                String domicilio = GestorEntradas.pedirCadena("Ingrese Domicilio: ");
-                Verificador.verificarDomicilio(domicilio);
-                nuevoEmpleado.setDomicilio(domicilio);
-                domicilioValido = true;
+                String domicilio = GestorEntradas.pedirCadena("Ingrese domicilio: ");
+                if(Verificador.verificarDomicilio(domicilio)){
+                    nuevoEmpleado.setDomicilio(domicilio);
+                    domicilioValido = true;
+                }
             } catch (DomicilioInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -105,10 +109,11 @@ public class GestorEmpleados implements IGestionable<String> {
         // Validación del teléfono
         do {
             try {
-                String telefono = GestorEntradas.pedirCadena("Ingrese Telefono: ");
-                Verificador.verificarTelefono(telefono);
-                nuevoEmpleado.setTelefono(telefono);
-                telefonoValido = true;
+                String telefono = GestorEntradas.pedirCadena("Ingrese telefono: ");
+                if(Verificador.verificarTelefono(telefono)){
+                    nuevoEmpleado.setTelefono(telefono);
+                    telefonoValido = true;
+                }
             } catch (TelefonoInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -117,10 +122,11 @@ public class GestorEmpleados implements IGestionable<String> {
         // Validación del mail
         do {
             try {
-                String mail = GestorEntradas.pedirCadena("Ingrese Mail: ");
-                Verificador.verificarMail(mail);
-                nuevoEmpleado.setMail(mail);
-                mailValido = true;
+                String mail = GestorEntradas.pedirCadena("Ingrese mail: ");
+                if(Verificador.verificarMail(mail)){
+                    nuevoEmpleado.setMail(mail);
+                    mailValido = true;
+                }
             } catch (MailInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -130,9 +136,10 @@ public class GestorEmpleados implements IGestionable<String> {
         do {
             try {
                 Double salario = GestorEntradas.pedirDouble("Ingrese salario: ");
-                Verificador.verificarSalario(salario);
-                nuevoEmpleado.setSalario(salario);
-                salarioValido = true;
+                if(Verificador.verificarSalario(salario)){
+                    nuevoEmpleado.setSalario(salario);
+                    salarioValido = true;
+                }
             } catch (SalarioInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -178,8 +185,20 @@ public class GestorEmpleados implements IGestionable<String> {
 
     @Override
     public void modificar(String Dni) {
+        boolean dniValido = false;
+        boolean nombreValido = false;
+        boolean apellidoValido = false;
+        boolean nacionalidadValida = false;
+        boolean domicilioValido = false;
+        boolean telefonoValido = false;
+        boolean mailValido = false;
+        boolean salarioValido = false;
+        boolean usuarioValido = false;
+        boolean claveValida = false;
 
         Empleado empleadoModificado = buscarEmpleadoPorDni(Dni);
+        System.out.println("Datos del empleado a modificar:");
+        System.out.println(empleadoModificado);
         Integer indiceEmpleadoModificar = empleados.indexOf(empleadoModificado);
 
         int opcion;
@@ -199,50 +218,155 @@ public class GestorEmpleados implements IGestionable<String> {
             opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
 
             switch (opcion) {
-                case 1:
-                    System.out.println("No se puede modificar el DNI porque es un atributo final.");
-                    break;
-                case 2:
-                    empleadoModificado.setNombre(GestorEntradas.pedirCadena("Ingrese nombre: "));
+                case 1->{
+                    do {
+                        try {
+                            String dni = GestorEntradas.pedirCadena("Ingrese nuevo DNI: ");
+                            if (Verificador.verificarDNI(dni) && Verificador.verificarDNIUnico(dni, empleados)) {
+                                empleadoModificado.setDni(dni);
+                                dniValido = true;
+                            }
+                        } catch (DNIInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        } catch (DNIExistenteException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!dniValido);
+                    System.out.println("DNI modificado con éxito");
+                }
+                case 2->{
+                    do {
+                        try {
+                            String nombre = GestorEntradas.pedirCadena("Ingrese nuevo nombre: ");
+                            if(Verificador.verificarNombre(nombre)){
+                                empleadoModificado.setNombre(nombre);
+                                nombreValido = true;
+                            }
+                        } catch (NombreInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!nombreValido);
                     System.out.println("Nombre modificado con éxito");
-                    break;
-                case 3:
-                    empleadoModificado.setApellido(GestorEntradas.pedirCadena("Ingrese apellido: "));
+                }
+                case 3->{
+                    do {
+                        try {
+                            String apellido = GestorEntradas.pedirCadena("Ingrese nuevo apellido: ");
+                            if(Verificador.verificarApellido(apellido)){
+                                empleadoModificado.setApellido(apellido);
+                                apellidoValido = true;
+                            }
+                        } catch (ApellidoInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!apellidoValido);
                     System.out.println("Apellido modificado con éxito");
-                    break;
-                case 4:
-                    empleadoModificado.setNacionalidad(GestorEntradas.pedirCadena("Ingrese nacionalidad: "));
+                }
+                case 4->{
+                    do {
+                        try {
+                            String nacionalidad = GestorEntradas.pedirCadena("Ingrese nueva nacionalidad: ");
+                            if(Verificador.verificarNacionalidad(nacionalidad)){
+                                empleadoModificado.setNacionalidad(nacionalidad);
+                                nacionalidadValida = true;
+                            }
+                        } catch (NacionalidadInvalidaException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!nacionalidadValida);
                     System.out.println("Nacionalidad modificado con éxito");
-                    break;
-                case 5:
-                    empleadoModificado.setDomicilio(GestorEntradas.pedirCadena("Ingrese domicilio: "));
+                }
+                case 5->{
+                    do {
+                        try {
+                            String domicilio = GestorEntradas.pedirCadena("Ingrese nuevo domicilio: ");
+                            if(Verificador.verificarDomicilio(domicilio)){
+                                empleadoModificado.setDomicilio(domicilio);
+                                domicilioValido = true;
+                            }
+                        } catch (DomicilioInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!domicilioValido);
                     System.out.println("Domicilio modificado con éxito");
-                    break;
-                case 6:
-                    empleadoModificado.setTelefono(GestorEntradas.pedirCadena("Ingrese telefono: "));
+                }
+                case 6->{
+                    do {
+                        try {
+                            String telefono = GestorEntradas.pedirCadena("Ingrese nuevo telefono: ");
+                            if(Verificador.verificarTelefono(telefono)){
+                                empleadoModificado.setTelefono(telefono);
+                                telefonoValido = true;
+                            }
+                        } catch (TelefonoInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!telefonoValido);
                     System.out.println("Telefono modificado con éxito");
-                    break;
-                case 7:
-                    empleadoModificado.setMail(GestorEntradas.pedirCadena("Ingrese mail: "));
+                }
+                case 7->{
+                    do {
+                        try {
+                            String mail = GestorEntradas.pedirCadena("Ingrese nuevo mail: ");
+                            if(Verificador.verificarMail(mail)){
+                                empleadoModificado.setMail(mail);
+                                mailValido = true;
+                            }
+                        } catch (MailInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!mailValido);
+
                     System.out.println("Mail modificado con éxito");
-                    break;
-                case 8:
-                    empleadoModificado.setUsuario(GestorEntradas.pedirCadena("Ingrese usuario: "));
+                }
+                case 8->{
+                    do {
+                        try {
+                            String usuario = GestorEntradas.pedirCadena("Ingrese nuevo usuario: ");
+                            if(Verificador.verificarUsuario(usuario)){
+                                empleadoModificado.setUsuario(usuario);
+                                usuarioValido = true;
+                            }
+                        } catch (UsuarioInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!usuarioValido);
                     System.out.println("Usuario modificado con éxito");
-                    break;
-                case 9:
-                    empleadoModificado.setClave(GestorEntradas.pedirCadena("Ingrese clave: "));
+                }
+                case 9->{
+                    do {
+                        try {
+                            String clave = GestorEntradas.pedirCadena("Ingrese nueva clave: ");
+                            if(Verificador.verificarClave(clave)){
+                                empleadoModificado.setClave(clave);
+                                usuarioValido = true;
+                            }
+                        } catch (ClaveInvalidaException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!claveValida);
                     System.out.println("Clave modificado con éxito");
-                    break;
-                case 10:
-                    empleadoModificado.setSalario(GestorEntradas.pedirDouble("Ingrese salario: "));
+                }
+                case 10->{
+                    do {
+                        try {
+                            Double salario = GestorEntradas.pedirDouble("Ingrese nuevo salario: ");
+                            if(Verificador.verificarSalario(salario)){
+                                empleadoModificado.setSalario(salario);
+                                salarioValido = true;
+                            }
+                        } catch (SalarioInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!salarioValido);
                     System.out.println("Salario modificado con éxito");
-                    break;
-                case 0:
+                }
+                case 0->{
                     System.out.println("Saliendo...");
-                    break;
-                default:
+                }
+                default->{
                     System.out.println("Opción no válida. Intente nuevamente.");
+                }
             }
 
             System.out.println("\n¿Quiere realizar otra modificación?");

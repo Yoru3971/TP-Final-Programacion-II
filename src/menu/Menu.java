@@ -107,7 +107,7 @@ public class Menu {
                 case 3 -> gestionarClientes();
                 case 4 -> gestionarReservas();
                 case 5 -> realizarBackup();
-                case 0 -> System.out.println("Saliendo del menú del Administrador...");
+                case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 0);
@@ -120,14 +120,14 @@ public class Menu {
             System.out.println("1. Gestionar Habitaciones");
             System.out.println("2. Gestionar Clientes");
             System.out.println("3. Gestionar Reservas");
-            System.out.println("4. Salir");
+            System.out.println("0. Salir");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
             switch (opcion) {
                 case 1 -> gestionarHabitacionesRecep();
                 case 2 -> gestionarClientes();
                 case 3 -> gestionarReservas();
-                case 0 -> System.out.println("Saliendo del menú del Recepcionista...");
+                case 0 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
         } while (opcion != 0);
@@ -322,7 +322,7 @@ public class Menu {
                     //modificar fechas en la habitacion correspondiente
                     //guardarla en el archivo
                 }
-                case 3 -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "));
+                case 3 -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(),gestorClientes.getClientes());
                 case 4 -> gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
                 case 0 -> {
                     GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json");

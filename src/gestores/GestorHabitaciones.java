@@ -38,8 +38,9 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         do {
             try {
                 numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el número de la habitación: ");
-                Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones);
-                numeroValido = true;
+                if(Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones)){
+                    numeroValido = true;
+                }
             } catch (NumeroHabitacionInvalidoException e) {
                 System.err.println(e.getMessage());
             } catch (HabitacionExistenteException e) {
@@ -48,13 +49,15 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         } while (!numeroValido);
 
         EstadoHabitacion estado = pedirEstadoHabitacion();
+
         TipoHabitacion tipo = pedirTipoHabitacion();
 
         do {
             try {
-                precioDiario = GestorEntradas.pedirDouble("Ingrese el precio diario: ");
-                Verificador.verificarPrecioHabitacion(precioDiario);
-                precioValido = true;
+                precioDiario = GestorEntradas.pedirDouble("Ingrese el precio por dia: ");
+                if(Verificador.verificarPrecioHabitacion(precioDiario)){
+                    precioValido = true;
+                }
             } catch (PrecioInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -98,8 +101,11 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     @Override
     public void modificar(Integer nroHabitacion) {
         Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
-
         int indiceHabitacionModificar = habitaciones.indexOf(habitacionModificar);
+
+        boolean numeroValido = false;
+        boolean precioValido = false;
+
         int opcion;
         do {
             System.out.println("\n¿Qué desea modificar?");
@@ -113,37 +119,67 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             GestorEntradas.limpiarBuffer();
 
             switch (opcion) {
-                case 1:
-                    habitacionModificar.setNumeroHabitacion(GestorEntradas.pedirEntero("Ingrese el nuevo número de la habitación: "));
+                case 1->{
+                    do {
+                        try {
+                            Integer numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el nuevo número de la habitación: ");
+
+                            if(Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones)){
+                                numeroValido = true;
+                                habitacionModificar.setNumeroHabitacion(numeroHabitacion);
+                            }
+                        } catch (NumeroHabitacionInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        } catch (HabitacionExistenteException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!numeroValido);
                     System.out.println("Número de habitación modificado con éxito");
-                    break;
-                case 2:
+                }
+                case 2->{
                     habitacionModificar.setEstadoActual(pedirEstadoHabitacion());
-                    System.out.println("Estado Actual modificado con éxito");
-                    break;
-                case 3:
+                    System.out.println("Estado actual modificado con éxito");
+                }
+                case 3->{
                     habitacionModificar.setTipoHabitacion(pedirTipoHabitacion());
                     System.out.println("Tipo de habitación modificado con éxito");
-                    break;
-                case 4:
-                    habitacionModificar.setPrecioDiario(GestorEntradas.pedirDouble("Ingrese el nuevo precio diario: "));
-                    System.out.println("Precio diario modificado con éxito");
-                    break;
-                case 0:
-                    System.out.println("Saliendo de la modificación.");
-                    break;
-                default:
+                }
+                case 4->{
+                    do {
+                        try {
+                            Double precioDiario = GestorEntradas.pedirDouble("Ingrese el precio por dia: ");
+                            if(Verificador.verificarPrecioHabitacion(precioDiario)){
+                                habitacionModificar.setPrecioDiario(precioDiario);
+                                precioValido = true;
+                            }
+                        } catch (PrecioInvalidoException e) {
+                            System.err.println(e.getMessage());
+                        }
+                    } while (!precioValido);
+                    System.out.println("Precio por dia modificado con éxito");
+                }
+                case 0->{
+                    System.out.println("Saliendo...");
+                }
+                default->{
                     System.out.println("Opción no válida. Intente nuevamente.");
+                }
             }
-            opcion = GestorEntradas.pedirEntero("\n¿Quiere realizar otra modificación? 1. Sí 0. No");
-
+            System.out.println("\n¿Quiere realizar otra modificación?");
+            System.out.println("1. Sí");
+            System.out.println("0. No");
+            opcion = GestorEntradas.pedirEntero("Ingrese opción: ");
         } while (opcion != 0);
 
         System.out.println("\nHabitacion modificada");
         System.out.println(habitacionModificar);
-        System.out.println("¿Desea confirmar los cambios?");
-        int confirmar = GestorEntradas.pedirEntero("1. Sí 2. No");
 
+        System.out.println("¿Desea confirmar los cambios?");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
+
+        int confirmar = GestorEntradas.pedirEntero("Ingrese opción: ");
+        //ACA SE PUEDE LANZAR UNA OPCION NO VALIDA EXCEPTION
         if (confirmar == 1) {
             habitaciones.set(indiceHabitacionModificar, habitacionModificar);
             System.out.println("Modificación completada con éxito");

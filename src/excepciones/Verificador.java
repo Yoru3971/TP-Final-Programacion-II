@@ -2,7 +2,6 @@ package excepciones;
 
 import modelos.*;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -135,32 +134,30 @@ public class Verificador {
     }
 
     //Metodo para verificar si el DNI es valido
-    public static boolean verificarDNI(String dni) throws NombreInvalidoException {
+    public static boolean verificarDNI(String dni) throws DNIInvalidoException {
         // Verificar que no sea null o esté vacío
         if (dni == null || dni.trim().isEmpty()) {
-            throw new NombreInvalidoException("El DNI no puede estar vacío.");
+            throw new DNIInvalidoException("El DNI no puede estar vacío.");
         }
         // Verificar que contenga solo dígitos
         if (!dni.matches("\\d+")) { // Expresión regular para validar solo números
-            throw new NombreInvalidoException("El DNI solo debe contener números.");
+            throw new DNIInvalidoException("El DNI solo debe contener números.");
         }
         // Verificar longitud mínima
         if (dni.length() < 8) {
-            throw new NombreInvalidoException("El DNI debe tener al menos 8 dígitos.");
+            throw new DNIInvalidoException("El DNI debe tener al menos 8 dígitos.");
         }
         return true;
     }
 
-
-    public static boolean verificarDNIUnico(String dni, ArrayList<? extends Persona> personas) throws ClienteExistenteException {
+    public static boolean verificarDNIUnico(String dni, ArrayList<? extends Persona> personas) throws DNIExistenteException {
         for (Persona persona : personas) {
             if (persona.getDni().equals(dni)) {
-                throw new ClienteExistenteException("El DNI ingresado ya está registrado en el sistema.");
+                throw new DNIExistenteException("El DNI ingresado ya está registrado en el sistema.");
             }
         }
         return true;
     }
-
 
     // Metodo para verificar si el nombre es válido
     public static boolean verificarNombre(String nombre) throws NombreInvalidoException {
@@ -228,13 +225,14 @@ public class Verificador {
         return true;
     }
 
-    public static void verificarSalario(Double salario) throws SalarioInvalidoException {
+    public static boolean verificarSalario(Double salario) throws SalarioInvalidoException {
         if (salario == null || salario <= 0) {
             throw new SalarioInvalidoException("El salario debe ser un número positivo.");
         }
+        return true;
     }
 
-    public static void verificarNumeroHabitacion(Integer numero, ArrayList<Habitacion> habitaciones) throws NumeroHabitacionInvalidoException, HabitacionExistenteException {
+    public static boolean verificarNumeroHabitacion(Integer numero, ArrayList<Habitacion> habitaciones) throws NumeroHabitacionInvalidoException, HabitacionExistenteException {
         if (numero == null || numero <= 0) {
             throw new NumeroHabitacionInvalidoException("El número de habitación debe ser un entero positivo mayor a 0.");
         }
@@ -244,14 +242,14 @@ public class Verificador {
                 throw new HabitacionExistenteException("El número de habitación ya existe en el sistema.");
             }
         }
+        return true;
     }
 
-    public static void verificarPrecioHabitacion(Double precio) throws PrecioInvalidoException {
+    public static boolean verificarPrecioHabitacion(Double precio) throws PrecioInvalidoException {
         if (precio == null || precio <= 0) {
             throw new PrecioInvalidoException("El precio diario debe ser un valor positivo.");
         }
+        return true;
     }
-
-
 
 }

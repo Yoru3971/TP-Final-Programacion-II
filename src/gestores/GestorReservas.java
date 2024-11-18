@@ -3,6 +3,8 @@ package gestores;
 import excepciones.ArregloVacioException;
 import excepciones.ObjetoNuloException;
 import excepciones.Verificador;
+import modelos.Cliente;
+import modelos.Habitacion;
 import modelos.Reserva;
 
 import java.time.LocalDate;
@@ -53,11 +55,11 @@ public class GestorReservas {
                 if (opcion == 1) {
                     reservaEliminar.liberarFechas();
                     reservas.remove(reservaEliminar);
-                    System.out.println("Reserva eliminada del sistema con éxito.");
+                    System.out.println("Reserva eliminada del sistema con éxito");
                 } else if (opcion == 2) {
-                    System.out.println("La reserva no fue eliminado del sistema.");
+                    System.out.println("La reserva no fue eliminado del sistema");
                 } else {
-                    System.out.println("Número ingresado incorrecto, ingrese 1 para eliminar o 2 para cancelar");
+                    System.out.println("Opcion no valida. Intente nuevamente");
                 }
             } while (opcion < 1 && opcion > 2);
         }catch (ObjetoNuloException e){
@@ -80,7 +82,8 @@ public class GestorReservas {
         }
     }
 
-    public void modificar(String codigo) {
+    //Pendiente de modificar
+    public void modificar(String codigo, ArrayList<Habitacion>listaHabitaciones, ArrayList<Cliente> listaClientes) {
         Reserva reservaModificar = buscarReservaPorCodigo(codigo);
 
         int indiceReservaModificar = reservas.indexOf(reservaModificar);
@@ -99,8 +102,6 @@ public class GestorReservas {
             switch (opcion) {
                 case 1:
                     System.out.println("Seleccione la nueva habitación:");
-                    // Aquí deberías manejar la lógica para elegir una nueva habitación
-                    // Asumo que tienes una lista de habitaciones
                     System.out.println("Habitación modificada con éxito");
                     break;
                 case 2:
