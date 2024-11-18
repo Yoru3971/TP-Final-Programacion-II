@@ -1,5 +1,8 @@
 package gestores;
 
+import excepciones.ArregloVacioException;
+import excepciones.ObjetoNuloException;
+import excepciones.Verificador;
 import modelos.Empleado;
 import java.util.ArrayList;
 
@@ -45,20 +48,31 @@ public class GestorEmpleados implements IGestionable<String> {
 
     @Override
     public void eliminar(String dni) {
-        Empleado empleadoEliminar = buscarEmpleadoPorDni(dni);
+        try{
+            Empleado empleadoEliminar = buscarEmpleadoPorDni(dni);
+            if (!Verificador.verificarObjetoNulo(empleadoEliminar)){
+                throw new ObjetoNuloException("Empleado no encontrado");
+            }
+            int opcion;
+            do {
+            System.out.println("Confirmar eliminacion del empleado: ");
+            System.out.println(empleadoEliminar);
+            System.out.println("1. Si");
+            System.out.println("2. No");
 
-        System.out.println("Confirmar eliminacion del empleado: ");
-        System.out.println(empleadoEliminar);
+            opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
 
-        System.out.println("1. Si");
-        System.out.println("2. No");
-
-        int opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
-        if(opcion == 1){
-            empleados.remove(empleadoEliminar);
-            System.out.println("Empleado eliminado del sistema con éxito.");
-        }else{
-            System.out.println("El empleado no fue eliminado del sistema.");
+            if(opcion == 1){
+                empleados.remove(empleadoEliminar);
+                System.out.println("Empleado eliminado del sistema con éxito.");
+            }else if (opcion == 2){
+                System.out.println("El empleado no fue eliminado del sistema.");
+            }else {
+                System.out.println("Numero ingresado incorrecto, ingrese 1 para eliminar y 2 para cancelar la eliminacion");
+            }
+            }while(opcion < 1 && opcion > 2);
+        }catch (ObjetoNuloException e){
+            System.out.println(e.getMessage());
         }
     }
 
@@ -66,12 +80,15 @@ public class GestorEmpleados implements IGestionable<String> {
     public void listar() {
         System.out.println("\nLista de Empleados");
         System.out.println("=========================");
-        if (empleados.isEmpty()) {
-            System.out.println("No hay empleados registrados.");
-        } else {
-            for (Empleado e : empleados) {
-                System.out.println(e);
+
+        try{
+            if(Verificador.verificarArregloVacio(empleados)){
+                for (Empleado empleado : empleados){
+                    System.out.println(empleado);
+                }
             }
+        }catch (ArregloVacioException e){
+            System.out.println(e.getMessage());
         }
     }
 

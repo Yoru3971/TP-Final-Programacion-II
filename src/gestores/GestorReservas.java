@@ -1,5 +1,8 @@
 package gestores;
 
+import excepciones.ArregloVacioException;
+import excepciones.ObjetoNuloException;
+import excepciones.Verificador;
 import modelos.Reserva;
 
 import java.time.LocalDate;
@@ -32,19 +35,48 @@ public class GestorReservas {
 
     public void eliminar(String codigo) {
         //Cuando se elimine una reserva se deben liberar los dias que se bloquearon para dicha reserva en la habitacion
-        Reserva reserva = buscarReservaPorCodigo(codigo);
-        reservas.remove(reserva);
-    }
+
+        try{
+            Reserva reservaEliminar = buscarReservaPorCodigo(codigo);
+            if (!Verificador.verificarObjetoNulo(reservaEliminar)) {
+                throw new ObjetoNuloException("Reserva no encontrada");
+            }
+            int opcion;
+            do {
+                System.out.println("Confirmar eliminación de la reserva con el codigo " + codigo + ": ");
+                System.out.println("1. Sí");
+                System.out.println("2. No");
+
+                opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
+                //GestorEntradas.limpiarBuffer();
+
+                if (opcion == 1) {
+                    reservaEliminar.liberarFechas();
+                    reservas.remove(reservaEliminar);
+                    System.out.println("Reserva eliminada del sistema con éxito.");
+                } else if (opcion == 2) {
+                    System.out.println("La reserva no fue eliminado del sistema.");
+                } else {
+                    System.out.println("Número ingresado incorrecto, ingrese 1 para eliminar o 2 para cancelar");
+                }
+            } while (opcion < 1 && opcion > 2);
+        }catch (ObjetoNuloException e){
+            System.out.println(e.getMessage());
+        }
+      }
 
     public void listar() {
         System.out.println("\nLista de Reservas");
         System.out.println("=========================");
-        if (reservas.isEmpty()) {
-            System.out.println("No hay reservas registradas.");
-        } else {
-            for (Reserva r : reservas) {
-                System.out.println(r);
+
+        try{
+            if (Verificador.verificarArregloVacio(reservas)){
+                for (Reserva reserva : reservas){
+                    System.out.println(reserva);
+                }
             }
+        }catch (ArregloVacioException e){
+            System.out.println(e.getMessage());
         }
     }
 

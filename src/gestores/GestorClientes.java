@@ -1,6 +1,7 @@
 package gestores;
 
 import excepciones.ArregloVacioException;
+import excepciones.ObjetoNuloException;
 import excepciones.Verificador;
 import modelos.Cliente;
 import java.util.ArrayList;
@@ -59,16 +60,31 @@ public class GestorClientes implements IGestionable<String> {
 
     @Override
     public void eliminar(String dni) {
-        Cliente clienteEliminar = buscarClientePorDni(dni);
-        System.out.println("Confirmar eliminación del cliente: ");
-        System.out.println(clienteEliminar);
+        try {
+            Cliente clienteEliminar = buscarClientePorDni(dni);
+            if (!Verificador.verificarObjetoNulo(clienteEliminar)) {
+                throw new ObjetoNuloException("Cliente no encontrado");
+            }
+            int opcion;
+            do {
+                System.out.println("Confirmar eliminación del cliente con DNI " + dni + ": ");
+                System.out.println("1. Sí");
+                System.out.println("2. No");
 
-        int opcion = GestorEntradas.pedirEntero("1. Sí 2. No");
-        if (opcion == 1) {
-            clientes.remove(clienteEliminar);
-            System.out.println("Cliente eliminado del sistema con éxito.");
-        } else {
-            System.out.println("El cliente no fue eliminado del sistema.");
+                opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
+                //GestorEntradas.limpiarBuffer();
+
+                if (opcion == 1) {
+                    clientes.remove(clienteEliminar);
+                    System.out.println("Cliente eliminado del sistema con éxito.");
+                } else if (opcion == 2) {
+                    System.out.println("El cliente no fue eliminado del sistema.");
+                } else {
+                    System.out.println("Número ingresado incorrecto, ingrese 1 para eliminar o 2 para cancelar");
+                }
+            } while (opcion < 1 && opcion > 2);
+        } catch (ObjetoNuloException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -86,8 +102,6 @@ public class GestorClientes implements IGestionable<String> {
         }catch(ArregloVacioException e){
             System.out.println(e.getMessage());
         }
-
-
     }
 
     @Override
