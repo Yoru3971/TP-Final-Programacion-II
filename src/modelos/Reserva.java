@@ -6,7 +6,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class Reserva {
-    private final String codigo;
+    private static int contadorCodigo = 0;
+    private final Integer codigo;
     private Habitacion habitacion;
     private Cliente cliente;
     private LocalDate checkIn;
@@ -15,7 +16,7 @@ public class Reserva {
 
     //Constructores
     public Reserva(Habitacion habitacion, Cliente cliente, LocalDate checkIn, LocalDate checkOut) {
-        this.codigo = UUID.randomUUID().toString().toUpperCase();
+        this.codigo = contadorCodigo++;
         this.habitacion = habitacion;
         this.cliente = cliente;
         this.checkIn = checkIn;
@@ -54,7 +55,7 @@ public class Reserva {
     }
 
     //Getters y Setters
-    public String getCodigo() {
+    public Integer getCodigo() {
         return codigo;
     }
     public Habitacion getHabitacion() {

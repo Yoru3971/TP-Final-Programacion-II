@@ -2,6 +2,7 @@ package menu;
 
 import enumeraciones.TipoEmpleado;
 import excepciones.CredencialesIncorrectasException;
+import excepciones.ObjetoNuloException;
 import gestores.*;
 import modelos.*;
 import excepciones.Verificador;
@@ -323,7 +324,19 @@ public class Menu {
                     //guardarla en el archivo
                 }
                 case 3 -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(),gestorClientes.getClientes());
-                case 4 -> gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
+                case 4 -> {
+                    Habitacion habitacionNueva = gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
+                    //Logica para liberar las fechas en la habitacion de la reserva eliminada.
+                    try{
+                        if (!Verificador.verificarObjetoNulo(habitacionNueva)){ //Verifico que el objeto se haya eliminado de la reserva.(Logica dentro de eliminar)
+                            Habitacion habitacionReemplazar = gestorHabitaciones.buscarHabitacionPorNumero(habitacionNueva.getNumeroHabitacion()); // Obtengo la habitacion a pisar.
+                            Integer indiceHabitacion = gestorHabitaciones.getHabitaciones().indexOf(habitacionReemplazar); //
+                            gestorHabitaciones.getHabitaciones().set(indiceHabitacion, habitacionNueva);
+                        }
+                    }catch (ObjetoNuloException e){
+                        System.out.println(e.getMessage());
+                    }
+                }
                 case 0 -> {
                     GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json");
                     System.out.println("Volviendo al menú anterior...");

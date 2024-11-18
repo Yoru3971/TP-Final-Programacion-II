@@ -35,11 +35,10 @@ public class GestorReservas {
         System.out.println("Reserva agregada con éxito.");
     }
 
-    public void eliminar(String codigo) {
+    public Habitacion eliminar(String codigo) {
         //Cuando se elimine una reserva se deben liberar los dias que se bloquearon para dicha reserva en la habitacion
-
+        Reserva reservaEliminar = buscarReservaPorCodigo(codigo);
         try{
-            Reserva reservaEliminar = buscarReservaPorCodigo(codigo);
             if (!Verificador.verificarObjetoNulo(reservaEliminar)) {
                 throw new ObjetoNuloException("Reserva no encontrada");
             }
@@ -55,9 +54,10 @@ public class GestorReservas {
                 if (opcion == 1) {
                     reservaEliminar.liberarFechas();
                     reservas.remove(reservaEliminar);
-                    System.out.println("Reserva eliminada del sistema con éxito");
+                    System.out.println("Reserva eliminada del sistema con éxito.");
                 } else if (opcion == 2) {
-                    System.out.println("La reserva no fue eliminado del sistema");
+                    reservaEliminar.setHabitacion(null);
+                    System.out.println("La reserva no fue eliminado del sistema.");
                 } else {
                     System.out.println("Opcion no valida. Intente nuevamente");
                 }
@@ -65,7 +65,8 @@ public class GestorReservas {
         }catch (ObjetoNuloException e){
             System.out.println(e.getMessage());
         }
-      }
+        return reservaEliminar.getHabitacion();
+    }
 
     public void listar() {
         System.out.println("\nLista de Reservas");
