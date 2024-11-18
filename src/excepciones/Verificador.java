@@ -134,4 +134,124 @@ public class Verificador {
         return true;
     }
 
+    //Metodo para verificar si el DNI es valido
+    public static boolean verificarDNI(String dni) throws NombreInvalidoException {
+        // Verificar que no sea null o esté vacío
+        if (dni == null || dni.trim().isEmpty()) {
+            throw new NombreInvalidoException("El DNI no puede estar vacío.");
+        }
+        // Verificar que contenga solo dígitos
+        if (!dni.matches("\\d+")) { // Expresión regular para validar solo números
+            throw new NombreInvalidoException("El DNI solo debe contener números.");
+        }
+        // Verificar longitud mínima
+        if (dni.length() < 8) {
+            throw new NombreInvalidoException("El DNI debe tener al menos 8 dígitos.");
+        }
+        return true;
+    }
+
+
+    public static boolean verificarDNIUnico(String dni, ArrayList<? extends Persona> personas) throws ClienteExistenteException {
+        for (Persona persona : personas) {
+            if (persona.getDni().equals(dni)) {
+                throw new ClienteExistenteException("El DNI ingresado ya está registrado en el sistema.");
+            }
+        }
+        return true;
+    }
+
+
+    // Metodo para verificar si el nombre es válido
+    public static boolean verificarNombre(String nombre) throws NombreInvalidoException {
+        if (nombre == null || nombre.trim().isEmpty()) {
+            throw new NombreInvalidoException("El nombre no puede estar vacío.");
+        }
+        if (!nombre.matches("[a-zA-Z]+")) {
+            throw new NombreInvalidoException("Nombre invalido, solo debe contener letras (minusculas y mayusculas, sin espacios)");
+        }
+        return true;
+    }
+
+    // Metodo para verificar si el apellido es válido
+    public static boolean verificarApellido(String apellido) throws ApellidoInvalidoException {
+        if (apellido == null || apellido.trim().isEmpty()) {
+            throw new ApellidoInvalidoException("El apellido no puede estar vacío.");
+        }
+        if (!apellido.matches("[a-zA-Z]+")) {
+            throw new ApellidoInvalidoException("Apellido invalido, solo debe contener letras (minusculas y mayusculas, sin espacios)");
+        }
+        return true;
+    }
+
+    // Metodo para verificar si la nacionalidad es válida
+    public static boolean verificarNacionalidad(String nacionalidad) throws NacionalidadInvalidaException {
+        if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
+            throw new NacionalidadInvalidaException("La nacionalidad no puede estar vacía.");
+        }
+        if (!nacionalidad.matches("[a-zA-Z]+")) {
+            throw new NacionalidadInvalidaException("Nacionalidad invalida, solo debe contener letras (minusculas y mayusculas, sin espacios)");
+        }
+        return true;
+    }
+
+    // Metodo para verificar si el domicilio es válido (letras, números y espacios)
+    public static boolean verificarDomicilio(String domicilio) throws DomicilioInvalidoException {
+        if (domicilio == null || domicilio.trim().isEmpty()) {
+            throw new DomicilioInvalidoException("El domicilio no puede estar vacío.");
+        }
+        if (!domicilio.matches("[a-zA-Z0-9 ]+")) {
+            throw new DomicilioInvalidoException("Domicilio invalido, solo puede contener letras, numeros y espacios");
+        }
+        return true;
+    }
+
+    // Metodo para verificar si el teléfono es válido
+    public static boolean verificarTelefono(String telefono) throws TelefonoInvalidoException {
+        if (telefono == null || telefono.trim().isEmpty()) {
+            throw new TelefonoInvalidoException("El teléfono no puede estar vacío.");
+        }
+        if (!telefono.matches("\\d{10,15}")) { // 10 a 15 dígitos
+            throw new TelefonoInvalidoException("Teléfono invalido, debe contener solo números y el largo debe ser adecuado");
+        }
+        return true;
+    }
+
+    // Metodo para verificar si el mail es válido (formato básico)
+    public static boolean verificarMail(String mail) throws MailInvalidoException {
+        if (mail == null || mail.trim().isEmpty()) {
+            throw new MailInvalidoException("El correo electrónico no puede estar vacío.");
+        }
+        if (!mail.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
+            throw new MailInvalidoException("Email invalido, debe tener el formato correcto (ejemplo: nombre@dominio.com)");
+        }
+        return true;
+    }
+
+    public static void verificarSalario(Double salario) throws SalarioInvalidoException {
+        if (salario == null || salario <= 0) {
+            throw new SalarioInvalidoException("El salario debe ser un número positivo.");
+        }
+    }
+
+    public static void verificarNumeroHabitacion(Integer numero, ArrayList<Habitacion> habitaciones) throws NumeroHabitacionInvalidoException, HabitacionExistenteException {
+        if (numero == null || numero <= 0) {
+            throw new NumeroHabitacionInvalidoException("El número de habitación debe ser un entero positivo mayor a 0.");
+        }
+
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getNumeroHabitacion().equals(numero)) {
+                throw new HabitacionExistenteException("El número de habitación ya existe en el sistema.");
+            }
+        }
+    }
+
+    public static void verificarPrecioHabitacion(Double precio) throws PrecioInvalidoException {
+        if (precio == null || precio <= 0) {
+            throw new PrecioInvalidoException("El precio diario debe ser un valor positivo.");
+        }
+    }
+
+
+
 }
