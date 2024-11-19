@@ -45,4 +45,10 @@ public class GestorEntradas {
             System.err.println("Error al intentar limpiar la consola.");
         }
     }
+
+    public static void pausarConsola() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Presiona Enter para continuar...");
+        scanner.nextLine();
+    }
 }

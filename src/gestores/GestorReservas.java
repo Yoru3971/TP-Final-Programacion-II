@@ -81,6 +81,8 @@ public class GestorReservas {
         }catch (ArregloVacioException e){
             System.out.println(e.getMessage());
         }
+
+        GestorEntradas.pausarConsola();
     }
 
     //Pendiente de modificar

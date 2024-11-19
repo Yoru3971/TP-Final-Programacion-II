@@ -202,6 +202,8 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         } catch (ArregloVacioException e) {
             System.out.println(e.getMessage());
         }
+
+        GestorEntradas.pausarConsola();
     }
 
     //Metodos para pedir atributos unicos de Habitacion

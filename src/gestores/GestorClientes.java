@@ -360,6 +360,8 @@ public class GestorClientes implements IGestionable<String> {
         }catch(ArregloVacioException e){
             System.out.println(e.getMessage());
         }
+
+        GestorEntradas.pausarConsola();
     }
 
     //Metodos de busqueda
