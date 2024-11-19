@@ -72,7 +72,6 @@ public class GestorArchivos {
 
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
             gsonToUse.toJson(arreglo, writer);
-            System.out.println("Archivo de " + arreglo.getFirst().getClass().getSimpleName() + "s guardado exitosamente en: " + nombreArchivo);
         } catch (IOException e) {
             System.out.println("Error al escribir el archivo: " + e.getMessage());
         }
@@ -87,15 +86,12 @@ public class GestorArchivos {
             Type listType = TypeToken.getParameterized(ArrayList.class, clase).getType();
             elementos = gson.fromJson(reader, listType);
 
-            if (elementos != null && !elementos.isEmpty()) {
-                System.out.println("Archivo de " + clase.getSimpleName() + "s leído exitosamente.");
-            } else {
-                System.out.println("El archivo está vacío o no contiene elementos válidos.");
+            if (elementos == null || elementos.isEmpty()) {
+                System.out.println("La base de datos está vacía");
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
         return elementos;
     }
-
 }
