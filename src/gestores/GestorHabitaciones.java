@@ -248,7 +248,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     //Metodo para ver disponibilidad de habitacion
     public void verDisponibilidad (Integer numeroHabitacion) {
         Habitacion habitacion = buscarHabitacionPorNumero(numeroHabitacion);
-        habitacion.mostrarCalendarioProximos12MesesEnFilas();
+        habitacion.mostrarCalendario12Meses();
     }
 
     //Metodos de busqueda

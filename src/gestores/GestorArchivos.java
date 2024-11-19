@@ -1,6 +1,6 @@
 package gestores;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
@@ -16,47 +16,74 @@ import java.util.Map;
 
 public class GestorArchivos {
 
+    //Gson centralizado con adaptador para LocalDate
+    private static final Gson gson = new GsonBuilder()
+            //Serializador para pasar atributos de tipo LocalDate a String para escribir en archivo
+            .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>)
+                    (src, typeOfSrc, context) -> new JsonPrimitive(src.toString()))
+            //Deserualizador para pasar atributos de tipo String a LocalDate leyendo de un archivo
+            .registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>)
+                    (json, type, context) -> LocalDate.parse(json.getAsJsonPrimitive().getAsString()))
+            .create();
+
     public static void hacerBackup(HashMap<String, ArrayList<?>> datosBackup) throws IOException {
-        //Obtener la fecha actual para nombrar la carpeta
+        //Obtengo la fecha actual para nombrar la carpeta
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String nombreCarpeta = "Backup_" + fechaActual.format(formatoFecha);
 
-        //Crear la carpeta de backup
+        //Creo la carpeta de backup
         File carpetaBackup = new File(nombreCarpeta);
         if (!carpetaBackup.exists() && !carpetaBackup.mkdirs()) {
             throw new IOException("No se pudo crear la carpeta de backup.");
         }
 
-        //Guardar cada lista en su archivo correspondiente
+        //Guardo cada lista en su archivo correspondiente
         for (Map.Entry<String, ArrayList<?>> entry : datosBackup.entrySet()) {
             String rutaArchivo = new File(carpetaBackup, entry.getKey() + ".json").getAbsolutePath();
-            escribirArregloEnArchivo(entry.getValue(), rutaArchivo);
+
+            //Chequeo si la lista que estoy serializando es la de habitaciones, para pasarle true como 3er parametro
+            if(entry.getKey().equals("habitaciones")) {
+                escribirArregloEnArchivo(entry.getValue(), rutaArchivo, true);
+            } else {
+                escribirArregloEnArchivo(entry.getValue(), rutaArchivo, false);
+            }
         }
 
         System.out.println("Backup completado en la carpeta: " + nombreCarpeta);
     }
 
+    //Metodo para escribir arreglos en archivos
+    public static <T> void escribirArregloEnArchivo(ArrayList<T> arreglo, String nombreArchivo, boolean usarAdaptadorLocalDate) {
+        if (arreglo == null || arreglo.isEmpty()) {
+            System.out.println("El arreglo está vacío. No se escribirá el archivo.");
+            return;
+        }
 
-    public static <T> void escribirArregloEnArchivo(ArrayList<T> arreglo, String nombreArchivo) {
-        Gson gson = new Gson();
+        Gson gsonToUse = gson;
+        if (usarAdaptadorLocalDate) {
+            gsonToUse = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, (JsonSerializer<LocalDate>)
+                            (src, typeOfSrc, context) -> new JsonPrimitive(src.toString())) //Serializador LocalDate
+                    .registerTypeAdapter(LocalDate.class, (JsonDeserializer<LocalDate>)
+                            (json, type, context) -> LocalDate.parse(json.getAsJsonPrimitive().getAsString())) //Deserializador LocalDate
+                    .create();
+        }
 
         try (FileWriter writer = new FileWriter(nombreArchivo)) {
-            gson.toJson(arreglo, writer);
-            //Eliminar, esto sirve para testing
-            System.out.println("Archivo de "+  arreglo.getFirst().getClass().getName()+"s guardado exitosamente.");
+            gsonToUse.toJson(arreglo, writer);
+            System.out.println("Archivo de " + arreglo.getFirst().getClass().getSimpleName() + "s guardado exitosamente en: " + nombreArchivo);
         } catch (IOException e) {
-            System.out.println("Error al escribir el archivo.");
+            System.out.println("Error al escribir el archivo: " + e.getMessage());
         }
     }
 
+    //Metodo para leer arreglos de archivos
     public static <T> ArrayList<T> leerArregloDeArchivo(String nombreArchivo, Class<T> clase) {
-        Gson gson = new Gson();
-
         ArrayList<T> elementos = new ArrayList<>();
 
         try (FileReader reader = new FileReader(nombreArchivo)) {
-            // Utilizar TypeToken para deserializar un ArrayList del tipo T
+            //Usamos TypeToken para deserializar un ArrayList generico
             Type listType = TypeToken.getParameterized(ArrayList.class, clase).getType();
             elementos = gson.fromJson(reader, listType);
 
@@ -68,7 +95,7 @@ public class GestorArchivos {
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());
         }
-
         return elementos;
     }
+
 }

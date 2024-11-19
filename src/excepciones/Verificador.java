@@ -2,6 +2,7 @@ package excepciones;
 
 import modelos.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -259,4 +260,14 @@ public class Verificador {
         return true;
     }
 
+    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) {
+        LocalDate fecha = checkIn;
+        while (!fecha.isAfter(checkOut)) {
+            if (!habitacion.isDisponible(fecha)) {
+                throw new HabitacionNoDisponibleException("La habitacion no esta disponible en las fechas que solicito. ");
+            }
+            fecha = fecha.plusDays(1);
+        }
+        return true;
+    }
 }

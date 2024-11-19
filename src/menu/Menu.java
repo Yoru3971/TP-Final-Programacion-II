@@ -217,7 +217,7 @@ public class Menu {
                 case 4 -> gestorEmpleados.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del empleado a eliminar: "));
                 case 5 -> buscarEmpleadoPorDNI();
                 case 0 -> {
-                    GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados.json");
+                    GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados.json", false);
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -239,7 +239,6 @@ public class Menu {
     //Metodos para gestionar habitaciones
     private void gestionarHabitacionesAdmin() {
         gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
-
         int opcion;
         do {
             GestorEntradas.limpiarConsola();
@@ -261,7 +260,7 @@ public class Menu {
                 case 5 -> buscarHabitacionPorNumero();
                 case 6 -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion de la cual desea ver el calendario: "));
                 case 0 -> {
-                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json");
+                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json", true);
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -279,7 +278,7 @@ public class Menu {
             System.out.println("1. Listar Habitaciones");
             System.out.println("2. Modificar estado de una habitación");
             System.out.println("3. Buscar Habitación por Número");
-            System.out.println("6. Ver Disponibilidad de una Habitacion");
+            System.out.println("4. Ver Disponibilidad de una Habitacion");
             System.out.println("0. Volver al menú anterior");
             opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");  // Usando GestorEntradas
 
@@ -289,7 +288,7 @@ public class Menu {
                 case 3 -> buscarHabitacionPorNumero();
                 case 4 -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion de la cual desea ver el calendario: "));
                 case 0 -> {
-                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json");
+                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json",true);
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -331,7 +330,7 @@ public class Menu {
                 case 4 -> gestorClientes.eliminar(GestorEntradas.pedirCadena("Ingrese el dni del cliente a eliminar: "));
                 case 5 -> buscarClientePorDNI();
                 case 0 -> {
-                    GestorArchivos.escribirArregloEnArchivo(gestorClientes.getClientes(), "clientes.json");
+                    GestorArchivos.escribirArregloEnArchivo(gestorClientes.getClientes(), "clientes.json", false);
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
@@ -404,7 +403,7 @@ public class Menu {
                     }
                 }
                 case 0 -> {
-                    GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json");
+                    GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json", false);
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
