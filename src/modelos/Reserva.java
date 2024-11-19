@@ -3,7 +3,6 @@ package modelos;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
-import java.util.UUID;
 
 public class Reserva {
     private static int contadorCodigo = 0;
@@ -101,7 +100,6 @@ public class Reserva {
     public int hashCode() {
         return Objects.hash(codigo, habitacion, cliente);
     }
-
     @Override
     public String toString() {
         String colorAzul = "\u001B[34m";

@@ -2,7 +2,7 @@ package modelos;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import enumeraciones.EstadoHabitacion;
@@ -10,30 +10,32 @@ import enumeraciones.TipoHabitacion;
 
 public class Habitacion {
     private Integer numeroHabitacion;
-    private HashSet<LocalDate> disponibilidadReserva; // Solo almacenará fechas reservadas
+    private ArrayList<LocalDate> fechasReservadas; // Solo almacenará fechas reservadas
     private EstadoHabitacion estadoActual;
     private TipoHabitacion tipoHabitacion;
     private Double precioDiario;
 
     //Constructores
+    public Habitacion() {
+    }
     public Habitacion(Integer numeroHabitacion, EstadoHabitacion estadoActual, TipoHabitacion tipoHabitacion, Double precioDiario) {
         this.numeroHabitacion = numeroHabitacion;
         this.estadoActual = estadoActual;
         this.tipoHabitacion = tipoHabitacion;
         this.precioDiario = precioDiario;
-        this.disponibilidadReserva = new HashSet<>();
+        this.fechasReservadas = new ArrayList<>();
     }
 
     //Metodo para verificar la disponibilidad de un día específico
     public boolean isDisponible(LocalDate fecha) {
         // Si la fecha NO está en el conjunto, entonces está disponible
-        return !disponibilidadReserva.contains(fecha);
+        return !fechasReservadas.contains(fecha);
     }
 
     //Metodo para reservar un día
     public boolean reservarDia(LocalDate fecha) {
         if (isDisponible(fecha)) {
-            disponibilidadReserva.add(fecha); // Agrega la fecha al conjunto
+            fechasReservadas.add(fecha); // Agrega la fecha al conjunto
             return true;
         }
         return false;
@@ -41,7 +43,7 @@ public class Habitacion {
 
     //Metodo para cancelar la reserva de un dia
     public void liberarDia(LocalDate fecha) {
-        disponibilidadReserva.remove(fecha); // Elimina la fecha del conjunto
+        fechasReservadas.remove(fecha); // Elimina la fecha del conjunto
     }
 
     //Metodo para mostrar disponibilidad en formato calendario
@@ -69,7 +71,7 @@ public class Habitacion {
             LocalDate fechaActual = mesActual.atDay(dia);
 
             // Si la fecha esta reservada se mostrara en rojo con "err" en el print, sino en blanco
-            if (disponibilidadReserva.contains(fechaActual)) {
+            if (fechasReservadas.contains(fechaActual)) {
                 System.err.printf("%2d ", dia);
             } else {
                 System.out.printf("%2d ", dia);
@@ -88,37 +90,41 @@ public class Habitacion {
     ///Este metodo lo hizo chatgpt, no tiene la mecanica de mostrar unicamente la disponibilidad que solicita el usuario
     ///pero al mostrar los ultimos 12 meses es mas util que el anterior <3
     ///Nota: si este funciona a la perfeccion estaria bueno eliminar el de arriba q esta medio useless xd
-    public void mostrarCalendarioProximos12MesesEnFilas() {
+    public void mostrarCalendario12Meses() {
         LocalDate hoy = LocalDate.now();
-        System.out.println("Calendario de la Habitacion: " + this.numeroHabitacion);
+        System.out.println("Calendario de los próximos 12 meses para la Habitación: " + this.numeroHabitacion);
 
-        int mesesPorFila = 4; // Mostraremos 4 meses por fila
-        for (int fila = 0; fila < 3; fila++) {
-            // Imprimimos la cabecera de los meses (nombres y años)
-            for (int columna = 0; columna < mesesPorFila; columna++) {
-                int mesOffset = fila * mesesPorFila + columna;
-                YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
-                System.out.printf("%-20s", mesActual.getMonth() + " " + mesActual.getYear());
+        for (int mesOffset = 0; mesOffset < 12; mesOffset++) {
+            YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
+            System.out.println("\n" + mesActual.getMonth() + " " + mesActual.getYear());
+            System.out.println("Lu Ma Mi Ju Vi Sa Do");
+
+            // Imprimir los días del mes
+            int diasEnMes = mesActual.lengthOfMonth();
+            LocalDate primerDia = mesActual.atDay(1);
+            int primerDiaSemana = primerDia.getDayOfWeek().getValue();
+
+            // Espacios iniciales para alinear el primer día correctamente
+            for (int i = 1; i < primerDiaSemana; i++) {
+                System.out.print("   ");
             }
-            System.out.println();
 
-            // Imprimimos la cabecera de los días de la semana para cada mes
-            for (int columna = 0; columna < mesesPorFila; columna++) {
-                System.out.print("Lu Ma Mi Ju Vi Sa Do  ");
-            }
-            System.out.println();
+            for (int dia = 1; dia <= diasEnMes; dia++) {
+                LocalDate fechaActual = mesActual.atDay(dia);
 
-            // Imprimimos las semanas de cada mes
-            for (int semana = 0; semana < 6; semana++) { // Máximo de 6 semanas en un mes
-                for (int columna = 0; columna < mesesPorFila; columna++) {
-                    int mesOffset = fila * mesesPorFila + columna;
-                    YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
-                    imprimirSemana(mesActual, semana);
-                    System.out.print("  "); // Espacio entre meses
+                // Si el día está reservado, mostrar en rojo; de lo contrario, en blanco
+                if (fechasReservadas.contains(fechaActual)) {
+                    System.out.printf("%2d ", dia);
+                } else {
+                    System.out.printf("%2d ", dia);
                 }
-                System.out.println();
+
+                // Salta a la siguiente línea al final de la semana
+                if ((dia + primerDiaSemana - 1) % 7 == 0) {
+                    System.out.println();
+                }
             }
-            System.out.println(); // Espacio entre filas de meses
+            System.out.println(); // Salto de línea entre meses
         }
     }
 
@@ -135,7 +141,7 @@ public class Habitacion {
             } else {
                 LocalDate fechaActual = mesActual.atDay(dia);
                 // Comprobar si la fecha está reservada
-                if (disponibilidadReserva.contains(fechaActual)) {
+                if (fechasReservadas.contains(fechaActual)) {
                     System.err.printf("%2d ", dia); // Día reservado en rojo
                 } else {
                     System.out.printf("%2d ", dia); // Día disponible en blanco
@@ -151,11 +157,11 @@ public class Habitacion {
     public void setNumeroHabitacion(Integer numeroHabitacion) {
         this.numeroHabitacion = numeroHabitacion;
     }
-    public HashSet<LocalDate> getDisponibilidadReserva() {
-        return disponibilidadReserva;
+    public ArrayList<LocalDate> getFechasReservadas() {
+        return fechasReservadas;
     }
-    public void setDisponibilidadReserva(HashSet<LocalDate> disponibilidadReserva) {
-        this.disponibilidadReserva = disponibilidadReserva;
+    public void setFechasReservadas(ArrayList<LocalDate> fechasReservadas) {
+        this.fechasReservadas = fechasReservadas;
     }
     public EstadoHabitacion getEstadoActual() {
         return estadoActual;
@@ -188,7 +194,6 @@ public class Habitacion {
     public int hashCode() {
         return Objects.hash(numeroHabitacion, tipoHabitacion);
     }
-
     @Override
     public String toString() {
         String colorAzul = "\u001B[34m";

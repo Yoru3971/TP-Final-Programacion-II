@@ -63,12 +63,10 @@ public class Empleado extends Persona{
         Empleado empleado = (Empleado) o;
         return Objects.equals(usuario, empleado.usuario) && Objects.equals(clave, empleado.clave);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), usuario, clave);
     }
-
     @Override
     public String toString() {
         String colorAzul = "\u001B[34m";

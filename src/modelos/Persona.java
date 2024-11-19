@@ -78,7 +78,6 @@ public abstract class Persona {
     public int hashCode() {
         return Objects.hashCode(dni);
     }
-
     @Override
     public String toString() {
         String colorAzul = "\u001B[34m";
