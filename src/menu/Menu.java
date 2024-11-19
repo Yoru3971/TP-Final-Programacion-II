@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Menu {
-
     private Empleado empleadoLogueado;
     private GestorEmpleados gestorEmpleados;
     private GestorClientes gestorClientes;
@@ -87,7 +86,7 @@ public class Menu {
             if (empleadoLogueado == null && intentos >= 3) {
                 JOptionPane.showMessageDialog(null, "Número máximo de intentos alcanzado.", "Error", JOptionPane.ERROR_MESSAGE);
             } else if (empleadoLogueado != null) {
-                JOptionPane.showMessageDialog(null, "¡Bienvenido, " + empleadoLogueado.getNombre() + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "¡Bienvenido/a, " + empleadoLogueado.getNombre() + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (RuntimeException e) {
             System.err.println("No se pudo abrir el archivo.");
@@ -105,11 +104,13 @@ public class Menu {
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
                 menuAdministrador();
             } else if (empleadoLogueado.getCargo() == TipoEmpleado.RECEPCIONISTA) {
+
                 if (empleadoLogueado.getUsuario().equals(empleadoLogueado.getNombre().concat(empleadoLogueado.getApellido()))
                     && empleadoLogueado.getClave().equals(empleadoLogueado.getDni())){
                     System.out.println("Registramos que usted es un nuevo recepcionista, porfavor renueve su clave y usuario");
                     boolean valido = false;
-                        do {
+
+                    do {
                             try {
                                 String clave = GestorEntradas.pedirCadena("Ingrese nueva clave: ");
                                 if(Verificador.verificarClave(clave)){
@@ -133,9 +134,7 @@ public class Menu {
                                     empleadoLogueado.setUsuario(usuario);
                                     valido = true;
                                 }
-                            } catch (UsuarioInvalidoException e){
-                                System.err.println(e.getMessage());
-                            }catch (UsuarioRepetidoException e){
+                            } catch (UsuarioInvalidoException | UsuarioRepetidoException e){
                                 System.err.println(e.getMessage());
                             }
                         } while (!valido);
@@ -353,6 +352,8 @@ public class Menu {
     // Metodo para gestionar reservas
     private void gestionarReservas() {
         gestorReservas.setReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
+        //gestorClientes.setClientes(GestorArchivos.leerArregloDeArchivo("clientes.json",Cliente.class));
+        //gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
 
         int opcion;
         do {
@@ -405,6 +406,8 @@ public class Menu {
                 }
                 case 0 -> {
                     GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json");
+                    //GestorArchivos.escribirArregloEnArchivo(gestorClientes.getClientes(),"clientes.json");
+                    //GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(),"habitaciones.json");
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
