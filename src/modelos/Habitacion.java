@@ -50,7 +50,7 @@ public class Habitacion {
     public void mostrarCalendario() {
         /*Este metodo solo muestra la disponibilidad del mes que toma con el metodo now()
         En un futuro se deberia implementar que el cliente consulte disponibilidad de X fecha
-        y este metodo la reciba como parametro, para mostrar el calendario de esas fechas...*/
+        y este metodo la reciba como parametro, para mostrar el calendario de esos meses...*/
         ///Lo implementaremos unicamente si llegamos con el tiempo <3
         LocalDate hoy = LocalDate.now();
         YearMonth mesActual = YearMonth.of(hoy.getYear(), hoy.getMonth());
@@ -85,26 +85,26 @@ public class Habitacion {
         System.out.println();
     }
 
-    //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses
-    ///Es un tipo de solucion al metodo de arriba que solo mostraba la disponibilidad del ultimo mes
-    ///Este metodo lo hizo chatgpt, no tiene la mecanica de mostrar unicamente la disponibilidad que solicita el usuario
-    ///pero al mostrar los ultimos 12 meses es mas util que el anterior <3
-    ///Nota: si este funciona a la perfeccion estaria bueno eliminar el de arriba q esta medio useless xd
+    //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses con colores
+    /*
     public void mostrarCalendario12Meses() {
         LocalDate hoy = LocalDate.now();
         System.out.println("Calendario de los próximos 12 meses para la Habitación: " + this.numeroHabitacion);
+
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_RED = "\u001B[31m";
+        final String ANSI_GREEN = "\u001B[32m";
 
         for (int mesOffset = 0; mesOffset < 12; mesOffset++) {
             YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
             System.out.println("\n" + mesActual.getMonth() + " " + mesActual.getYear());
             System.out.println("Lu Ma Mi Ju Vi Sa Do");
 
-            // Imprimir los días del mes
+            //Imprimo los días del mes
             int diasEnMes = mesActual.lengthOfMonth();
             LocalDate primerDia = mesActual.atDay(1);
             int primerDiaSemana = primerDia.getDayOfWeek().getValue();
 
-            // Espacios iniciales para alinear el primer día correctamente
             for (int i = 1; i < primerDiaSemana; i++) {
                 System.out.print("   ");
             }
@@ -112,11 +112,11 @@ public class Habitacion {
             for (int dia = 1; dia <= diasEnMes; dia++) {
                 LocalDate fechaActual = mesActual.atDay(dia);
 
-                // Si el día está reservado, mostrar en rojo; de lo contrario, en blanco
+                //Se imprime el dia en verde si esta disponible y en rojo si esta ocupado
                 if (fechasReservadas.contains(fechaActual)) {
-                    System.out.printf("%2d ", dia);
+                    System.out.printf(ANSI_RED + "%2d " + ANSI_RESET, dia);
                 } else {
-                    System.out.printf("%2d ", dia);
+                    System.out.printf(ANSI_GREEN + "%2d " + ANSI_RESET, dia);
                 }
 
                 // Salta a la siguiente línea al final de la semana
@@ -124,9 +124,51 @@ public class Habitacion {
                     System.out.println();
                 }
             }
-            System.out.println(); // Salto de línea entre meses
+            System.out.println();
+        }
+    }*/
+
+    //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses sin colores
+    public void mostrarCalendario12Meses() {
+        LocalDate hoy = LocalDate.now();
+        System.out.println("Calendario de los próximos 12 meses para la Habitación: " + this.numeroHabitacion);
+
+        final String ANSI_RESET = "\u001B[0m";
+        final String ANSI_GRAY = "\u001B[90m";
+
+        for (int mesOffset = 0; mesOffset < 12; mesOffset++) {
+            YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
+            System.out.println("\n" + mesActual.getMonth() + " " + mesActual.getYear());
+            System.out.println("Lu Ma Mi Ju Vi Sa Do");
+
+            //Imprimo los días del mes
+            int diasEnMes = mesActual.lengthOfMonth();
+            LocalDate primerDia = mesActual.atDay(1);
+            int primerDiaSemana = primerDia.getDayOfWeek().getValue();
+
+            for (int i = 1; i < primerDiaSemana; i++) {
+                System.out.print("   ");
+            }
+
+            for (int dia = 1; dia <= diasEnMes; dia++) {
+                LocalDate fechaActual = mesActual.atDay(dia);
+
+                //Se imprime el día en gris si está ocupado y en blanco si está disponible
+                if (fechasReservadas.contains(fechaActual)) {
+                    System.out.printf(ANSI_GRAY + "%2d " + ANSI_RESET, dia);
+                } else {
+                    System.out.printf("%2d ", dia);
+                }
+
+                //Salta a la siguiente línea al final de la semana
+                if ((dia + primerDiaSemana - 1) % 7 == 0) {
+                    System.out.println();
+                }
+            }
+            System.out.println();
         }
     }
+
 
     //Metodo auxiliar para imprimir una semana de un mes específico
     private void imprimirSemana(YearMonth mesActual, int semana) {
