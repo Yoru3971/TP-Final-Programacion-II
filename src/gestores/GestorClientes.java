@@ -58,9 +58,10 @@ public class GestorClientes implements IGestionable<String> {
         do {
             try {
                 String nombre = GestorEntradas.pedirCadena("Ingrese nombre: ");
-                Verificador.verificarNombre(nombre);
-                nuevoCliente.setNombre(nombre);
-                nombreValido = true;
+                if(Verificador.verificarNombre(nombre)){
+                    nuevoCliente.setNombre(nombre);
+                    nombreValido = true;
+                }
             } catch (NombreInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -70,9 +71,10 @@ public class GestorClientes implements IGestionable<String> {
         do {
             try {
                 String apellido = GestorEntradas.pedirCadena("Ingrese apellido: ");
-                Verificador.verificarApellido(apellido);
-                nuevoCliente.setApellido(apellido);
-                apellidoValido = true;
+                if(Verificador.verificarApellido(apellido)){
+                    nuevoCliente.setApellido(apellido);
+                    apellidoValido = true;
+                }
             } catch (ApellidoInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -82,9 +84,10 @@ public class GestorClientes implements IGestionable<String> {
         do {
             try {
                 String nacionalidad = GestorEntradas.pedirCadena("Ingrese nacionalidad: ");
-                Verificador.verificarNacionalidad(nacionalidad);
-                nuevoCliente.setNacionalidad(nacionalidad);
-                nacionalidadValida = true;
+                if(Verificador.verificarNacionalidad(nacionalidad)){
+                    nuevoCliente.setNacionalidad(nacionalidad);
+                    nacionalidadValida = true;
+                }
             } catch (NacionalidadInvalidaException e) {
                 System.err.println(e.getMessage());
             }
@@ -94,9 +97,10 @@ public class GestorClientes implements IGestionable<String> {
         do {
             try {
                 String domicilio = GestorEntradas.pedirCadena("Ingrese domicilio: ");
-                Verificador.verificarDomicilio(domicilio);
-                nuevoCliente.setDomicilio(domicilio);
-                domicilioValido = true;
+                if(Verificador.verificarDomicilio(domicilio)){
+                    nuevoCliente.setDomicilio(domicilio);
+                    domicilioValido = true;
+                }
             } catch (DomicilioInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -106,9 +110,10 @@ public class GestorClientes implements IGestionable<String> {
         do {
             try {
                 String telefono = GestorEntradas.pedirCadena("Ingrese teléfono: ");
-                Verificador.verificarTelefono(telefono);
-                nuevoCliente.setTelefono(telefono);
-                telefonoValido = true;
+                if(Verificador.verificarTelefono(telefono)){
+                    nuevoCliente.setTelefono(telefono);
+                    telefonoValido = true;
+                }
             } catch (TelefonoInvalidoException e) {
                 System.err.println(e.getMessage());
             }
@@ -118,9 +123,10 @@ public class GestorClientes implements IGestionable<String> {
         do {
             try {
                 String mail = GestorEntradas.pedirCadena("Ingrese email: ");
-                Verificador.verificarMail(mail);
-                nuevoCliente.setMail(mail);
-                mailValido = true;
+                if(Verificador.verificarMail(mail)){
+                    nuevoCliente.setMail(mail);
+                    mailValido = true;
+                }
             } catch (MailInvalidoException e) {
                 System.err.println(e.getMessage());
             }
