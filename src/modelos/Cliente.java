@@ -25,7 +25,6 @@ public class Cliente extends Persona{
     @Override
     public String toString() {
         // Códigos de color
-        String colorRojo = "\u001B[31m";
         String colorVerde = "\u001B[32m";
         String colorAzul = "\u001B[34m";
         String resetColor = "\u001B[0m";
@@ -33,10 +32,10 @@ public class Cliente extends Persona{
         return "[" + colorAzul + "Cliente" + resetColor + ": " +
                 "DNI: " + colorVerde + getDni() + resetColor +
                 ", Nombre: " + colorVerde + getNombre() + " " + getApellido() + resetColor +
-                ", Nacionalidad: " + colorRojo + getNacionalidad() + resetColor +
+                ", Nacionalidad: " + colorVerde + getNacionalidad() + resetColor +
                 ", Domicilio: " + colorVerde + getDomicilio() + resetColor +
-                ", Teléfono: " + colorAzul + getTelefono() + resetColor +
-                ", Mail: " + colorRojo + getMail() + resetColor +
+                ", Teléfono: " + colorVerde + getTelefono() + resetColor +
+                ", Mail: " + colorVerde + getMail() + resetColor +
                 ", VIP: " + colorVerde + (clienteVip ? "Sí" : "No") + resetColor + "]";
     }
 }

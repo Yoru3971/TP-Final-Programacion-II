@@ -85,7 +85,7 @@ public abstract class Persona {
         String colorRojo = "\u001B[31m";
         String resetColor = "\u001B[0m";
 
-        return "[" + colorAzul + "Persona" + resetColor + ": " +
+        return "[" + colorAzul + "Persona" + resetColor + " - " +
                 "DNI: " + colorVerde + dni + resetColor +
                 ", Nombre: " + colorVerde + nombre + " " + apellido + resetColor +
                 ", Nacionalidad: " + colorRojo + nacionalidad + resetColor +

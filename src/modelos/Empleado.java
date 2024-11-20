@@ -71,17 +71,16 @@ public class Empleado extends Persona{
     public String toString() {
         String colorAzul = "\u001B[34m";
         String colorVerde = "\u001B[32m";
-        String colorRojo = "\u001B[31m";
         String resetColor = "\u001B[0m";
 
         return "[" + colorAzul + "Empleado" + resetColor + ": " +
                 "DNI: " + colorVerde + getDni() + resetColor +
                 ", Nombre: " + colorVerde + getNombre() + " " + getApellido() + resetColor +
-                ", Nacionalidad: " + colorRojo + getNacionalidad() + resetColor +
+                ", Nacionalidad: " + colorVerde + getNacionalidad() + resetColor +
                 ", Domicilio: " + colorVerde + getDomicilio() + resetColor +
-                ", Teléfono: " + colorAzul + getTelefono() + resetColor +
-                ", Mail: " + colorRojo + getMail() + resetColor +
-                ", Cargo: " + colorAzul + cargo + resetColor +
+                ", Teléfono: " + colorVerde + getTelefono() + resetColor +
+                ", Mail: " + colorVerde + getMail() + resetColor +
+                ", Cargo: " + colorVerde + cargo + resetColor +
                 ", Salario: " + colorVerde + salario + resetColor +"]";
     }
 }

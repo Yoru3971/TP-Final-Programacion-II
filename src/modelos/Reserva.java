@@ -104,15 +104,14 @@ public class Reserva {
     public String toString() {
         String colorAzul = "\u001B[34m";
         String colorVerde = "\u001B[32m";
-        String colorRojo = "\u001B[31m";
         String resetColor = "\u001B[0m";
 
-        return "[" + colorAzul + "Reserva" + resetColor + ": " +
+        return "[" + colorAzul + "Reserva" + resetColor + " - " +
                 "Código: " + colorVerde + ID + resetColor +
-                ", N° Habitación: " + colorAzul + habitacion.getNumeroHabitacion() + resetColor +
-                ", DNI Cliente: " + colorRojo + cliente.getDni() + resetColor +
+                ", N° Habitación: " + colorVerde + habitacion.getNumeroHabitacion() + resetColor +
+                ", DNI Cliente: " + colorVerde + cliente.getDni() + resetColor +
                 ", Fecha Inicio: " + colorVerde + checkIn + resetColor +
-                ", Fecha Fin: " + colorRojo + checkOut + resetColor +
-                ", Monto Total: " + colorAzul + montoTotal + resetColor + "]";
+                ", Fecha Fin: " + colorVerde + checkOut + resetColor +
+                ", Monto Total: " + colorVerde + montoTotal + resetColor + "]";
     }
 }
