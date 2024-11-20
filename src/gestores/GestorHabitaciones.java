@@ -183,40 +183,31 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         }
     }
 
-    //CHEQUEARRRRRRRRRRRRR
-    public void listarHabitacionesPorTipo(TipoHabitacion tipo) {
+    public void listarHabitacionesPorTipo() {
+        TipoHabitacion tipo = pedirTipoHabitacion();
+        boolean hayHabitaciones = false;
+        int contador = 1;
         if (tipo == null) {
-            System.out.println("El tipo de habitación proporcionado no es válido.");
+            System.out.println("El tipo de habitacion proporcionado no es valido.");
             return;
         }
-
         if (habitaciones == null || habitaciones.isEmpty()) {
             System.out.println("No hay habitaciones registradas en el sistema.");
             return;
         }
-
-        List<Habitacion> habitacionesFiltradas = obtenerHabitacionesPorTipo(tipo);
-
-        if (habitacionesFiltradas.isEmpty()) {
-            System.out.println("No se encontraron habitaciones del tipo: " + tipo);
-        } else {
-            System.out.println("Lista de habitaciones del tipo: " + tipo);
-            System.out.println("=====================================");
-            for (Habitacion habitacion : habitacionesFiltradas) {
-                System.out.println(habitacion);
-            }
-        }
-    }
-    private List<Habitacion> obtenerHabitacionesPorTipo(TipoHabitacion tipo) {
-        List<Habitacion> habitacionesFiltradas = new ArrayList<>();
+        System.out.println("\nHabitaciones con tipo: " + tipo);
+        System.out.println("===========================================");
         for (Habitacion habitacion : habitaciones) {
             if (habitacion.getTipoHabitacion().equals(tipo)) {
-                habitacionesFiltradas.add(habitacion);
+                System.out.println(contador + ": " + habitacion);
+                hayHabitaciones = true;
+                contador++;
             }
         }
-        return habitacionesFiltradas;
+        if (!hayHabitaciones) {
+            System.out.println("No se encontraron habitacion con el tipo: " + tipo);
+        }
     }
-    //CHECK THIS OUTTTT
 
     public void modificarEstado(Integer nroHabitacion) {
         Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
@@ -295,7 +286,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             case 2: return TipoHabitacion.DOBLE;
             case 3: return TipoHabitacion.MATRIMONIAL;
             case 4: return TipoHabitacion.SUITE;
-            default: return TipoHabitacion.SIMPLE;
+            default: return null;
         }
     }
 

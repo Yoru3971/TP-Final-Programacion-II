@@ -248,15 +248,17 @@ public class Menu {
                     System.out.println("1. Listar todas las habitaciones");
                     System.out.println("2. Listar habitaciones disponibles");
                     System.out.println("3. Listar habitaciones no disponibles");
+                    System.out.println("4. Listar habitaciones por tipo");
                     opcion = GestorEntradas.pedirCadena("Seleccione una opcion:");
                     switch (opcion){
                         case "1" -> gestorHabitaciones.listar();
                         case "2" -> gestorHabitaciones.listarHabitacionesDisponibles();
                         case "3" -> gestorHabitaciones.listarHabitacionesNoDisponibles();
-                        case "4" -> System.out.println("Volviendo al menú anterior...");
+                        case "4" -> gestorHabitaciones.listarHabitacionesPorTipo();
+                        case "5" -> System.out.println("Volviendo al menú anterior...");
+
                         default -> System.out.println("Opcion no valida. Intente denuevo");
                     }
-                    GestorEntradas.pausarConsola();
                 }
                 case "2" -> gestorHabitaciones.agregar();
                 case "3" -> gestorHabitaciones.modificar(GestorEntradas.pedirEntero("Ingrese el número de la habitación a modificar: "));
@@ -293,12 +295,15 @@ public class Menu {
                     System.out.println("1. Listar todas las habitaciones");
                     System.out.println("2. Listar habitaciones disponibles");
                     System.out.println("3. Listar habitaciones no disponibles");
+                    System.out.println("4. Listar habitaciones por tipo");
                     opcion = GestorEntradas.pedirCadena("Seleccione una opcion:");
                     switch (opcion){
                         case "1" -> gestorHabitaciones.listar();
                         case "2" -> gestorHabitaciones.listarHabitacionesDisponibles();
                         case "3" -> gestorHabitaciones.listarHabitacionesNoDisponibles();
-                        case "4" -> System.out.println("Volviendo al menú anterior...");
+                        case "4" -> gestorHabitaciones.listarHabitacionesPorTipo();
+                        case "5" -> System.out.println("Volviendo al menú anterior...");
+
                         default -> System.out.println("Opcion no valida. Intente denuevo");
                     }
                     GestorEntradas.pausarConsola();
