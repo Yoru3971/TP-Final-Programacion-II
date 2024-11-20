@@ -32,10 +32,12 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         Habitacion nuevaHabitacion = new Habitacion();
         System.out.println("Ingrese los datos de la nueva habitación: ");
 
-        pedirNroHabitacion(nuevaHabitacion, "Ingrese el numero:");
-        nuevaHabitacion.setEstadoActual(pedirEstadoHabitacion());
+        pedirNroHabitacion(nuevaHabitacion, "Ingrese el numero: ");
+
+        nuevaHabitacion.setEstadoActual(EstadoHabitacion.DISPONIBLE);
+
         nuevaHabitacion.setTipoHabitacion(pedirTipoHabitacion());
-        pedirPrecioDiario(nuevaHabitacion, "Ingrese el precio por dia");
+        pedirPrecioDiario(nuevaHabitacion, "Ingrese el precio por dia: ");
 
         habitaciones.add(nuevaHabitacion);
         System.out.println("Habitación agregada con éxito.");
@@ -182,7 +184,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         System.out.println("5. Fumigación");
 
         int opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
-        GestorEntradas.limpiarBuffer();
 
         switch (opcion) {
             case 1: return EstadoHabitacion.DISPONIBLE;
@@ -202,7 +203,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         System.out.println("4. Suite");
 
         int opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
-        GestorEntradas.limpiarBuffer();
 
         switch (opcion) {
             case 1: return TipoHabitacion.SIMPLE;

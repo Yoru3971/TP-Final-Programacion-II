@@ -322,6 +322,8 @@ public class Menu {
     // Metodo para gestionar reservas
     private void gestionarReservas() {
         gestorReservas.setReservas(GestorArchivos.leerArregloDeArchivo("reservas.json", Reserva.class));
+        gestorClientes.setClientes(GestorArchivos.leerArregloDeArchivo("clientes.json", Cliente.class));
+        gestorHabitaciones.setHabitaciones(GestorArchivos.leerArregloDeArchivo("habitaciones.json", Habitacion.class));
 
         String opcion;
         do {
@@ -343,9 +345,9 @@ public class Menu {
                     Habitacion habitacion = gestorHabitaciones.pedirHabitacion();
 
                     System.out.println("Datos del cliente");
-                    System.out.println("\n"+cliente);
+                    System.out.println(cliente);
                     System.out.println("Datos de la habitacion");
-                    System.out.println("\n"+habitacion);
+                    System.out.println(habitacion);
 
                     LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
                     LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
@@ -359,7 +361,6 @@ public class Menu {
                     gestorReservas.agregar(nuevaReserva);
 
                     //modificar fechas en la habitacion correspondiente
-                    //guardarla en el archivo
                 }
                 case "3" -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
                 case "4" -> {
@@ -377,6 +378,7 @@ public class Menu {
                 }
                 case "0" -> {
                     GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json", false);
+                    GestorArchivos.escribirArregloEnArchivo(gestorHabitaciones.getHabitaciones(), "habitaciones.json", false);
                     System.out.println("Volviendo al menú anterior...");
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");

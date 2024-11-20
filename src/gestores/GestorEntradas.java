@@ -25,11 +25,6 @@ public class GestorEntradas {
         return scanner.nextDouble();
     }
 
-    public static void limpiarBuffer() {
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-    }
-
     public static LocalDate pedirFecha(String mensaje) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(mensaje);
