@@ -1,5 +1,6 @@
 package excepciones;
 
+import enumeraciones.EstadoHabitacion;
 import modelos.*;
 
 import java.time.LocalDate;
@@ -96,7 +97,8 @@ public class Verificador {
     }
 
     public static boolean verificarHabitacionNula(Habitacion habitacion) throws HabitacionNulaException{
-        if (habitacion.getNumeroHabitacion().equals(null) || habitacion.getEstadoActual().equals(null) || habitacion.getTipoHabitacion().equals(null) || habitacion.getPrecioDiario().equals(null)){
+        if (habitacion.getNumeroHabitacion().equals(null) || habitacion.getEstadoActual().equals(null)
+                || habitacion.getTipoHabitacion().equals(null) || habitacion.getPrecioDiario().equals(null) || habitacion.getFechasReservadas().equals(null)){
             throw new HabitacionNulaException("Habitacion invalida");
         }
         return true;
@@ -260,7 +262,7 @@ public class Verificador {
         return true;
     }
 
-    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) {
+    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) throws HabitacionNoDisponibleException{
         LocalDate fecha = checkIn;
         while (!fecha.isAfter(checkOut)) {
             if (!habitacion.isDisponible(fecha)) {
@@ -270,4 +272,5 @@ public class Verificador {
         }
         return true;
     }
+
 }
