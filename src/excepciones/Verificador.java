@@ -260,7 +260,7 @@ public class Verificador {
         return true;
     }
 
-    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) {
+    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) throws HabitacionNoDisponibleException {
         LocalDate fecha = checkIn;
         while (!fecha.isAfter(checkOut)) {
             if (!habitacion.isDisponible(fecha)) {

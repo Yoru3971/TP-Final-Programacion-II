@@ -353,37 +353,51 @@ public class Menu {
                     System.out.println("Datos de la habitacion");
                     System.out.println(habitacion);
 
-                    LocalDate checkIn = gestorReservas.pedirFechaReserva("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+                    boolean fechasDisponibles = false;
+                    LocalDate checkIn = null;
                     LocalDate checkOut = null;
 
-                    boolean fechasCorrectamenteOrdenadas = false;
+                    while (!fechasDisponibles) {
+                        checkIn = gestorReservas.pedirFechaReserva("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
 
-                    do{
-                        checkOut = gestorReservas.pedirFechaReserva("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
+                        boolean fechasCorrectamenteOrdenadas = false;
+                        do {
+                            checkOut = gestorReservas.pedirFechaReserva("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
+                            if (checkOut.isBefore(checkIn)) {
+                                System.out.println("La fecha de check-out no puede ser previa a la fecha de check-in. Intente de nuevo.");
+                            } else {
+                                fechasCorrectamenteOrdenadas = true;
+                            }
+                        } while (!fechasCorrectamenteOrdenadas);
 
-                        if(checkOut.isBefore(checkIn)){
-                            System.out.println("La fecha de check-out no puede ser previa a la fecha de check-in. Intente de nuevo");
-                        }else{
-                            fechasCorrectamenteOrdenadas = true;
+                        try {
+                            if (Verificador.verificarDisponibilidadHabitacion(habitacion, checkIn, checkOut)) {
+                                fechasDisponibles = true;
+
+                            }
+                        } catch (HabitacionNoDisponibleException e) {
+                            System.out.println(e.getMessage());
+                            System.out.println("Por favor, elija un rango de fechas diferente.");
                         }
-                    }while(!fechasCorrectamenteOrdenadas);
+                    }
 
                     Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
 
-                    //Aca verifico que la reserva no pise las fechas disponibles para esa habitacion
-                    //Con un for que revise el hashset de la habitacion y en cada vuelta verifique que las fechas
-                    //entre el intervalo fecha1 y fecha2 no esten dentro del rango del arreglo de cada habitacion
+                    System.out.println("Cliente: " + cliente.getNombre());
+                    System.out.println("Habitación: " + habitacion.getNumeroHabitacion());
+                    System.out.println("Check-in: " + checkIn);
+                    System.out.println("Check-out: " + checkOut);
 
+                    System.out.println("Reserva agregada con éxito.");
                     gestorReservas.agregar(nuevaReserva);
-                    //modificar fechas en la habitacion correspondiente
-
-                    //Aca al final, mostrar los datos de la reserva basicos (Nombre cliente, numero habitacion, fechas)  y pedir confirmacion
+                    nuevaReserva.reservarFechas();
+                    GestorEntradas.pausarConsola();
                 }
                 case "3" -> {
-                    gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
+                    gestorReservas.modificar(gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
                 }
                 case "4" -> {
-                    Habitacion habitacionEliminar = gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a eliminar: "));
+                    Habitacion habitacionEliminar = gestorReservas.eliminar(GestorEntradas.pedirEntero("Ingrese el ID de la reserva a eliminar: "));
                     //Logica para liberar las fechas en la habitacion de la reserva eliminada.
                     try {
                         if (!Verificador.verificarObjetoNulo(habitacionEliminar)) { //Verifico que el objeto se haya eliminado de la reserva.(Logica dentro de eliminar)
@@ -478,4 +492,3 @@ public class Menu {
         }
     }
 }
-
