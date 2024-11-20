@@ -4,23 +4,20 @@ import excepciones.*;
 import modelos.Cliente;
 import java.util.ArrayList;
 
-public class GestorClientes implements IGestionable<String> {
-    private ArrayList<Cliente> clientes;
-
-    //Constructores
+public class GestorClientes extends GestorPersonas<Cliente> implements IGestionable<String> {
     public GestorClientes(ArrayList<Cliente> clientes) {
-        this.clientes = clientes;
-    }
-    public GestorClientes() {
-        clientes = new ArrayList<>();
+        super(clientes);
     }
 
-    //Getters y Setters
-    public ArrayList<Cliente> getClientes() {
-        return clientes;
+    public GestorClientes() {
     }
-    public void setClientes(ArrayList<Cliente> clientes) {
-        this.clientes = clientes;
+
+    public ArrayList<Cliente> getClientes() {
+        return super.getPersonas();
+    }
+
+    public void setClientes(ArrayList<Cliente> personas) {
+        super.setPersonas(personas);
     }
 
     //Metodos ABM y Listar de IGestionable
@@ -38,7 +35,7 @@ public class GestorClientes implements IGestionable<String> {
         pedirMail(nuevoCliente, "Ingrese email: ");
         pedirVIP(nuevoCliente, "¿Es cliente VIP? \n1. Sí \n2. No\n");
 
-        clientes.add(nuevoCliente);
+        super.getPersonas().add(nuevoCliente);
         System.out.println("\nCliente agregado con éxito.");
         GestorEntradas.pausarConsola();
     }
@@ -60,7 +57,7 @@ public class GestorClientes implements IGestionable<String> {
                 //GestorEntradas.limpiarBuffer();
 
                 if (opcion == 1) {
-                    clientes.remove(clienteEliminar);
+                    super.getPersonas().remove(clienteEliminar);
                     System.out.println("Cliente eliminado del sistema con éxito.");
                 } else if (opcion == 2) {
                     System.out.println("El cliente no fue eliminado del sistema.");
@@ -85,7 +82,7 @@ public class GestorClientes implements IGestionable<String> {
 
         System.out.println("Datos del cliente a modificar:");
         System.out.println(clienteModificar);
-        int indiceClienteModificar = clientes.indexOf(clienteModificar);
+        int indiceClienteModificar = super.getPersonas().indexOf(clienteModificar);
 
         String opcion;
         do {
@@ -153,7 +150,7 @@ public class GestorClientes implements IGestionable<String> {
         opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
 
         if (opcion.equals("1")) {
-            clientes.set(indiceClienteModificar, clienteModificar);
+            super.getPersonas().set(indiceClienteModificar, clienteModificar);
             System.out.println("Modificación completada con éxito");
         } else {
             System.out.println("Modificación cancelada");
@@ -166,8 +163,8 @@ public class GestorClientes implements IGestionable<String> {
         System.out.println("=========================");
 
         try{
-            if(Verificador.verificarArregloVacio(clientes)){
-                for (Cliente c : clientes) {
+            if(Verificador.verificarArregloVacio(super.getPersonas())){
+                for (Cliente c : super.getPersonas()) {
                     System.out.println(c);
                 }
             }
@@ -178,9 +175,26 @@ public class GestorClientes implements IGestionable<String> {
         GestorEntradas.pausarConsola();
     }
 
+    public Cliente pedirCliente(){
+        Cliente cliente = new Cliente(false);
+        boolean clienteEncontrado = false;
+
+        do{
+            cliente = buscarClientePorDni(GestorEntradas.pedirCadena("\nIngrese el dni del titular de la reserva: "));
+
+            if(cliente == null){
+                System.out.println("Cliente no encontrado. Intente de nuevo");
+            }else{
+                clienteEncontrado = true;
+            }
+        }while(!clienteEncontrado);
+
+        return cliente;
+    }
+
     //Metodos de busqueda
     public Cliente buscarClientePorDni(String dni) {
-        for(Cliente c : clientes) {
+        for(Cliente c : super.getPersonas()) {
             if(c.getDni().equals(dni)) {
                 return c;
             }
@@ -189,114 +203,6 @@ public class GestorClientes implements IGestionable<String> {
     }
 
     //Metodos auxiliares
-    private void pedirDNI(Cliente cliente, String mensaje){
-        boolean dniValido = false;
-        do {
-            try {
-                String dni = GestorEntradas.pedirCadena(mensaje);
-
-                if(Verificador.verificarDNI(dni) &&  Verificador.verificarDNIUnico(dni, clientes)){
-                    cliente.setDni(dni);
-                    dniValido = true;
-                }
-            } catch (DNIInvalidoException e) {
-                System.err.println(e.getMessage());
-            } catch (DNIExistenteException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!dniValido);
-    }
-
-    private void pedirNombre(Cliente cliente, String mensaje) {
-        boolean nombreValido = false;
-        do {
-            try {
-                String nombre = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarNombre(nombre)) {
-                    cliente.setNombre(nombre);
-                    nombreValido = true;
-                }
-            } catch (NombreInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!nombreValido);
-    }
-
-    private void pedirApellido(Cliente cliente, String mensaje) {
-        boolean apellidoValido = false;
-        do {
-            try {
-                String apellido = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarApellido(apellido)) {
-                    cliente.setApellido(apellido);
-                    apellidoValido = true;
-                }
-            } catch (ApellidoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!apellidoValido);
-    }
-
-    private void pedirNacionalidad(Cliente cliente, String mensaje) {
-        boolean nacionalidadValida = false;
-        do {
-            try {
-                String nacionalidad = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarNacionalidad(nacionalidad)) {
-                    cliente.setNacionalidad(nacionalidad);
-                    nacionalidadValida = true;
-                }
-            } catch (NacionalidadInvalidaException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!nacionalidadValida);
-    }
-
-    private void pedirDomicilio(Cliente cliente, String mensaje) {
-        boolean domicilioValido = false;
-        do {
-            try {
-                String domicilio = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarDomicilio(domicilio)) {
-                    cliente.setDomicilio(domicilio);
-                    domicilioValido = true;
-                }
-            } catch (DomicilioInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!domicilioValido);
-    }
-
-    private void pedirTelefono(Cliente cliente, String mensaje) {
-        boolean telefonoValido = false;
-        do {
-            try {
-                String telefono = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarTelefono(telefono)) {
-                    cliente.setTelefono(telefono);
-                    telefonoValido = true;
-                }
-            } catch (TelefonoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!telefonoValido);
-    }
-
-    private void pedirMail(Cliente cliente, String mensaje) {
-        boolean mailValido = false;
-        do {
-            try {
-                String mail = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarMail(mail)) {
-                    cliente.setMail(mail);
-                    mailValido = true;
-                }
-            } catch (MailInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!mailValido);
-    }
-
     private void pedirVIP(Cliente cliente, String mensaje) {
         boolean vipValido = false;
         do {
@@ -308,21 +214,5 @@ public class GestorClientes implements IGestionable<String> {
                 System.out.println("Opción inválida. Debe ser 1 o 2.");
             }
         } while (!vipValido);
-    }
-
-    public Cliente pedirCliente(){
-        Cliente cliente = new Cliente(false);
-        boolean clienteEncontrado = false;
-
-        do{
-           cliente = buscarClientePorDni(GestorEntradas.pedirCadena("\n Ingrese el dni del titular de la reserva: "));
-
-           if(cliente == null){
-               System.out.println("Cliente no encontrado. Intente de nuevo");
-           }else{
-             clienteEncontrado = true;
-           }
-        }while(!clienteEncontrado);
-        return cliente;
     }
 }

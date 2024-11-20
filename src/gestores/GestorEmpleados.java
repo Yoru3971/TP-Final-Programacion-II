@@ -3,25 +3,22 @@ package gestores;
 import excepciones.*;
 import modelos.Empleado;
 import java.util.ArrayList;
-import java.util.Objects;
 
-public class GestorEmpleados implements IGestionable<String> {
-    private ArrayList<Empleado> empleados;
+public class GestorEmpleados extends GestorPersonas<Empleado> implements IGestionable<String>{
 
-    //Constructores
-    public GestorEmpleados(ArrayList<Empleado> empleados) {
-        this.empleados = empleados;
+    public GestorEmpleados(ArrayList<Empleado> personas) {
+        super(personas);
     }
+
     public GestorEmpleados() {
-        empleados = new ArrayList<>();
     }
 
-    //Getters y Setters
     public ArrayList<Empleado> getEmpleados() {
-        return empleados;
+        return super.getPersonas();
     }
-    public void setEmpleados(ArrayList<Empleado> empleados) {
-        this.empleados = empleados;
+
+    public void setEmpleados(ArrayList<Empleado> personas) {
+        super.setPersonas(personas);
     }
 
     //Metodos ABM y Listar de IGestionable
@@ -42,7 +39,7 @@ public class GestorEmpleados implements IGestionable<String> {
         // Generación automática de usuario y clave
         System.out.println("\nUsuario creado por defecto: " + nuevoEmpleado.getUsuario());
         System.out.println("Clave creada por defecto: " + nuevoEmpleado.getClave());
-        empleados.add(nuevoEmpleado);
+        super.getPersonas().add(nuevoEmpleado);
         System.out.println("\nEmpleado agregado con éxito.");
         GestorEntradas.pausarConsola();
     }
@@ -64,7 +61,7 @@ public class GestorEmpleados implements IGestionable<String> {
                 opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
 
                 if(opcion == 1){
-                    empleados.remove(empleadoEliminar);
+                    super.getPersonas().remove(empleadoEliminar);
                     System.out.println("Empleado eliminado del sistema con éxito.");
                 }else if (opcion == 2){
                     System.out.println("El empleado no fue eliminado del sistema.");
@@ -89,7 +86,7 @@ public class GestorEmpleados implements IGestionable<String> {
 
         System.out.println("Datos del empleado a modificar:");
         System.out.println(empleadoModificar);
-        int indiceEmpleadoModificar = empleados.indexOf(empleadoModificar);
+        int indiceEmpleadoModificar = super.getPersonas().indexOf(empleadoModificar);
 
         String opcion;
         do {
@@ -167,7 +164,7 @@ public class GestorEmpleados implements IGestionable<String> {
         opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
 
         if (opcion.equals("1")) {
-            empleados.set(indiceEmpleadoModificar, empleadoModificar);
+            super.getPersonas().set(indiceEmpleadoModificar, empleadoModificar);
             System.out.println("Modificación completada.");
         } else {
             System.out.println("Modificación cancelada.");
@@ -180,8 +177,8 @@ public class GestorEmpleados implements IGestionable<String> {
         System.out.println("=========================");
 
         try{
-            if(Verificador.verificarArregloVacio(empleados)){
-                for (Empleado empleado : empleados){
+            if(Verificador.verificarArregloVacio(super.getPersonas())){
+                for (Empleado empleado : super.getPersonas()){
                     System.out.println(empleado);
                 }
             }
@@ -193,7 +190,7 @@ public class GestorEmpleados implements IGestionable<String> {
 
     //Metodos de Busqueda
     public Empleado buscarEmpleadoPorDni(String dni) {
-        for (Empleado e : empleados) {
+        for (Empleado e : super.getPersonas()) {
             if (e.getDni().equals(dni)) {
                 return e;
             }
@@ -201,115 +198,7 @@ public class GestorEmpleados implements IGestionable<String> {
         return null;
     }
 
-    //Metodos auxiliares
-    private void pedirDNI(Empleado empleado, String mensaje){
-        boolean dniValido = false;
-        do {
-            try {
-                String dni = GestorEntradas.pedirCadena(mensaje);
-
-                if(Verificador.verificarDNI(dni) &&  Verificador.verificarDNIUnico(dni, empleados)){
-                    empleado.setDni(dni);
-                    dniValido = true;
-                }
-            } catch (DNIInvalidoException e) {
-                System.err.println(e.getMessage());
-            } catch (DNIExistenteException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!dniValido);
-    }
-
-    private void pedirNombre(Empleado empleado, String mensaje) {
-        boolean nombreValido = false;
-        do {
-            try {
-                String nombre = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarNombre(nombre)) {
-                    empleado.setNombre(nombre);
-                    nombreValido = true;
-                }
-            } catch (NombreInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!nombreValido);
-    }
-
-    private void pedirApellido(Empleado empleado, String mensaje) {
-        boolean apellidoValido = false;
-        do {
-            try {
-                String apellido = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarApellido(apellido)) {
-                    empleado.setApellido(apellido);
-                    apellidoValido = true;
-                }
-            } catch (ApellidoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!apellidoValido);
-    }
-
-    private void pedirNacionalidad(Empleado empleado, String mensaje) {
-        boolean nacionalidadValida = false;
-        do {
-            try {
-                String nacionalidad = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarNacionalidad(nacionalidad)) {
-                    empleado.setNacionalidad(nacionalidad);
-                    nacionalidadValida = true;
-                }
-            } catch (NacionalidadInvalidaException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!nacionalidadValida);
-    }
-
-    private void pedirDomicilio(Empleado empleado, String mensaje) {
-        boolean domicilioValido = false;
-        do {
-            try {
-                String domicilio = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarDomicilio(domicilio)) {
-                    empleado.setDomicilio(domicilio);
-                    domicilioValido = true;
-                }
-            } catch (DomicilioInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!domicilioValido);
-    }
-
-    private void pedirTelefono(Empleado empleado, String mensaje) {
-        boolean telefonoValido = false;
-        do {
-            try {
-                String telefono = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarTelefono(telefono)) {
-                    empleado.setTelefono(telefono);
-                    telefonoValido = true;
-                }
-            } catch (TelefonoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!telefonoValido);
-    }
-
-    private void pedirMail(Empleado empleado, String mensaje) {
-        boolean mailValido = false;
-        do {
-            try {
-                String mail = GestorEntradas.pedirCadena(mensaje);
-                if (Verificador.verificarMail(mail)) {
-                    empleado.setMail(mail);
-                    mailValido = true;
-                }
-            } catch (MailInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!mailValido);
-    }
-
+    //Metodos Auxiliares
     private void pedirSalario(Empleado empleado, String mensaje){
         boolean salarioValido = false;
         do {
