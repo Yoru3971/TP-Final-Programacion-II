@@ -155,14 +155,10 @@ public class GestorClientes extends GestorPersonas<Cliente> {
         System.out.println("\nLista de Clientes");
         System.out.println("=========================");
 
-        try{
-            if(Verificador.verificarArregloVacio(super.getPersonas())){
-                for (Cliente c : super.getPersonas()) {
-                    System.out.println(c);
-                }
+        if(!super.getPersonas().isEmpty()){
+            for (Cliente c : super.getPersonas()) {
+                System.out.println(c);
             }
-        }catch(ArregloVacioException e){
-            System.out.println(e.getMessage());
         }
     }
 
