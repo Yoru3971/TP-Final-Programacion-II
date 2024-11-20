@@ -1,7 +1,6 @@
 package gestores;
 
 import excepciones.*;
-import modelos.Cliente;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
@@ -155,8 +154,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         } catch (ArregloVacioException e) {
             System.out.println(e.getMessage());
         }
-
-        GestorEntradas.pausarConsola();
     }
 
     public void verDisponibilidad (Integer numeroHabitacion) {

@@ -1,8 +1,6 @@
 package gestores;
 
-import excepciones.ArregloVacioException;
-import excepciones.ObjetoNuloException;
-import excepciones.Verificador;
+import excepciones.*;
 import modelos.Cliente;
 import modelos.Habitacion;
 import modelos.Reserva;
@@ -80,8 +78,6 @@ public class GestorReservas {
         }catch (ArregloVacioException e){
             System.out.println(e.getMessage());
         }
-
-        GestorEntradas.pausarConsola();
     }
 
     public void modificar(String codigo, ArrayList<Habitacion>listaHabitaciones, ArrayList<Cliente> listaClientes) {
@@ -150,9 +146,27 @@ public class GestorReservas {
         Reserva reserva = null;
         for (Reserva r : reservas) {
             if (r.getID().equals(codigo)) {
-                reserva = r;
+                return r;
             }
         }
-        return reserva;
+        return null;
+    }
+
+    public LocalDate pedirFechaReserva(String mensaje){
+        LocalDate fecha = null;
+
+        boolean fechaValida = false;
+
+        do{
+            fecha = GestorEntradas.pedirFecha(mensaje);
+
+            if(fecha==null){
+                System.out.println("Fecha no valida. Intente de nuevo");
+            }else{
+                fechaValida = true;
+            }
+        }while(!fechaValida);
+
+        return fecha;
     }
 }

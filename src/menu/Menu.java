@@ -222,6 +222,7 @@ public class Menu {
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
+            GestorEntradas.pausarConsola();
         } while (!opcion.equals("0"));
     }
 
@@ -254,6 +255,7 @@ public class Menu {
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
+            GestorEntradas.pausarConsola();
         } while (!opcion.equals("0"));
     }
 
@@ -284,6 +286,7 @@ public class Menu {
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
+            GestorEntradas.pausarConsola();
         } while (!opcion.equals("0"));
     }
 
@@ -316,6 +319,7 @@ public class Menu {
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
+            GestorEntradas.pausarConsola();
         } while (!opcion.equals("0"));
     }
 
@@ -349,8 +353,20 @@ public class Menu {
                     System.out.println("Datos de la habitacion");
                     System.out.println(habitacion);
 
-                    LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
-                    LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
+                    LocalDate checkIn = gestorReservas.pedirFechaReserva("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+                    LocalDate checkOut = null;
+
+                    boolean fechasCorrectamenteOrdenadas = false;
+
+                    do{
+                        checkOut = gestorReservas.pedirFechaReserva("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
+
+                        if(checkOut.isBefore(checkIn)){
+                            System.out.println("La fecha de check-out no puede ser previa a la fecha de check-in. Intente de nuevo");
+                        }else{
+                            fechasCorrectamenteOrdenadas = true;
+                        }
+                    }while(!fechasCorrectamenteOrdenadas);
 
                     Reserva nuevaReserva = new Reserva(habitacion, cliente, checkIn, checkOut);
 
@@ -359,12 +375,15 @@ public class Menu {
                     //entre el intervalo fecha1 y fecha2 no esten dentro del rango del arreglo de cada habitacion
 
                     gestorReservas.agregar(nuevaReserva);
-
                     //modificar fechas en la habitacion correspondiente
+
+                    //Aca al final, mostrar los datos de la reserva basicos (Nombre cliente, numero habitacion, fechas)  y pedir confirmacion
                 }
-                case "3" -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
+                case "3" -> {
+                    gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
+                }
                 case "4" -> {
-                    Habitacion habitacionEliminar = gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
+                    Habitacion habitacionEliminar = gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a eliminar: "));
                     //Logica para liberar las fechas en la habitacion de la reserva eliminada.
                     try {
                         if (!Verificador.verificarObjetoNulo(habitacionEliminar)) { //Verifico que el objeto se haya eliminado de la reserva.(Logica dentro de eliminar)
@@ -383,6 +402,7 @@ public class Menu {
                 }
                 default -> System.out.println("Opción inválida. Intente nuevamente.");
             }
+            GestorEntradas.pausarConsola();
         } while (!opcion.equals("0"));
     }
 

@@ -171,8 +171,6 @@ public class GestorClientes extends GestorPersonas<Cliente> implements IGestiona
         }catch(ArregloVacioException e){
             System.out.println(e.getMessage());
         }
-
-        GestorEntradas.pausarConsola();
     }
 
     public Cliente pedirCliente(){

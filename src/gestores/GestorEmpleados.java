@@ -185,7 +185,6 @@ public class GestorEmpleados extends GestorPersonas<Empleado> implements IGestio
         }catch (ArregloVacioException e){
             System.out.println(e.getMessage());
         }
-        GestorEntradas.pausarConsola();
     }
 
     //Metodos de Busqueda

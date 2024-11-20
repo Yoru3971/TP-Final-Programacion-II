@@ -30,7 +30,12 @@ public class GestorEntradas {
         System.out.print(mensaje);
         String input = scanner.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        return LocalDate.parse(input, formatter);
+
+        LocalDate fechaParseada = LocalDate.parse(input, formatter);
+        if(fechaParseada != null){
+            return fechaParseada;
+        }
+        return null;
     }
 
     public static void limpiarConsola() {
