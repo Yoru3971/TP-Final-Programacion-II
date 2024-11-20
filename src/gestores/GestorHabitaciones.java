@@ -28,44 +28,17 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     //Metodos ABM y Listar de IGestionable
     @Override
     public void agregar() {
+        Habitacion nuevaHabitacion = new Habitacion();
         System.out.println("Ingrese los datos de la nueva habitación: ");
 
-        Integer numeroHabitacion = null;
-        boolean numeroValido = false;
-        Double precioDiario = null;
-        boolean precioValido = false;
+        pedirNroHabitacion(nuevaHabitacion, "Ingrese el numero:");
+        nuevaHabitacion.setEstadoActual(pedirEstadoHabitacion());
+        nuevaHabitacion.setTipoHabitacion(pedirTipoHabitacion());
+        pedirPrecioDiario(nuevaHabitacion, "Ingrese el precio por dia");
 
-        do {
-            try {
-                numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el número de la habitación: ");
-                if(Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones)){
-                    numeroValido = true;
-                }
-            } catch (NumeroHabitacionInvalidoException e) {
-                System.err.println(e.getMessage());
-            } catch (HabitacionExistenteException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!numeroValido);
-
-        EstadoHabitacion estado = pedirEstadoHabitacion();
-
-        TipoHabitacion tipo = pedirTipoHabitacion();
-
-        do {
-            try {
-                precioDiario = GestorEntradas.pedirDouble("Ingrese el precio por dia: ");
-                if(Verificador.verificarPrecioHabitacion(precioDiario)){
-                    precioValido = true;
-                }
-            } catch (PrecioInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!precioValido);
-
-        Habitacion nuevaHabitacion = new Habitacion(numeroHabitacion, estado, tipo, precioDiario);
         habitaciones.add(nuevaHabitacion);
         System.out.println("Habitación agregada con éxito.");
+        GestorEntradas.pausarConsola();
     }
 
     @Override
@@ -101,12 +74,18 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     @Override
     public void modificar(Integer nroHabitacion) {
         Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
+
+        if (habitacionModificar == null) {
+            System.out.println("Habitacion no encontrada.");
+            GestorEntradas.pausarConsola();
+            return;
+        }
+
+        System.out.println("Datos de la habitación a modificar:");
+        System.out.println(habitacionModificar);
         int indiceHabitacionModificar = habitaciones.indexOf(habitacionModificar);
 
-        boolean numeroValido = false;
-        boolean precioValido = false;
-
-        int opcion;
+        String opcion;
         do {
             System.out.println("\n¿Qué desea modificar?");
             System.out.println("1. Número de Habitación");
@@ -115,72 +94,43 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             System.out.println("4. Precio Diario");
             System.out.println("0. Salir");
 
-            opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
-            GestorEntradas.limpiarBuffer();
+            opcion = GestorEntradas.pedirCadena("Seleccione una opción: ");
 
             switch (opcion) {
-                case 1->{
-                    do {
-                        try {
-                            Integer numeroHabitacion = GestorEntradas.pedirEntero("Ingrese el nuevo número de la habitación: ");
-
-                            if(Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones)){
-                                numeroValido = true;
-                                habitacionModificar.setNumeroHabitacion(numeroHabitacion);
-                            }
-                        } catch (NumeroHabitacionInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        } catch (HabitacionExistenteException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!numeroValido);
+                case "1"->{
+                    pedirNroHabitacion(habitacionModificar,"Ingrese el nuevo número de la habitación: ");
                     System.out.println("Número de habitación modificado con éxito");
                 }
-                case 2->{
+                case "2" -> {
                     habitacionModificar.setEstadoActual(pedirEstadoHabitacion());
                     System.out.println("Estado actual modificado con éxito");
                 }
-                case 3->{
+                case "3"->{
                     habitacionModificar.setTipoHabitacion(pedirTipoHabitacion());
                     System.out.println("Tipo de habitación modificado con éxito");
                 }
-                case 4->{
-                    do {
-                        try {
-                            Double precioDiario = GestorEntradas.pedirDouble("Ingrese el precio por dia: ");
-                            if(Verificador.verificarPrecioHabitacion(precioDiario)){
-                                habitacionModificar.setPrecioDiario(precioDiario);
-                                precioValido = true;
-                            }
-                        } catch (PrecioInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!precioValido);
+                case "4"->{
+                    pedirPrecioDiario(habitacionModificar, "Ingrese el nuevo precio por dia: ");
                     System.out.println("Precio por dia modificado con éxito");
                 }
-                case 0->{
+                case "0"->{
                     System.out.println("Saliendo...");
                 }
                 default->{
                     System.out.println("Opción no válida. Intente nuevamente.");
                 }
             }
-            System.out.println("\n¿Quiere realizar otra modificación?");
-            System.out.println("1. Sí");
-            System.out.println("0. No");
-            opcion = GestorEntradas.pedirEntero("Ingrese opción: ");
-        } while (opcion != 0);
+            System.out.println("\n¿Quiere realizar otra modificación?\n1.Si \n2.No \n");
+            opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+        } while (!opcion.equals("0"));
 
         System.out.println("\nHabitacion modificada");
         System.out.println(habitacionModificar);
+        System.out.println("¿Desea confirmar los cambios?\n1.Si \n2.No \n");
 
-        System.out.println("¿Desea confirmar los cambios?");
-        System.out.println("1. Sí");
-        System.out.println("2. No");
+        opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
 
-        int confirmar = GestorEntradas.pedirEntero("Ingrese opción: ");
-        //ACA SE PUEDE LANZAR UNA OPCION NO VALIDA EXCEPTION
-        if (confirmar == 1) {
+        if (opcion.equals("1")) {
             habitaciones.set(indiceHabitacionModificar, habitacionModificar);
             System.out.println("Modificación completada con éxito");
         } else {
@@ -206,7 +156,22 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         GestorEntradas.pausarConsola();
     }
 
-    //Metodos para pedir atributos unicos de Habitacion
+    public void verDisponibilidad (Integer numeroHabitacion) {
+        Habitacion habitacion = buscarHabitacionPorNumero(numeroHabitacion);
+        habitacion.mostrarCalendario12Meses();
+    }
+
+    //Metodos de busqueda
+    public Habitacion buscarHabitacionPorNumero(Integer numeroHabitacion) {
+        for(Habitacion h : habitaciones){
+            if(h.getNumeroHabitacion().equals(numeroHabitacion)){
+                return h;
+            }
+        }
+        return null;
+    }
+
+    //Metodos auxiliares
     private EstadoHabitacion pedirEstadoHabitacion() {
         System.out.println("Seleccione el estado de la habitación:");
         System.out.println("1. Disponible");
@@ -247,19 +212,35 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         }
     }
 
-    //Metodo para ver disponibilidad de habitacion
-    public void verDisponibilidad (Integer numeroHabitacion) {
-        Habitacion habitacion = buscarHabitacionPorNumero(numeroHabitacion);
-        habitacion.mostrarCalendario12Meses();
+    private void pedirNroHabitacion(Habitacion habitacion, String mensaje){
+        boolean numeroValido = false;
+        do {
+            try {
+                Integer numeroHabitacion = GestorEntradas.pedirEntero(mensaje);
+                if(Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones)){
+                    habitacion.setNumeroHabitacion(numeroHabitacion);
+                    numeroValido = true;
+                }
+            } catch (NumeroHabitacionInvalidoException e) {
+                System.err.println(e.getMessage());
+            } catch (HabitacionExistenteException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!numeroValido);
     }
 
-    //Metodos de busqueda
-    public Habitacion buscarHabitacionPorNumero(Integer numeroHabitacion) {
-        for(Habitacion h : habitaciones){
-            if(h.getNumeroHabitacion().equals(numeroHabitacion)){
-                return h;
+    private void pedirPrecioDiario(Habitacion habitacion, String mensaje){
+        boolean precioValido = true;
+        do {
+            try {
+                Double precioDiario = GestorEntradas.pedirDouble(mensaje);
+                if(Verificador.verificarPrecioHabitacion(precioDiario)){
+                    habitacion.setPrecioDiario(precioDiario);
+                    precioValido = true;
+                }
+            } catch (PrecioInvalidoException e) {
+                System.err.println(e.getMessage());
             }
-        }
-        return null;
+        } while (!precioValido);
     }
 }

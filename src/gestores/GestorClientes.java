@@ -27,116 +27,20 @@ public class GestorClientes implements IGestionable<String> {
     @Override
     public void agregar() {
         Cliente nuevoCliente = new Cliente(false);
-
-        boolean dniValido = false;
-        boolean nombreValido = false;
-        boolean apellidoValido = false;
-        boolean nacionalidadValida = false;
-        boolean domicilioValido = false;
-        boolean telefonoValido = false;
-        boolean mailValido = false;
-
         System.out.println("Ingrese los datos del nuevo cliente: ");
 
-        // Validación del DNI
-        do {
-            try {
-                String dni = GestorEntradas.pedirCadena("Ingrese DNI: ");
+        pedirDNI(nuevoCliente, "Ingrese DNI: ");
+        pedirNombre(nuevoCliente, "Ingrese nombre: ");
+        pedirApellido(nuevoCliente, "Ingrese apellido: ");
+        pedirNacionalidad(nuevoCliente, "Ingrese nacionalidad: ");
+        pedirDomicilio(nuevoCliente, "Ingrese domicilio: ");
+        pedirTelefono(nuevoCliente, "Ingrese teléfono: ");
+        pedirMail(nuevoCliente, "Ingrese email: ");
+        pedirVIP(nuevoCliente, "¿Es cliente VIP? \n1. Sí \n2. No\n");
 
-                if(Verificador.verificarDNI(dni) &&  Verificador.verificarDNIUnico(dni, clientes)){
-                    nuevoCliente.setDni(dni);
-                    dniValido = true;
-                }
-            } catch (DNIInvalidoException e) {
-                System.err.println(e.getMessage());
-            } catch (DNIExistenteException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!dniValido);
-
-        // Validación del nombre
-        do {
-            try {
-                String nombre = GestorEntradas.pedirCadena("Ingrese nombre: ");
-                if(Verificador.verificarNombre(nombre)){
-                    nuevoCliente.setNombre(nombre);
-                    nombreValido = true;
-                }
-            } catch (NombreInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!nombreValido);
-
-        // Validación del apellido
-        do {
-            try {
-                String apellido = GestorEntradas.pedirCadena("Ingrese apellido: ");
-                if(Verificador.verificarApellido(apellido)){
-                    nuevoCliente.setApellido(apellido);
-                    apellidoValido = true;
-                }
-            } catch (ApellidoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!apellidoValido);
-
-        // Validación de la nacionalidad
-        do {
-            try {
-                String nacionalidad = GestorEntradas.pedirCadena("Ingrese nacionalidad: ");
-                if(Verificador.verificarNacionalidad(nacionalidad)){
-                    nuevoCliente.setNacionalidad(nacionalidad);
-                    nacionalidadValida = true;
-                }
-            } catch (NacionalidadInvalidaException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!nacionalidadValida);
-
-        // Validación del domicilio
-        do {
-            try {
-                String domicilio = GestorEntradas.pedirCadena("Ingrese domicilio: ");
-                if(Verificador.verificarDomicilio(domicilio)){
-                    nuevoCliente.setDomicilio(domicilio);
-                    domicilioValido = true;
-                }
-            } catch (DomicilioInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!domicilioValido);
-
-        // Validación del teléfono
-        do {
-            try {
-                String telefono = GestorEntradas.pedirCadena("Ingrese teléfono: ");
-                if(Verificador.verificarTelefono(telefono)){
-                    nuevoCliente.setTelefono(telefono);
-                    telefonoValido = true;
-                }
-            } catch (TelefonoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!telefonoValido);
-
-        // Validación del mail
-        do {
-            try {
-                String mail = GestorEntradas.pedirCadena("Ingrese email: ");
-                if(Verificador.verificarMail(mail)){
-                    nuevoCliente.setMail(mail);
-                    mailValido = true;
-                }
-            } catch (MailInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
-        } while (!mailValido);
-
-        // Validación si es cliente VIP
-        nuevoCliente.setClienteVip(GestorEntradas.pedirEntero("¿Es cliente VIP? \n1.Sí \n2.No\n") == 1);
-
-        clientes.add(nuevoCliente); //Como antes ya verifique que el dni sea valido y unico, se puede agregar directamente aca
-        System.out.println("Cliente agregado con éxito.");
+        clientes.add(nuevoCliente);
+        System.out.println("\nCliente agregado con éxito.");
+        GestorEntradas.pausarConsola();
     }
 
     @Override
@@ -171,21 +75,19 @@ public class GestorClientes implements IGestionable<String> {
 
     @Override
     public void modificar(String dni) {
-        boolean dniValido = false;
-        boolean nombreValido = false;
-        boolean apellidoValido = false;
-        boolean nacionalidadValida = false;
-        boolean domicilioValido = false;
-        boolean telefonoValido = false;
-        boolean mailValido = false;
-        boolean vipValido = false;
-
         Cliente clienteModificar = buscarClientePorDni(dni);
+
+        if (clienteModificar == null) {
+            System.out.println("Cliente no encontrado.");
+            GestorEntradas.pausarConsola();
+            return;
+        }
+
         System.out.println("Datos del cliente a modificar:");
         System.out.println(clienteModificar);
         int indiceClienteModificar = clientes.indexOf(clienteModificar);
 
-        int opcion;
+        String opcion;
         do {
             System.out.println("\n¿Qué desea modificar?");
             System.out.println("1. DNI");
@@ -197,148 +99,60 @@ public class GestorClientes implements IGestionable<String> {
             System.out.println("7. Email");
             System.out.println("8. VIP (Sí/No)");
             System.out.println("0. Salir");
-            opcion = GestorEntradas.pedirEntero("Seleccione una opción:");
+
+            opcion = GestorEntradas.pedirCadena("Seleccione una opción: ");
 
             switch (opcion) {
-               case 1 ->{
-                   do {
-                       try {
-                           String dniModificar = GestorEntradas.pedirCadena("Ingrese nuevo DNI: ");
-
-                           if(Verificador.verificarDNI(dni) &&  Verificador.verificarDNIUnico(dni, clientes)){
-                               clienteModificar.setDni(dniModificar);
-                               dniValido = true;
-                           }
-                       } catch (DNIInvalidoException e) {
-                           System.err.println(e.getMessage());
-                       } catch (DNIExistenteException e) {
-                           System.err.println(e.getMessage());
-                       }
-                   } while (!dniValido);
-                   System.out.println("DNI modificado con éxito");
-               }
-                case 2 -> {
-                    do {
-                        try {
-                            String nombre = GestorEntradas.pedirCadena("Ingrese nuevo nombre: ");
-                            if (Verificador.verificarNombre(nombre)) {
-                                clienteModificar.setNombre(nombre);
-                                nombreValido = true;
-                            }
-                        } catch (NombreInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!nombreValido);
+                case "1" -> {
+                    pedirDNI(clienteModificar, "Ingrese nuevo DNI");
+                    System.out.println("DNI modificado con éxito");
+                }
+                case "2" -> {
+                    pedirNombre(clienteModificar, "Ingrese nuevo nombre: ");
                     System.out.println("Nombre modificado con éxito");
                 }
-                case 3 -> {
-                    do {
-                        try {
-                            String apellido = GestorEntradas.pedirCadena("Ingrese nuevo apellido: ");
-                            if (Verificador.verificarApellido(apellido)) {
-                                clienteModificar.setApellido(apellido);
-                                apellidoValido = true;
-                            }
-                        } catch (ApellidoInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!apellidoValido);
+                case "3" -> {
+                    pedirApellido(clienteModificar, "Ingrese nuevo apellido: ");
                     System.out.println("Apellido modificado con éxito");
                 }
-                case 4 -> {
-                    do {
-                        try {
-                            String nacionalidad = GestorEntradas.pedirCadena("Ingrese nueva nacionalidad: ");
-                            if (Verificador.verificarNacionalidad(nacionalidad)) {
-                                clienteModificar.setNacionalidad(nacionalidad);
-                                nacionalidadValida = true;
-                            }
-                        } catch (NacionalidadInvalidaException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!nacionalidadValida);
-                    System.out.println("Nacionalidad modificada con éxito");
+                case "4" -> {
+                    pedirNacionalidad(clienteModificar, "Ingrese nueva nacionalidad: ");
+                    System.out.println("Nacionalidad modificado con éxito");
                 }
-                case 5 -> {
-                    do {
-                        try {
-                            String domicilio = GestorEntradas.pedirCadena("Ingrese nuevo domicilio: ");
-                            if (Verificador.verificarDomicilio(domicilio)) {
-                                clienteModificar.setDomicilio(domicilio);
-                                domicilioValido = true;
-                            }
-                        } catch (DomicilioInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!domicilioValido);
+                case "5" -> {
+                    pedirDomicilio(clienteModificar, "Ingrese nuevo domicilio: ");
                     System.out.println("Domicilio modificado con éxito");
                 }
-                case 6 -> {
-                    do {
-                        try {
-                            String telefono = GestorEntradas.pedirCadena("Ingrese nuevo teléfono: ");
-                            if (Verificador.verificarTelefono(telefono)) {
-                                clienteModificar.setTelefono(telefono);
-                                telefonoValido = true;
-                            }
-                        } catch (TelefonoInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!telefonoValido);
+                case "6" -> {
+                    pedirTelefono(clienteModificar, "Ingrese nuevo teléfono: ");
                     System.out.println("Teléfono modificado con éxito");
                 }
-                case 7 -> {
-                    do {
-                        try {
-                            String mail = GestorEntradas.pedirCadena("Ingrese nuevo email: ");
-                            if (Verificador.verificarMail(mail)) {
-                                clienteModificar.setMail(mail);
-                                mailValido = true;
-                            }
-                        } catch (MailInvalidoException e) {
-                            System.err.println(e.getMessage());
-                        }
-                    } while (!mailValido);
+                case "7" -> {
+                    pedirMail(clienteModificar, "Ingrese nuevo email: ");
                     System.out.println("Email modificado con éxito");
                 }
-                case 8 -> {
-                    do {
-                        int vip = GestorEntradas.pedirEntero("¿Es cliente VIP? \n1.Sí \n2.No ");
-                        if (vip == 1 || vip == 2) {
-                            clienteModificar.setClienteVip(vip == 1);
-                            vipValido = true;
-                        } else {
-                            System.out.println("Opción invalida. Debe ser 1 o 2.");
-                        }
-                    } while (!vipValido);
+                case "8" -> {
+                    pedirVIP(clienteModificar, "¿Es cliente VIP? \n1.Sí \n2.No\n");
                     System.out.println("Estado VIP modificado con éxito");
                 }
-                case 0 -> {
+                case "0" -> {
                     System.out.println("Saliendo...");
                 }
                 default -> {
                     System.out.println("Opción no válida. Intente nuevamente.");
                 }
             }
-
-            System.out.println("\n¿Quiere realizar otra modificación?");
-            System.out.println("1. Sí");
-            System.out.println("0. No");
-
-            opcion = GestorEntradas.pedirEntero("Ingrese opción: ");
-        } while (opcion != 0);
+            System.out.println("\n¿Quiere realizar otra modificación?\n1.Si \n2.No \n");
+            opcion = GestorEntradas.pedirCadena("Ingrese opción: ");
+        } while (!opcion.equals("0"));
 
         System.out.println("\nCliente modificado");
         System.out.println(clienteModificar);
-        System.out.println("¿Desea confirmar los cambios?");
+        System.out.println("¿Desea confirmar los cambios?\n1.Si \n2.No \n");
 
-        System.out.println("¿Desea confirmar los cambios?");
-        System.out.println("1. Sí");
-        System.out.println("2. No");
+        opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
 
-        int confirmar = GestorEntradas.pedirEntero("Ingrese opción: ");
-
-        if (confirmar == 1) {
+        if (opcion.equals("1")) {
             clientes.set(indiceClienteModificar, clienteModificar);
             System.out.println("Modificación completada con éxito");
         } else {
@@ -372,5 +186,127 @@ public class GestorClientes implements IGestionable<String> {
             }
         }
         return null;
+    }
+
+    //Metodos auxiliares
+    private void pedirDNI(Cliente cliente, String mensaje){
+        boolean dniValido = false;
+        do {
+            try {
+                String dni = GestorEntradas.pedirCadena(mensaje);
+
+                if(Verificador.verificarDNI(dni) &&  Verificador.verificarDNIUnico(dni, clientes)){
+                    cliente.setDni(dni);
+                    dniValido = true;
+                }
+            } catch (DNIInvalidoException e) {
+                System.err.println(e.getMessage());
+            } catch (DNIExistenteException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!dniValido);
+    }
+
+    private void pedirNombre(Cliente cliente, String mensaje) {
+        boolean nombreValido = false;
+        do {
+            try {
+                String nombre = GestorEntradas.pedirCadena(mensaje);
+                if (Verificador.verificarNombre(nombre)) {
+                    cliente.setNombre(nombre);
+                    nombreValido = true;
+                }
+            } catch (NombreInvalidoException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!nombreValido);
+    }
+
+    private void pedirApellido(Cliente cliente, String mensaje) {
+        boolean apellidoValido = false;
+        do {
+            try {
+                String apellido = GestorEntradas.pedirCadena(mensaje);
+                if (Verificador.verificarApellido(apellido)) {
+                    cliente.setApellido(apellido);
+                    apellidoValido = true;
+                }
+            } catch (ApellidoInvalidoException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!apellidoValido);
+    }
+
+    private void pedirNacionalidad(Cliente cliente, String mensaje) {
+        boolean nacionalidadValida = false;
+        do {
+            try {
+                String nacionalidad = GestorEntradas.pedirCadena(mensaje);
+                if (Verificador.verificarNacionalidad(nacionalidad)) {
+                    cliente.setNacionalidad(nacionalidad);
+                    nacionalidadValida = true;
+                }
+            } catch (NacionalidadInvalidaException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!nacionalidadValida);
+    }
+
+    private void pedirDomicilio(Cliente cliente, String mensaje) {
+        boolean domicilioValido = false;
+        do {
+            try {
+                String domicilio = GestorEntradas.pedirCadena(mensaje);
+                if (Verificador.verificarDomicilio(domicilio)) {
+                    cliente.setDomicilio(domicilio);
+                    domicilioValido = true;
+                }
+            } catch (DomicilioInvalidoException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!domicilioValido);
+    }
+
+    private void pedirTelefono(Cliente cliente, String mensaje) {
+        boolean telefonoValido = false;
+        do {
+            try {
+                String telefono = GestorEntradas.pedirCadena(mensaje);
+                if (Verificador.verificarTelefono(telefono)) {
+                    cliente.setTelefono(telefono);
+                    telefonoValido = true;
+                }
+            } catch (TelefonoInvalidoException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!telefonoValido);
+    }
+
+    private void pedirMail(Cliente cliente, String mensaje) {
+        boolean mailValido = false;
+        do {
+            try {
+                String mail = GestorEntradas.pedirCadena(mensaje);
+                if (Verificador.verificarMail(mail)) {
+                    cliente.setMail(mail);
+                    mailValido = true;
+                }
+            } catch (MailInvalidoException e) {
+                System.err.println(e.getMessage());
+            }
+        } while (!mailValido);
+    }
+
+    private void pedirVIP(Cliente cliente, String mensaje) {
+        boolean vipValido = false;
+        do {
+            int vip = GestorEntradas.pedirEntero(mensaje);
+            if (vip == 1 || vip == 2) {
+                cliente.setClienteVip(vip == 1);
+                vipValido = true;
+            } else {
+                System.out.println("Opción inválida. Debe ser 1 o 2.");
+            }
+        } while (!vipValido);
     }
 }
