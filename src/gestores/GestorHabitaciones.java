@@ -147,6 +147,23 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         }
     }
 
+    public void listarHabitacionesPrecio(Integer precioIn, Integer precioFin) {
+        System.out.println("\nLista de Habitaciones con Precio entre " + precioIn + " y " + precioFin);
+        System.out.println("=========================");
+        if (!habitaciones.isEmpty()) {
+            boolean hayDisponibles = false;
+            for (Habitacion habitacion : habitaciones) {
+                if (habitacion.getPrecioDiario() >= precioIn && habitacion.getPrecioDiario() <= precioFin) {
+                    System.out.println(habitacion);
+                    hayDisponibles = true;
+                }
+            }
+            if (!hayDisponibles) {
+                System.out.println("No hay habitaciones en ese rango de precio");
+            }
+        }
+    }
+
     public void listarHabitacionesDisponibles() {
         System.out.println("\nLista de Habitaciones Disponibles");
         System.out.println("=========================");
