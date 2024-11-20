@@ -75,7 +75,6 @@ public class GestorEmpleados extends GestorPersonas<Empleado> implements IGestio
 
         if (empleadoModificar == null) {
             System.out.println("Empleado no encontrado.");
-            GestorEntradas.pausarConsola();
             return;
         }
 

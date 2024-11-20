@@ -59,7 +59,6 @@ public class Verificador {
         throw new CredencialesIncorrectasException("Usuario o clave incorrectos");
     }
 
-
     public static <T> boolean verificarArregloVacio(ArrayList<T> arreglo) throws ArregloVacioException {
         if(arreglo.isEmpty()){
             if (arreglo.getFirst() instanceof Habitacion){
@@ -69,37 +68,6 @@ public class Verificador {
         }
 
         return true;
-    }
-
-    public static <T> boolean verificarObjetoNulo(T objeto) throws ObjetoNuloException{
-        if (objeto.equals(null)){
-            throw new ObjetoNuloException(objeto.getClass().getName() + "con datos invalidos");
-        }
-        return true;
-    }
-
-    public static boolean verificarHabitacionNula(Habitacion habitacion) throws HabitacionNulaException{
-        if (habitacion.getNumeroHabitacion().equals(null) || habitacion.getEstadoActual().equals(null)
-                || habitacion.getTipoHabitacion().equals(null) || habitacion.getPrecioDiario().equals(null) || habitacion.getFechasReservadas().equals(null)){
-            throw new HabitacionNulaException("Habitacion invalida");
-        }
-        return true;
-    }
-
-    public static boolean verificarClienteNulo(Cliente cliente) throws ClienteNuloException{
-        if (verificarPersonaNula(cliente) || cliente.getClienteVip().equals(null)){
-            throw new ClienteNuloException("Cliente invalido");
-        }
-        return true;
-    }
-
-    public static boolean verificarPersonaNula(Persona persona){
-        if (persona.getDni().equals(null) || persona.getNombre().equals(null) || persona.getApellido().equals(null)||
-                persona.getNacionalidad().equals(null) || persona.getDomicilio().equals(null) || persona.getTelefono().equals(null)||
-                persona.getMail().equals(null)){
-            return true;
-        }
-        return false;
     }
 
     public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) throws HabitacionNoDisponibleException{

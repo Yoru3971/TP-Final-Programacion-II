@@ -75,7 +75,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
         if (habitacionModificar == null) {
             System.out.println("Habitacion no encontrada.");
-            GestorEntradas.pausarConsola();
             return;
         }
 

@@ -7,7 +7,7 @@ import modelos.Reserva;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class GestorReservas {
     private ArrayList<Reserva> reservas;
@@ -128,10 +128,6 @@ public class GestorReservas {
         boolean hayReserva = false;
         int contador = 1;
 
-        if (!Verificador.verificarDNI(dniCliente)){
-            System.out.println("Dni no valido.");
-            return;
-        }
         if (reservas.isEmpty()){
             System.out.println("No hay reservas disponibles");
             return;
@@ -145,6 +141,7 @@ public class GestorReservas {
                 hayReserva = true;
             }
         }
+
         if (!hayReserva) {
             System.out.println("No se encontraron reservas para el cliente con DNI: " + dniCliente);
         }
@@ -180,55 +177,90 @@ public class GestorReservas {
         return fecha;
     }
 
-    ///Porfavor para los metodos que siguen a partir de aca ver si falta implementar verificaciones y manejo de excepciones !!!
     private void modificarHabitacion(Reserva reservaModificar, ArrayList<Habitacion> listaHabitaciones) {
-        Integer nuevaHabitacionNumero = GestorEntradas.pedirEntero("Ingrese el número de la nueva habitación: ");
+        boolean habitacionValida = false;
+        int indiceReservaModificar = reservas.indexOf(reservaModificar);
         Habitacion nuevaHabitacion = null;
 
-        for (Habitacion habitacion : listaHabitaciones) {
-            if (habitacion.getNumeroHabitacion().equals(nuevaHabitacionNumero)) {
-                nuevaHabitacion = habitacion;
-                break;
-            }
-        }
+        do{
+            Integer nuevaHabitacionNumero = GestorEntradas.pedirEntero("Ingrese el número de la nueva habitación: ");
 
-        if (nuevaHabitacion != null && nuevaHabitacion != reservaModificar.getHabitacion()) {
-            try {
-                Verificador.verificarHabitacionNula(nuevaHabitacion);
-
-                if (Verificador.verificarDisponibilidadHabitacion(nuevaHabitacion, reservaModificar.getCheckIn(), reservaModificar.getCheckOut())) {
-                    reservaModificar.liberarFechas();
-                    reservaModificar.setHabitacion(nuevaHabitacion);
-                    reservaModificar.reservarFechas();
-                    System.out.println("Habitación modificada con éxito.");
+            for (Habitacion habitacion : listaHabitaciones) {
+                if (habitacion.getNumeroHabitacion().equals(nuevaHabitacionNumero)) {
+                    nuevaHabitacion = habitacion;
+                    break;
                 }
-            } catch (HabitacionNulaException | HabitacionNoDisponibleException e) {
+            }
+
+            if (nuevaHabitacion == null || nuevaHabitacion.equals(reservaModificar.getHabitacion())) {
+                System.out.println("La habitación seleccionada no es válida o ya está asignada a esta reserva.");
+                return;
+            }
+
+            try {
+                if (Verificador.verificarDisponibilidadHabitacion(nuevaHabitacion, reservaModificar.getCheckIn(), reservaModificar.getCheckOut())) {
+
+                    System.out.println("Datos de la  nueva habitacion:");
+                    System.out.println(nuevaHabitacion);
+
+                    System.out.println("¿Desea confirmar los cambios?\n1.Si \n2.No \n");
+
+                    String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+                    if (opcion.equals("1")) {
+                        reservaModificar.setHabitacion(nuevaHabitacion);
+                        reservaModificar.liberarFechas();
+                        reservaModificar.reservarFechas();
+
+                        reservas.set(indiceReservaModificar, reservaModificar);
+                        habitacionValida = true;
+                        System.out.println("Modificación completada con éxito");
+                    } else {
+                        System.out.println("Modificación cancelada");
+                    }
+                }
+            } catch (HabitacionNoDisponibleException e) {
                 System.out.println(e.getMessage());
             }
-        } else {
-            System.out.println("La habitación seleccionada no es válida o ya está asignada a esta reserva.");
-        }
+        }while(!habitacionValida);
     }
 
     private void modificarCliente(Reserva reservaModificar, ArrayList<Cliente> listaClientes) {
-        String nuevoDni = GestorEntradas.pedirCadena("Ingrese el DNI del nuevo titular de la reserva: ");
+        boolean clienteValido = false;
+        int indiceReservaModificar = reservas.indexOf(reservaModificar);
         Cliente nuevoCliente = null;
 
-        for (Cliente cliente : listaClientes) {
-            if (cliente.getDni().equals(nuevoDni)) {
-                nuevoCliente = cliente;
-                break;
-            }
-        }
+        do{
+            String nuevoDni = GestorEntradas.pedirCadena("Ingrese el DNI del nuevo titular de la reserva: ");
 
-        try {
-            if(Verificador.verificarClienteNulo(nuevoCliente)){
-                reservaModificar.setCliente(nuevoCliente);
-                System.out.println("Cliente modificado con éxito.");
+            for (Cliente cliente : listaClientes) {
+                if (cliente.getDni().equals(nuevoDni)) {
+                    nuevoCliente = cliente;
+                    break;
+                }
             }
-        } catch (ClienteNuloException e) {
-            System.out.println(e.getMessage());
-        }
+
+            if(nuevoCliente == null){
+                System.out.println("Cliente no encontrado o DNI no valido.");
+                return;
+            }
+
+            System.out.println("Datos del nuevo cliente:");
+            System.out.println(nuevoCliente);
+
+            System.out.println("¿Desea confirmar los cambios?\n1.Si \n2.No \n");
+
+            String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+            if (opcion.equals("1")) {
+                reservaModificar.setCliente(nuevoCliente);
+                reservas.set(indiceReservaModificar, reservaModificar);
+                clienteValido = true;
+                System.out.println("Modificación completada con éxito");
+            } else {
+                System.out.println("Modificación cancelada");
+            }
+        }while(!clienteValido);
     }
 
     private void modificarFechas(Reserva reservaModificar) {
@@ -236,66 +268,84 @@ public class GestorReservas {
         System.out.println("1. Solo Check-In");
         System.out.println("2. Solo Check-Out");
         System.out.println("3. Ambos Check-In y Check-Out");
+        System.out.println("0. Salir");
 
         String opcionFecha = GestorEntradas.pedirCadena("Seleccione una opción: ");
 
         switch (opcionFecha) {
-            case "1":
-                modificarCheckIn(reservaModificar);
-                break;
-            case "2":
-                modificarCheckOut(reservaModificar);
-                break;
-            case "3":
-                modificarCheckInYCheckOut(reservaModificar);
-                break;
-            default:
-                System.out.println("Opción no válida. Intente nuevamente.");
-                break;
+            case "1" -> modificarCheckIn(reservaModificar);
+            case "2" -> modificarCheckOut(reservaModificar);
+            case "3" -> modificarCheckInYCheckOut(reservaModificar);
+            case "4" -> System.out.println("Saliendo...");
+            default -> System.out.println("Opción no válida. Intente nuevamente.");
         }
     }
 
     private void modificarCheckIn(Reserva reservaModificar) {
-        LocalDate nuevoCheckIn = pedirFechaReserva("Ingrese nueva fecha de Check-in (formato YYYY-MM-DD): ");
-        try {
-            if (Verificador.verificarDisponibilidadHabitacion(reservaModificar.getHabitacion(), nuevoCheckIn, reservaModificar.getCheckOut())) {
-                reservaModificar.liberarFechas();
-                reservaModificar.setCheckIn(nuevoCheckIn);
-                reservaModificar.reservarFechas();
-                System.out.println("Check-in modificado con éxito.");
+        boolean fechaValida = false;
+        int indiceReservaModificar = reservas.indexOf(reservaModificar);
+
+        do{
+            LocalDate nuevoCheckIn = pedirFechaReserva("Ingrese nueva fecha de check-in (formato YYYY-MM-DD): ");
+            try {
+                if (Verificador.verificarDisponibilidadHabitacion(reservaModificar.getHabitacion(), nuevoCheckIn, reservaModificar.getCheckOut())) {
+                    System.out.println("¿Desea confirmar el "+nuevoCheckIn+"como nuevo check-in?\n1.Si \n2.No \n");
+
+                    String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+                    if (opcion.equals("1")) {
+                        reservaModificar.liberarFechas();
+                        reservaModificar.setCheckIn(nuevoCheckIn);
+                        reservaModificar.reservarFechas();
+
+                        reservas.set(indiceReservaModificar, reservaModificar);
+                        fechaValida = true;
+                        System.out.println("Modificación completada con éxito");
+                    } else {
+                        System.out.println("Modificación cancelada");
+                    }
+                }
+            } catch (HabitacionNoDisponibleException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (HabitacionNoDisponibleException e) {
-            System.out.println(e.getMessage());
-        }
+        }while(!fechaValida);
     }
 
     private void modificarCheckOut(Reserva reservaModificar) {
-        LocalDate nuevoCheckOut = pedirFechaReserva("Ingrese nueva fecha de Check-out (formato YYYY-MM-DD): ");
-        try {
-            if (Verificador.verificarDisponibilidadHabitacion(reservaModificar.getHabitacion(), reservaModificar.getCheckIn(), nuevoCheckOut)) {
-                reservaModificar.liberarFechas();
-                reservaModificar.setCheckOut(nuevoCheckOut);
-                reservaModificar.reservarFechas();
-                System.out.println("Check-out modificado con éxito.");
+        boolean fechaValida = false;
+        int indiceReservaModificar = reservas.indexOf(reservaModificar);
+
+        do{
+            LocalDate nuevoCheckOut = pedirFechaReserva("Ingrese nueva fecha de check-out (formato YYYY-MM-DD): ");
+            try {
+                if(nuevoCheckOut.isAfter(reservaModificar.getCheckIn()) && Verificador.verificarDisponibilidadHabitacion(reservaModificar.getHabitacion(), reservaModificar.getCheckIn(), nuevoCheckOut)){
+                    System.out.println("¿Desea confirmar el "+nuevoCheckOut+"como nuevo check-in?\n1.Si \n2.No \n");
+
+                    String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+                    if (opcion.equals("1")) {
+
+                        reservaModificar.liberarFechas();
+                        reservaModificar.setCheckOut(nuevoCheckOut);
+                        reservaModificar.reservarFechas();
+
+                        reservas.set(indiceReservaModificar, reservaModificar);
+                        fechaValida = true;
+                        System.out.println("Modificación completada con éxito");
+                    } else {
+                        System.out.println("Modificación cancelada");
+                    }
+                }else{
+                    System.out.println("La fecha de check-out no puede ser previa a la de check-in.");
+                }
+            } catch (HabitacionNoDisponibleException e) {
+                System.out.println(e.getMessage());
             }
-        } catch (HabitacionNoDisponibleException e) {
-            System.out.println(e.getMessage());
-        }
+        }while(!fechaValida);
     }
 
     private void modificarCheckInYCheckOut(Reserva reservaModificar) {
-        LocalDate nuevoCheckIn = pedirFechaReserva("Ingrese nueva fecha de Check-in (formato YYYY-MM-DD): ");
-        LocalDate nuevoCheckOut = pedirFechaReserva("Ingrese nueva fecha de Check-out (formato YYYY-MM-DD): ");
-        try {
-            if (Verificador.verificarDisponibilidadHabitacion(reservaModificar.getHabitacion(), nuevoCheckIn, nuevoCheckOut)) {
-                reservaModificar.liberarFechas();
-                reservaModificar.setCheckIn(nuevoCheckIn);
-                reservaModificar.setCheckOut(nuevoCheckOut);
-                reservaModificar.reservarFechas();
-                System.out.println("Check-in y Check-out modificados con éxito.");
-            }
-        } catch (HabitacionNoDisponibleException e) {
-            System.out.println(e.getMessage());
-        }
+       modificarCheckIn(reservaModificar);
+       modificarCheckOut(reservaModificar);
     }
 }

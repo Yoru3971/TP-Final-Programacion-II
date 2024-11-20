@@ -70,7 +70,6 @@ public class GestorClientes extends GestorPersonas<Cliente> implements IGestiona
 
         if (clienteModificar == null) {
             System.out.println("Cliente no encontrado.");
-            GestorEntradas.pausarConsola();
             return;
         }
 
