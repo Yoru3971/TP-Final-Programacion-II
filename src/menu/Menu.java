@@ -339,10 +339,13 @@ public class Menu {
                 case "2" -> {
                     System.out.println("Ingrese los datos de la nueva reserva: ");
 
-                    //faltan respectivas verificaciones
-                    Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(GestorEntradas.pedirEntero("Ingrese el numero de la habitacion a reservar: "));
-                    //Opcional, mostrar habitacion y cliente
-                    Cliente cliente = gestorClientes.buscarClientePorDni(GestorEntradas.pedirCadena("Ingrese el dni del titular de la reserva: "));
+                    Cliente cliente = gestorClientes.pedirCliente();
+                    Habitacion habitacion = gestorHabitaciones.pedirHabitacion();
+
+                    System.out.println("Datos del cliente");
+                    System.out.println("\n"+cliente);
+                    System.out.println("Datos de la habitacion");
+                    System.out.println("\n"+habitacion);
 
                     LocalDate checkIn = GestorEntradas.pedirFecha("Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
                     LocalDate checkOut = GestorEntradas.pedirFecha("Ingrese la fecha de check-out (formato: yyyy-MM-dd): ");
@@ -358,15 +361,15 @@ public class Menu {
                     //modificar fechas en la habitacion correspondiente
                     //guardarla en el archivo
                 }
-                case "3" -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
+                case "3" -> gestorReservas.modificar(GestorEntradas.pedirCadena("Ingrese el ID de la reserva a modificar: "), gestorHabitaciones.getHabitaciones(), gestorClientes.getClientes());
                 case "4" -> {
-                    Habitacion habitacionNueva = gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
+                    Habitacion habitacionEliminar = gestorReservas.eliminar(GestorEntradas.pedirCadena("Ingrese el codigo de la reserva a eliminar: "));
                     //Logica para liberar las fechas en la habitacion de la reserva eliminada.
                     try {
-                        if (!Verificador.verificarObjetoNulo(habitacionNueva)) { //Verifico que el objeto se haya eliminado de la reserva.(Logica dentro de eliminar)
-                            Habitacion habitacionReemplazar = gestorHabitaciones.buscarHabitacionPorNumero(habitacionNueva.getNumeroHabitacion()); // Obtengo la habitacion a pisar.
+                        if (!Verificador.verificarObjetoNulo(habitacionEliminar)) { //Verifico que el objeto se haya eliminado de la reserva.(Logica dentro de eliminar)
+                            Habitacion habitacionReemplazar = gestorHabitaciones.buscarHabitacionPorNumero(habitacionEliminar.getNumeroHabitacion()); // Obtengo la habitacion a pisar.
                             Integer indiceHabitacion = gestorHabitaciones.getHabitaciones().indexOf(habitacionReemplazar); //
-                            gestorHabitaciones.getHabitaciones().set(indiceHabitacion, habitacionNueva);
+                            gestorHabitaciones.getHabitaciones().set(indiceHabitacion, habitacionEliminar);
                         }
                     } catch (ObjetoNuloException e) {
                         System.out.println(e.getMessage());

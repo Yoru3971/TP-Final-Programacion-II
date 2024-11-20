@@ -36,7 +36,6 @@ public class GestorReservas {
     }
 
     public Habitacion eliminar(String codigo) {
-        //Cuando se elimine una reserva se deben liberar los dias que se bloquearon para dicha reserva en la habitacion
         Reserva reservaEliminar = buscarReservaPorCodigo(codigo);
         try{
             if (!Verificador.verificarObjetoNulo(reservaEliminar)) {
@@ -85,7 +84,6 @@ public class GestorReservas {
         GestorEntradas.pausarConsola();
     }
 
-    //Pendiente de modificar
     public void modificar(String codigo, ArrayList<Habitacion>listaHabitaciones, ArrayList<Cliente> listaClientes) {
         Reserva reservaModificar = buscarReservaPorCodigo(codigo);
 

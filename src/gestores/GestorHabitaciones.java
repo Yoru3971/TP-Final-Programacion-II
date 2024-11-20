@@ -1,6 +1,7 @@
 package gestores;
 
 import excepciones.*;
+import modelos.Cliente;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
@@ -242,5 +243,21 @@ public class GestorHabitaciones implements IGestionable<Integer> {
                 System.err.println(e.getMessage());
             }
         } while (!precioValido);
+    }
+
+    public Habitacion pedirHabitacion(){
+        Habitacion habitacion = new Habitacion();
+        boolean habitacionEncontrada = false;
+
+        do{
+            habitacion = buscarHabitacionPorNumero(GestorEntradas.pedirEntero("\nIngrese el numero de la habitacion a reservar: "));
+
+            if(habitacion == null){
+                System.out.println("Habitacion no encontrada. Intente de nuevo");
+            }else{
+                habitacionEncontrada = true;
+            }
+        }while(!habitacionEncontrada);
+        return habitacion;
     }
 }

@@ -309,4 +309,20 @@ public class GestorClientes implements IGestionable<String> {
             }
         } while (!vipValido);
     }
+
+    public Cliente pedirCliente(){
+        Cliente cliente = new Cliente(false);
+        boolean clienteEncontrado = false;
+
+        do{
+           cliente = buscarClientePorDni(GestorEntradas.pedirCadena("\n Ingrese el dni del titular de la reserva: "));
+
+           if(cliente == null){
+               System.out.println("Cliente no encontrado. Intente de nuevo");
+           }else{
+             clienteEncontrado = true;
+           }
+        }while(!clienteEncontrado);
+        return cliente;
+    }
 }
