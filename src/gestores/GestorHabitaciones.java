@@ -1,10 +1,12 @@
 package gestores;
 
 import excepciones.*;
+import modelos.Cliente;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestorHabitaciones implements IGestionable<Integer> {
     private ArrayList<Habitacion> habitaciones;
@@ -108,7 +110,9 @@ public class GestorHabitaciones implements IGestionable<Integer> {
                     pedirPrecioDiario(habitacionModificar, "Ingrese el nuevo precio por dia: ");
                     System.out.println("Precio por dia modificado con éxito");
                 }
-                case "0"-> System.out.println("Saliendo...");
+                case "0"->{
+                    System.out.println("Saliendo...");
+                }
                 default->{
                     System.out.println("Opción no válida. Intente nuevamente.");
                 }
@@ -139,23 +143,6 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         if (!habitaciones.isEmpty()){
             for (Habitacion habitacion : habitaciones){
                 System.out.println(habitacion);
-            }
-        }
-    }
-
-    public void listarHabitacionesPrecio(Integer precioIn, Integer precioFin) {
-        System.out.println("\nLista de Habitaciones con Precio entre " + precioIn + " y " + precioFin);
-        System.out.println("=========================");
-        if (!habitaciones.isEmpty()) {
-            boolean hayDisponibles = false;
-            for (Habitacion habitacion : habitaciones) {
-                if (habitacion.getPrecioDiario() >= precioIn && habitacion.getPrecioDiario() <= precioFin) {
-                    System.out.println(habitacion);
-                    hayDisponibles = true;
-                }
-            }
-            if (!hayDisponibles) {
-                System.out.println("No hay habitaciones en ese rango de precio");
             }
         }
     }

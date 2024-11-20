@@ -261,7 +261,6 @@ public class Menu {
 
             switch (opcion) {
                 case "1" -> {
-<<<<<<< Updated upstream
                     GestorEntradas.limpiarConsola();
                     System.out.println("\n  " + colorAzul + "=== Listar ===" + resetColor);
                     System.out.println("    1. Listar todas las habitaciones");
@@ -270,29 +269,12 @@ public class Menu {
                     System.out.println("    4. Listar habitaciones por tipo");
                     opcion = GestorEntradas.pedirCadena("\n    Seleccione una opción: ");
                     switch (opcion) {
-=======
-                    System.out.println("---- Listar ----");
-                    System.out.println("1. Listar todas las habitaciones");
-                    System.out.println("2. Listar habitaciones disponibles");
-                    System.out.println("3. Listar habitaciones no disponibles");
-                    System.out.println("4. Listar habitaciones por tipo");
-                    System.out.println("5. Listar habitaciones entre precios");
-                    System.out.println("0. Volver al menu anterior");
-                    opcion = GestorEntradas.pedirCadena("Seleccione una opcion:");
-                    switch (opcion){
->>>>>>> Stashed changes
                         case "1" -> gestorHabitaciones.listar();
                         case "2" -> gestorHabitaciones.listarHabitacionesDisponibles();
                         case "3" -> gestorHabitaciones.listarHabitacionesNoDisponibles();
                         case "4" -> gestorHabitaciones.listarHabitacionesPorTipo();
-<<<<<<< Updated upstream
                         case "5" -> System.out.println("\n    Volviendo al menú anterior...");
                         default -> System.out.println(colorRojo + "\n    Opción inválida. Intente nuevamente." + resetColor);
-=======
-                        case "5" -> gestorHabitaciones.listarHabitacionesPrecio(GestorEntradas.pedirEntero("Ingrese el precio minimo: "), GestorEntradas.pedirEntero("Ingrese el precio maximo: "));
-                        case "0" -> System.out.println("Volviendo al menú anterior...");
-                        default -> System.out.println("Opcion no valida. Intente denuevo");
->>>>>>> Stashed changes
                     }
                 }
                 case "2" -> gestorHabitaciones.agregar();
@@ -324,7 +306,6 @@ public class Menu {
 
             switch (opcion) {
                 case "1" -> {
-<<<<<<< Updated upstream
                     System.out.println("\n  " + colorAzul + "=== Listar ===" + resetColor);
                     System.out.println("    1. Listar todas las habitaciones");
                     System.out.println("    2. Listar habitaciones disponibles");
@@ -332,30 +313,14 @@ public class Menu {
                     System.out.println("    4. Listar habitaciones por tipo");
                     opcion = GestorEntradas.pedirCadena("\n    Seleccione una opción: ");
                     switch (opcion) {
-=======
-                    System.out.println("---- Listar ----");
-                    System.out.println("1. Listar todas las habitaciones");
-                    System.out.println("2. Listar habitaciones disponibles");
-                    System.out.println("3. Listar habitaciones no disponibles");
-                    System.out.println("4. Listar habitaciones por tipo");
-                    System.out.println("5. Listar habitaciones entre precios");
-                    System.out.println("0. Volver al menu anterior");
-                    opcion = GestorEntradas.pedirCadena("Seleccione una opcion:");
-                    switch (opcion){
->>>>>>> Stashed changes
                         case "1" -> gestorHabitaciones.listar();
                         case "2" -> gestorHabitaciones.listarHabitacionesDisponibles();
                         case "3" -> gestorHabitaciones.listarHabitacionesNoDisponibles();
                         case "4" -> gestorHabitaciones.listarHabitacionesPorTipo();
-<<<<<<< Updated upstream
                         case "5" -> System.out.println("\n    Volviendo al menú anterior...");
                         default -> System.out.println(colorRojo + "\n    Opción inválida. Intente nuevamente." + resetColor);
-=======
-                        case "5" -> gestorHabitaciones.listarHabitacionesPrecio(GestorEntradas.pedirEntero("Ingrese el precio minimo: "), GestorEntradas.pedirEntero("Ingrese el precio maximo: "));
-                        case "0" -> System.out.println("Volviendo al menú anterior...");
-                        default -> System.out.println("Opcion no valida. Intente denuevo");
->>>>>>> Stashed changes
                     }
+                    GestorEntradas.pausarConsola();
                 }
                 case "2" -> gestorHabitaciones.modificarEstado(GestorEntradas.pedirEntero("\n  Ingrese el número de la habitación a modificar: "));
                 case "3" -> buscarHabitacionPorNumero();

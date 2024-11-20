@@ -63,10 +63,14 @@ public class GestorReservas {
         System.out.println("\nLista de Reservas");
         System.out.println("=========================");
 
-        if (!reservas.isEmpty()){
-            for (Reserva reserva : reservas){
-                System.out.println(reserva);
+        try{
+            if (Verificador.verificarArregloVacio(reservas)){
+                for (Reserva reserva : reservas){
+                    System.out.println(reserva);
+                }
             }
+        }catch (ArregloVacioException e){
+            System.out.println(e.getMessage());
         }
     }
 

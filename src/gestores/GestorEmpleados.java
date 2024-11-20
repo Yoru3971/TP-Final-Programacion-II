@@ -1,6 +1,7 @@
 package gestores;
 
 import excepciones.*;
+import modelos.Cliente;
 import modelos.Empleado;
 import java.util.ArrayList;
 
@@ -139,8 +140,12 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
                     pedirSalario(empleadoModificar, "Ingrese nuevo salario: ");
                     System.out.println("Salario modificado con éxito");
                 }
-                case "0" -> System.out.println("Saliendo...");
-                default -> System.out.println("Opción no válida. Intente nuevamente.");
+                case "0" -> {
+                    System.out.println("Saliendo...");
+                }
+                default -> {
+                    System.out.println("Opción no válida. Intente nuevamente.");
+                }
             }
             System.out.println("\n¿Quiere realizar otra modificación?\n1.Si \n2.No \n");
             opcion = GestorEntradas.pedirCadena("Ingrese opción: ");
@@ -231,4 +236,5 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
             }
         } while (!claveValida);
     }
+
 }
