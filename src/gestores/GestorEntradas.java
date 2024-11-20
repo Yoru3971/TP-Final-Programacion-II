@@ -32,10 +32,7 @@ public class GestorEntradas {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         LocalDate fechaParseada = LocalDate.parse(input, formatter);
-        if(fechaParseada != null){
-            return fechaParseada;
-        }
-        return null;
+        return fechaParseada;
     }
 
     public static void limpiarConsola() {

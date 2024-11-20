@@ -213,7 +213,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
 
         if (habitacionModificar == null) {
-            System.out.println("La habitación con el numero dado no existe.");
+            System.out.println("La habitacion con el numero dado no existe.");
             return;
         }
 
@@ -260,14 +260,14 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         System.out.println("4. Desinfección");
         System.out.println("5. Fumigación");
 
-        int opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
+        String opcion = GestorEntradas.pedirCadena("Seleccione una opción: ");
 
         switch (opcion) {
-            case 1: return EstadoHabitacion.DISPONIBLE;
-            case 2: return EstadoHabitacion.LIMPIEZA;
-            case 3: return EstadoHabitacion.REPARACION;
-            case 4: return EstadoHabitacion.DESINFECCION;
-            case 5: return EstadoHabitacion.FUMIGACION;
+            case "1": return EstadoHabitacion.DISPONIBLE;
+            case "2": return EstadoHabitacion.LIMPIEZA;
+            case "3": return EstadoHabitacion.REPARACION;
+            case "4": return EstadoHabitacion.DESINFECCION;
+            case "5": return EstadoHabitacion.FUMIGACION;
             default: return EstadoHabitacion.DISPONIBLE;
         }
     }
@@ -286,7 +286,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             case 2: return TipoHabitacion.DOBLE;
             case 3: return TipoHabitacion.MATRIMONIAL;
             case 4: return TipoHabitacion.SUITE;
-            default: return null;
+            default: return TipoHabitacion.SIMPLE;
         }
     }
 
