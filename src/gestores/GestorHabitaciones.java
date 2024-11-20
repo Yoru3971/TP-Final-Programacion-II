@@ -1,6 +1,7 @@
 package gestores;
 
 import excepciones.*;
+import modelos.Cliente;
 import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
@@ -46,31 +47,25 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
     @Override
     public void eliminar(Integer nroHabitacion) {
-        try{
-            Habitacion habitacionEliminar = buscarHabitacionPorNumero(nroHabitacion);
-            if (!Verificador.verificarObjetoNulo(habitacionEliminar)){
-                throw new ObjetoNuloException("Habitacion no encontrada");
-            }
-            int opcion;
-            do{
-                System.out.println("Confirmar eliminación de la habitación " + nroHabitacion + ": ");
-                System.out.println("1. Sí");
-                System.out.println("2. No");
+        Habitacion habitacionEliminar = buscarHabitacionPorNumero(nroHabitacion);
 
-                opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
-                //GestorEntradas.limpiarBuffer();
+        if (habitacionEliminar == null) {
+            System.out.println("Habitacion no encontrada.");
+            return;
+        }
 
-                if (opcion == 1) {
-                    habitaciones.remove(habitacionEliminar);
-                    System.out.println("Habitación eliminada del sistema con éxito.");
-                } else if (opcion == 2){
-                    System.out.println("La habitación no fue eliminada del sistema.");
-                }else{
-                    System.out.println("Numero ingresado incorrecto, ingrese 1 para eliminar o 2 para cancelar");
-                }
-            }while (opcion < 1 && opcion > 2);
-        }catch(ObjetoNuloException e){
-            System.out.println(e.getMessage());
+        System.out.println("Datos de la habitacion a eliminar:");
+        System.out.println(habitacionEliminar);
+
+        System.out.println("¿Desea confirmar la eliminacion?\n1.Si \n2.No \n");
+
+        String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+        if (opcion.equals("1")) {
+            habitaciones.remove(habitacionEliminar);
+            System.out.println("Eliminacion completada con éxito.");
+        } else {
+            System.out.println("Eliminacion cancelada.");
         }
     }
 

@@ -1,6 +1,7 @@
 package gestores;
 
 import excepciones.*;
+import modelos.Cliente;
 import modelos.Empleado;
 import java.util.ArrayList;
 
@@ -46,31 +47,25 @@ public class GestorEmpleados extends GestorPersonas<Empleado> implements IGestio
 
     @Override
     public void eliminar(String dni) {
-        try{
-            Empleado empleadoEliminar = buscarEmpleadoPorDni(dni);
-            if (!Verificador.verificarObjetoNulo(empleadoEliminar)){
-                throw new ObjetoNuloException("Empleado no encontrado");
-            }
-            int opcion;
-            do {
-                System.out.println("Confirmar eliminacion del empleado: ");
-                System.out.println(empleadoEliminar);
-                System.out.println("1. Si");
-                System.out.println("2. No");
+        Empleado empleadoEliminar = buscarEmpleadoPorDni(dni);
 
-                opcion = GestorEntradas.pedirEntero("Ingrese su opción: ");
+        if (empleadoEliminar == null) {
+            System.out.println("Cliente no encontrado.");
+            return;
+        }
 
-                if(opcion == 1){
-                    super.getPersonas().remove(empleadoEliminar);
-                    System.out.println("Empleado eliminado del sistema con éxito.");
-                }else if (opcion == 2){
-                    System.out.println("El empleado no fue eliminado del sistema.");
-                }else {
-                    System.out.println("Numero ingresado incorrecto, ingrese 1 para eliminar y 2 para cancelar la eliminacion");
-                }
-            }while(opcion < 1 && opcion > 2);
-        }catch (ObjetoNuloException e){
-            System.out.println(e.getMessage());
+        System.out.println("Datos del empleado a eliminar:");
+        System.out.println(empleadoEliminar);
+
+        System.out.println("¿Desea confirmar la eliminacion?\n1.Si \n2.No \n");
+
+        String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+        if (opcion.equals("1")) {
+            super.getPersonas().remove(empleadoEliminar);
+            System.out.println("Eliminacion completada con éxito.");
+        } else {
+            System.out.println("Eliminacion cancelada.");
         }
     }
 

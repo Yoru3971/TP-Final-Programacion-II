@@ -42,31 +42,25 @@ public class GestorClientes extends GestorPersonas<Cliente> implements IGestiona
 
     @Override
     public void eliminar(String dni) {
-        try {
-            Cliente clienteEliminar = buscarClientePorDni(dni);
-            if (!Verificador.verificarObjetoNulo(clienteEliminar)) {
-                throw new ObjetoNuloException("Cliente no encontrado");
-            }
-            int opcion;
-            do {
-                System.out.println("Confirmar eliminación del cliente con DNI " + dni + ": ");
-                System.out.println("1. Sí");
-                System.out.println("2. No");
+        Cliente clienteEliminar = buscarClientePorDni(dni);
 
-                opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
-                //GestorEntradas.limpiarBuffer();
+        if (clienteEliminar == null) {
+            System.out.println("Cliente no encontrado.");
+            return;
+        }
 
-                if (opcion == 1) {
-                    super.getPersonas().remove(clienteEliminar);
-                    System.out.println("Cliente eliminado del sistema con éxito.");
-                } else if (opcion == 2) {
-                    System.out.println("El cliente no fue eliminado del sistema.");
-                } else {
-                    System.out.println("Número ingresado incorrecto, ingrese 1 para eliminar o 2 para cancelar");
-                }
-            } while (opcion < 1 && opcion > 2);
-        } catch (ObjetoNuloException e) {
-            System.out.println(e.getMessage());
+        System.out.println("Datos del cliente a eliminar:");
+        System.out.println(clienteEliminar);
+
+        System.out.println("¿Desea confirmar la eliminacion?\n1.Si \n2.No \n");
+
+        String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+        if (opcion.equals("1")) {
+            super.getPersonas().remove(clienteEliminar);
+            System.out.println("Eliminacion completada con éxito.");
+        } else {
+            System.out.println("Eliminacion cancelada.");
         }
     }
 

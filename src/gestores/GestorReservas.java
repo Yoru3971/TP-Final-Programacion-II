@@ -34,35 +34,28 @@ public class GestorReservas {
         System.out.println("Reserva agregada con éxito.");
     }
 
-    public Habitacion eliminar(Integer codigo) {
-        Reserva reservaEliminar = buscarReservaPorCodigo(codigo);
-        try{
-            if (!Verificador.verificarObjetoNulo(reservaEliminar)) {
-                throw new ObjetoNuloException("Reserva no encontrada");
-            }
-            int opcion;
-            do {
-                System.out.println("Confirmar eliminación de la reserva con el codigo " + codigo + ": ");
-                System.out.println("1. Sí");
-                System.out.println("2. No");
+    public Habitacion eliminar(Integer id) {
+        Reserva reservaEliminar = buscarReservaPorCodigo(id);
 
-                opcion = GestorEntradas.pedirEntero("Seleccione una opción: ");
-                //GestorEntradas.limpiarBuffer();
-
-                if (opcion == 1) {
-                    reservaEliminar.liberarFechas();
-                    reservas.remove(reservaEliminar);
-                    System.out.println("Reserva eliminada del sistema con éxito.");
-                } else if (opcion == 2) {
-                    reservaEliminar.setHabitacion(null);
-                    System.out.println("La reserva no fue eliminado del sistema.");
-                } else {
-                    System.out.println("Opcion no valida. Intente nuevamente");
-                }
-            } while (opcion < 1 && opcion > 2);
-        }catch (ObjetoNuloException e){
-            System.out.println(e.getMessage());
+        if (reservaEliminar == null) {
+            System.out.println("Reserva no encontrado.");
+            return null;
         }
+
+        System.out.println("Datos de la reserva a eliminar:");
+        System.out.println(reservaEliminar);
+
+        System.out.println("¿Desea confirmar la eliminacion?\n1.Si \n2.No \n");
+
+        String opcion = GestorEntradas.pedirCadena("Ingrese una opción: ");
+
+        if (opcion.equals("1")) {
+            reservas.remove(reservaEliminar);
+            System.out.println("Eliminacion completada con éxito.");
+        } else {
+            System.out.println("Eliminacion cancelada.");
+        }
+
         return reservaEliminar.getHabitacion();
     }
 
@@ -165,27 +158,6 @@ public class GestorReservas {
         return reservasCliente;
     }
 
-    /*public void mostrarHistorialCliente(String dniCliente){
-        try{
-            Verificador.verificarDNI(dniCliente);
-            Verificador.verificarArregloVacio(reservas);
-        }catch (DNIInvalidoException | ArregloVacioException e){
-            System.out.println(e.getMessage());
-            return;
-        }
-
-        boolean hayReservas = false;
-        for (Reserva reserva : reservas){
-            if (reserva.getCliente().getDni().equals(dniCliente)){
-                System.out.println(reserva);
-                hayReservas = true;
-            }
-        }
-        if (!hayReservas){
-            System.out.println("Historial de reservas vacio.");
-        }
-    }*/
-
     //Metodos de busqueda
     public Reserva buscarReservaPorCodigo(Integer codigo) {
         Reserva reserva = null;
@@ -258,9 +230,10 @@ public class GestorReservas {
         }
 
         try {
-            Verificador.verificarClienteNulo(nuevoCliente);
-            reservaModificar.setCliente(nuevoCliente);
-            System.out.println("Cliente modificado con éxito.");
+            if(Verificador.verificarClienteNulo(nuevoCliente)){
+                reservaModificar.setCliente(nuevoCliente);
+                System.out.println("Cliente modificado con éxito.");
+            }
         } catch (ClienteNuloException e) {
             System.out.println(e.getMessage());
         }

@@ -427,16 +427,15 @@ public class Menu {
                 }
                 case "4" -> {
                     Habitacion habitacionEliminar = gestorReservas.eliminar(GestorEntradas.pedirEntero("Ingrese el ID de la reserva a eliminar: "));
-                    //Logica para liberar las fechas en la habitacion de la reserva eliminada.
-                    try {
-                        if (!Verificador.verificarObjetoNulo(habitacionEliminar)) { //Verifico que el objeto se haya eliminado de la reserva.(Logica dentro de eliminar)
-                            Habitacion habitacionReemplazar = gestorHabitaciones.buscarHabitacionPorNumero(habitacionEliminar.getNumeroHabitacion()); // Obtengo la habitacion a pisar.
-                            Integer indiceHabitacion = gestorHabitaciones.getHabitaciones().indexOf(habitacionReemplazar); //
-                            gestorHabitaciones.getHabitaciones().set(indiceHabitacion, habitacionEliminar);
-                        }
-                    } catch (ObjetoNuloException e) {
-                        System.out.println(e.getMessage());
+
+                    if(habitacionEliminar == null){
+                        System.out.println("Reserva no encontrada.");
+                        return;
                     }
+
+                    Habitacion habitacionReemplazar = gestorHabitaciones.buscarHabitacionPorNumero(habitacionEliminar.getNumeroHabitacion()); // Obtengo la habitacion a pisar.
+                    Integer indiceHabitacion = gestorHabitaciones.getHabitaciones().indexOf(habitacionReemplazar); //
+                    gestorHabitaciones.getHabitaciones().set(indiceHabitacion, habitacionEliminar);
                 }
                 case "5" ->{
                     gestorReservas.mostrarHistorialCliente(GestorEntradas.pedirCadena("Ingrese el dni del cliente: "));

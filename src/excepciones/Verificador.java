@@ -1,11 +1,9 @@
 package excepciones;
 
-import enumeraciones.EstadoHabitacion;
 import modelos.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Verificador {
     public static boolean verificarUsuario(String usuario) throws UsuarioInvalidoException{
@@ -61,20 +59,6 @@ public class Verificador {
         throw new CredencialesIncorrectasException("Usuario o clave incorrectos");
     }
 
-    public static <T> boolean verificarExistente(T elemento, Collection<T> coleccion) throws ElementoExistenteException {
-        if(coleccion.contains(elemento)){
-            throw new ElementoExistenteException(elemento.getClass().getName() + " ya existente en el sistema.");
-        }
-        return true;
-    }
-
-    public static <T> boolean verificarNoExistente(T elemento, Collection<T> coleccion) throws ElementoNoExistenteException {
-        if(!coleccion.contains(elemento)){
-            throw new ElementoNoExistenteException(elemento.getClass().getName() + " no existente en el sistema.");
-        }
-
-        return true;
-    }
 
     public static <T> boolean verificarArregloVacio(ArrayList<T> arreglo) throws ArregloVacioException {
         if(arreglo.isEmpty()){
@@ -86,8 +70,6 @@ public class Verificador {
 
         return true;
     }
-
-    ///VERIFICACIONES NULL
 
     public static <T> boolean verificarObjetoNulo(T objeto) throws ObjetoNuloException{
         if (objeto.equals(null)){
@@ -120,23 +102,18 @@ public class Verificador {
         return false;
     }
 
-    public static boolean verificarEmpleadoNulo(Empleado empleado) throws EmpleadoNuloException{
-        if (verificarPersonaNula(empleado) || empleado.getUsuario().equals(null) || empleado.getClave().equals(null) || empleado.getSalario().equals(null) || empleado.getCargo().equals(null)){
-            throw new EmpleadoNuloException("Empleado invalido");
+    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) throws HabitacionNoDisponibleException{
+        LocalDate fecha = checkIn;
+        while (!fecha.isAfter(checkOut)) {
+            if (!habitacion.isDisponible(fecha)) {
+                throw new HabitacionNoDisponibleException("La habitacion no esta disponible en las fechas que solicito. ");
+            }
+            fecha = fecha.plusDays(1);
         }
         return true;
     }
 
-    public static boolean verificarReservaNula(Reserva reserva) throws ReservaNulaException, HabitacionNulaException, ClienteNuloException {
-        if (Verificador.verificarClienteNulo(reserva.getCliente()) || Verificador.verificarHabitacionNula(reserva.getHabitacion())
-                || reserva.getID().equals(null) || reserva.getCheckIn().equals(null) ||
-                reserva.getCheckOut().equals(null) || reserva.getMontoTotal().equals(null)){
-                throw new ReservaNulaException("Reserva invalida");
-        }
-        return true;
-    }
-
-    //Metodo para verificar si el DNI es valido
+    //Metodos para verificar datos
     public static boolean verificarDNI(String dni) throws DNIInvalidoException {
         // Verificar que no sea null o esté vacío
         if (dni == null || dni.trim().isEmpty()) {
@@ -162,7 +139,6 @@ public class Verificador {
         return true;
     }
 
-    // Metodo para verificar si el nombre es válido
     public static boolean verificarNombre(String nombre) throws NombreInvalidoException {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new NombreInvalidoException("El nombre no puede estar vacío.");
@@ -173,7 +149,6 @@ public class Verificador {
         return true;
     }
 
-    // Metodo para verificar si el apellido es válido
     public static boolean verificarApellido(String apellido) throws ApellidoInvalidoException {
         if (apellido == null || apellido.trim().isEmpty()) {
             throw new ApellidoInvalidoException("El apellido no puede estar vacío.");
@@ -184,7 +159,6 @@ public class Verificador {
         return true;
     }
 
-    // Metodo para verificar si la nacionalidad es válida
     public static boolean verificarNacionalidad(String nacionalidad) throws NacionalidadInvalidaException {
         if (nacionalidad == null || nacionalidad.trim().isEmpty()) {
             throw new NacionalidadInvalidaException("La nacionalidad no puede estar vacía.");
@@ -195,7 +169,6 @@ public class Verificador {
         return true;
     }
 
-    // Metodo para verificar si el domicilio es válido (letras, números y espacios)
     public static boolean verificarDomicilio(String domicilio) throws DomicilioInvalidoException {
         if (domicilio == null || domicilio.trim().isEmpty()) {
             throw new DomicilioInvalidoException("El domicilio no puede estar vacío.");
@@ -206,7 +179,6 @@ public class Verificador {
         return true;
     }
 
-    // Metodo para verificar si el teléfono es válido
     public static boolean verificarTelefono(String telefono) throws TelefonoInvalidoException {
         if (telefono == null || telefono.trim().isEmpty()) {
             throw new TelefonoInvalidoException("El teléfono no puede estar vacío.");
@@ -217,7 +189,6 @@ public class Verificador {
         return true;
     }
 
-    // Metodo para verificar si el mail es válido (formato básico)
     public static boolean verificarMail(String mail) throws MailInvalidoException {
         if (mail == null || mail.trim().isEmpty()) {
             throw new MailInvalidoException("El correo electrónico no puede estar vacío.");
@@ -261,16 +232,4 @@ public class Verificador {
         }
         return true;
     }
-
-    public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) throws HabitacionNoDisponibleException{
-        LocalDate fecha = checkIn;
-        while (!fecha.isAfter(checkOut)) {
-            if (!habitacion.isDisponible(fecha)) {
-                throw new HabitacionNoDisponibleException("La habitacion no esta disponible en las fechas que solicito. ");
-            }
-            fecha = fecha.plusDays(1);
-        }
-        return true;
-    }
-
 }
