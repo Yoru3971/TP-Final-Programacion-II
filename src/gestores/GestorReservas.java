@@ -125,37 +125,29 @@ public class GestorReservas {
     }
 
     public void mostrarHistorialCliente(String dniCliente) {
-        try {
-            Verificador.verificarDNI(dniCliente);
-            Verificador.verificarArregloVacio(reservas);
-        } catch (DNIInvalidoException | ArregloVacioException e) {
-            System.err.println(e.getMessage());
+        boolean hayReserva = false;
+        int contador = 1;
+
+        if (!Verificador.verificarDNI(dniCliente)){
+            System.out.println("Dni no valido.");
             return;
         }
-
-        List<Reserva> reservasCliente = obtenerReservasPorCliente(dniCliente);
-
-        if (reservasCliente.isEmpty()) {
-            System.out.println("No se encontraron reservas para el cliente con DNI: " + dniCliente);
-        } else {
-            System.out.println("Historial de reservas del cliente con DNI: " + dniCliente);
-            System.out.println("===========================================");
-            int contador = 1;
-            for (Reserva reserva : reservasCliente) {
-                System.out.println(contador + ": " + reserva);
-                contador++;
-            }
+        if (reservas.isEmpty()){
+            System.out.println("No hay reservas disponibles");
+            return;
         }
-    }
-
-    private List<Reserva> obtenerReservasPorCliente(String dniCliente) {
-        List<Reserva> reservasCliente = new ArrayList<>();
+        System.out.println("Historial de reservas del cliente con DNI: " + dniCliente);
+        System.out.println("===========================================");
         for (Reserva reserva : reservas) {
             if (reserva.getCliente().getDni().equals(dniCliente)) {
-                reservasCliente.add(reserva);
+                System.out.println(contador + ": " + reserva);
+                contador++;
+                hayReserva = true;
             }
         }
-        return reservasCliente;
+        if (!hayReserva) {
+            System.out.println("No se encontraron reservas para el cliente con DNI: " + dniCliente);
+        }
     }
 
     //Metodos de busqueda
