@@ -5,6 +5,7 @@ import modelos.Habitacion;
 import enumeraciones.EstadoHabitacion;
 import enumeraciones.TipoHabitacion;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestorHabitaciones implements IGestionable<Integer> {
     private ArrayList<Habitacion> habitaciones;
@@ -145,36 +146,27 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         System.out.println("\nLista de Habitaciones");
         System.out.println("=========================");
 
-        try{
-            if (Verificador.verificarArregloVacio(habitaciones)){
-                for (Habitacion habitacion : habitaciones){
-                    System.out.println(habitacion);
-                }
+        if (!habitaciones.isEmpty()){
+            for (Habitacion habitacion : habitaciones){
+                System.out.println(habitacion);
             }
-        } catch (ArregloVacioException e) {
-            System.out.println(e.getMessage());
         }
     }
 
     public void listarHabitacionesDisponibles() {
         System.out.println("\nLista de Habitaciones Disponibles");
         System.out.println("=========================");
-
-        try {
-            if (Verificador.verificarArregloVacio(habitaciones)) {
-                boolean hayDisponibles = false;
-                for (Habitacion habitacion : habitaciones) {
-                    if (habitacion.getEstadoActual().equals(EstadoHabitacion.DISPONIBLE)) {
-                        System.out.println(habitacion);
-                        hayDisponibles = true;
-                    }
-                }
-                if (!hayDisponibles) {
-                    System.out.println("No hay habitaciones disponibles en este momento.");
+        if (!habitaciones.isEmpty()) {
+            boolean hayDisponibles = false;
+            for (Habitacion habitacion : habitaciones) {
+                if (habitacion.getEstadoActual().equals(EstadoHabitacion.DISPONIBLE)) {
+                    System.out.println(habitacion);
+                    hayDisponibles = true;
                 }
             }
-        } catch (ArregloVacioException e) {
-            System.err.println(e.getMessage());
+            if (!hayDisponibles) {
+                System.out.println("No hay habitaciones disponibles en este momento.");
+            }
         }
     }
 
@@ -182,24 +174,54 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     public void listarHabitacionesNoDisponibles() {
         System.out.println("\nLista de Habitaciones No Disponibles");
         System.out.println("=========================");
-        try {
-            if (Verificador.verificarArregloVacio(habitaciones)) {
-                boolean hayOcupadas = false;
-                for (Habitacion habitacion : habitaciones) {
-                    if (!habitacion.getEstadoActual().equals(EstadoHabitacion.DISPONIBLE)) {
-                        System.out.println(habitacion);
-                        hayOcupadas = true;
-                    }
-                }
-                if (!hayOcupadas) {
-                    System.out.println("Todas las habitaciones estan disponibles.");
+        if (!habitaciones.isEmpty()) {
+            boolean hayOcupadas = false;
+            for (Habitacion habitacion : habitaciones) {
+                if (!habitacion.getEstadoActual().equals(EstadoHabitacion.DISPONIBLE)) {
+                    System.out.println(habitacion);
+                    hayOcupadas = true;
                 }
             }
-        } catch (ArregloVacioException e) {
-            System.err.println(e.getMessage());
+            if (!hayOcupadas) {
+                System.out.println("Todas las habitaciones estan disponibles.");
+            }
         }
     }
 
+    //CHEQUEARRRRRRRRRRRRR
+    public void listarHabitacionesPorTipo(TipoHabitacion tipo) {
+        if (tipo == null) {
+            System.out.println("El tipo de habitación proporcionado no es válido.");
+            return;
+        }
+
+        if (habitaciones == null || habitaciones.isEmpty()) {
+            System.out.println("No hay habitaciones registradas en el sistema.");
+            return;
+        }
+
+        List<Habitacion> habitacionesFiltradas = obtenerHabitacionesPorTipo(tipo);
+
+        if (habitacionesFiltradas.isEmpty()) {
+            System.out.println("No se encontraron habitaciones del tipo: " + tipo);
+        } else {
+            System.out.println("Lista de habitaciones del tipo: " + tipo);
+            System.out.println("=====================================");
+            for (Habitacion habitacion : habitacionesFiltradas) {
+                System.out.println(habitacion);
+            }
+        }
+    }
+    private List<Habitacion> obtenerHabitacionesPorTipo(TipoHabitacion tipo) {
+        List<Habitacion> habitacionesFiltradas = new ArrayList<>();
+        for (Habitacion habitacion : habitaciones) {
+            if (habitacion.getTipoHabitacion().equals(tipo)) {
+                habitacionesFiltradas.add(habitacion);
+            }
+        }
+        return habitacionesFiltradas;
+    }
+    //CHECK THIS OUTTTT
 
     public void modificarEstado(Integer nroHabitacion) {
         Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
