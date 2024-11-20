@@ -7,6 +7,7 @@ import modelos.Reserva;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GestorReservas {
     private ArrayList<Reserva> reservas;
@@ -129,6 +130,61 @@ public class GestorReservas {
             System.out.println("Modificación cancelada.");
         }
     }
+
+    public void mostrarHistorialCliente(String dniCliente) {
+        try {
+            Verificador.verificarDNI(dniCliente);
+            Verificador.verificarArregloVacio(reservas);
+        } catch (DNIInvalidoException | ArregloVacioException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+
+        List<Reserva> reservasCliente = obtenerReservasPorCliente(dniCliente);
+
+        if (reservasCliente.isEmpty()) {
+            System.out.println("No se encontraron reservas para el cliente con DNI: " + dniCliente);
+        } else {
+            System.out.println("Historial de reservas del cliente con DNI: " + dniCliente);
+            System.out.println("===========================================");
+            int contador = 1;
+            for (Reserva reserva : reservasCliente) {
+                System.out.println(contador + ": " + reserva);
+                contador++;
+            }
+        }
+    }
+
+    private List<Reserva> obtenerReservasPorCliente(String dniCliente) {
+        List<Reserva> reservasCliente = new ArrayList<>();
+        for (Reserva reserva : reservas) {
+            if (reserva.getCliente().getDni().equals(dniCliente)) {
+                reservasCliente.add(reserva);
+            }
+        }
+        return reservasCliente;
+    }
+
+    /*public void mostrarHistorialCliente(String dniCliente){
+        try{
+            Verificador.verificarDNI(dniCliente);
+            Verificador.verificarArregloVacio(reservas);
+        }catch (DNIInvalidoException | ArregloVacioException e){
+            System.out.println(e.getMessage());
+            return;
+        }
+
+        boolean hayReservas = false;
+        for (Reserva reserva : reservas){
+            if (reserva.getCliente().getDni().equals(dniCliente)){
+                System.out.println(reserva);
+                hayReservas = true;
+            }
+        }
+        if (!hayReservas){
+            System.out.println("Historial de reservas vacio.");
+        }
+    }*/
 
     //Metodos de busqueda
     public Reserva buscarReservaPorCodigo(Integer codigo) {

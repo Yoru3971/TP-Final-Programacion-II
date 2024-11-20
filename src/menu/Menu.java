@@ -243,7 +243,21 @@ public class Menu {
             opcion = GestorEntradas.pedirCadena("Seleccione una opción: ");
 
             switch (opcion) {
-                case "1" -> gestorHabitaciones.listar();
+                case "1" -> {
+                    System.out.println("---- Listar ----");
+                    System.out.println("1. Listar todas las habitaciones");
+                    System.out.println("2. Listar habitaciones disponibles");
+                    System.out.println("3. Listar habitaciones no disponibles");
+                    opcion = GestorEntradas.pedirCadena("Seleccione una opcion:");
+                    switch (opcion){
+                        case "1" -> gestorHabitaciones.listar();
+                        case "2" -> gestorHabitaciones.listarHabitacionesDisponibles();
+                        case "3" -> gestorHabitaciones.listarHabitacionesNoDisponibles();
+                        case "4" -> System.out.println("Volviendo al menú anterior...");
+                        default -> System.out.println("Opcion no valida. Intente denuevo");
+                    }
+                    GestorEntradas.pausarConsola();
+                }
                 case "2" -> gestorHabitaciones.agregar();
                 case "3" -> gestorHabitaciones.modificar(GestorEntradas.pedirEntero("Ingrese el número de la habitación a modificar: "));
                 case "4" -> gestorHabitaciones.eliminar(GestorEntradas.pedirEntero("Ingrese el número de la habitación a eliminar: "));
@@ -274,9 +288,23 @@ public class Menu {
             opcion = GestorEntradas.pedirCadena("Seleccione una opción: ");
 
             switch (opcion) {
-                case "1" -> gestorHabitaciones.listar();
+                case "1" -> {
+                    System.out.println("---- Listar ----");
+                    System.out.println("1. Listar todas las habitaciones");
+                    System.out.println("2. Listar habitaciones disponibles");
+                    System.out.println("3. Listar habitaciones no disponibles");
+                    opcion = GestorEntradas.pedirCadena("Seleccione una opcion:");
+                    switch (opcion){
+                        case "1" -> gestorHabitaciones.listar();
+                        case "2" -> gestorHabitaciones.listarHabitacionesDisponibles();
+                        case "3" -> gestorHabitaciones.listarHabitacionesNoDisponibles();
+                        case "4" -> System.out.println("Volviendo al menú anterior...");
+                        default -> System.out.println("Opcion no valida. Intente denuevo");
+                    }
+                    GestorEntradas.pausarConsola();
+                }
                 case "2" -> {
-                    // hacer metodo que modifique SOLO EL ESTADO
+                    gestorHabitaciones.modificarEstado(GestorEntradas.pedirEntero("Ingrese el numero de habitacion a modificar: "));
                 }
                 case "3" -> buscarHabitacionPorNumero();
                 case "4" -> gestorHabitaciones.verDisponibilidad(GestorEntradas.pedirEntero("Ingrese el número de la habitación de la cual desea ver el calendario: "));
@@ -337,6 +365,7 @@ public class Menu {
             System.out.println("2. Agregar Reserva");
             System.out.println("3. Modificar Reserva");
             System.out.println("4. Eliminar Reserva");
+            System.out.println("5. Mostrar Reservas de Cliente");
             System.out.println("0. Volver al menú anterior");
             opcion = GestorEntradas.pedirCadena("Seleccione una opción: ");  // Usando GestorEntradas
 
@@ -408,6 +437,9 @@ public class Menu {
                     } catch (ObjetoNuloException e) {
                         System.out.println(e.getMessage());
                     }
+                }
+                case "5" ->{
+                    gestorReservas.mostrarHistorialCliente(GestorEntradas.pedirCadena("Ingrese el dni del cliente: "));
                 }
                 case "0" -> {
                     GestorArchivos.escribirArregloEnArchivo(gestorReservas.getReservas(), "reservas.json", false);

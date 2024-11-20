@@ -156,6 +156,78 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         }
     }
 
+    public void listarHabitacionesDisponibles() {
+        System.out.println("\nLista de Habitaciones Disponibles");
+        System.out.println("=========================");
+
+        try {
+            if (Verificador.verificarArregloVacio(habitaciones)) {
+                boolean hayDisponibles = false;
+                for (Habitacion habitacion : habitaciones) {
+                    if (habitacion.getEstadoActual().equals(EstadoHabitacion.DISPONIBLE)) {
+                        System.out.println(habitacion);
+                        hayDisponibles = true;
+                    }
+                }
+                if (!hayDisponibles) {
+                    System.out.println("No hay habitaciones disponibles en este momento.");
+                }
+            }
+        } catch (ArregloVacioException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+
+    public void listarHabitacionesNoDisponibles() {
+        System.out.println("\nLista de Habitaciones No Disponibles");
+        System.out.println("=========================");
+        try {
+            if (Verificador.verificarArregloVacio(habitaciones)) {
+                boolean hayOcupadas = false;
+                for (Habitacion habitacion : habitaciones) {
+                    if (!habitacion.getEstadoActual().equals(EstadoHabitacion.DISPONIBLE)) {
+                        System.out.println(habitacion);
+                        hayOcupadas = true;
+                    }
+                }
+                if (!hayOcupadas) {
+                    System.out.println("Todas las habitaciones estan disponibles.");
+                }
+            }
+        } catch (ArregloVacioException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+
+
+    public void modificarEstado(Integer nroHabitacion) {
+        Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
+
+        if (habitacionModificar == null) {
+            System.out.println("La habitación con el numero dado no existe.");
+            return;
+        }
+
+        EstadoHabitacion nuevoEstado = pedirEstadoHabitacion();
+
+        System.out.println("¿Esta seguro que quiere modificar el estado de la habitacion?");
+        System.out.println("1. Sí");
+        System.out.println("2. No");
+
+        int opcionConfirmacion = GestorEntradas.pedirEntero("Seleccione una opción:");
+
+        if (opcionConfirmacion == 1) {
+            habitacionModificar.setEstadoActual(nuevoEstado);
+            int indiceHabitacionModificar = habitaciones.indexOf(habitacionModificar);
+            habitaciones.set(indiceHabitacionModificar, habitacionModificar);
+            System.out.println("Estado modificado con Exito.");
+        } else {
+            System.out.println("Cambio de estado cancelado.");
+        }
+    }
+
+
     public void verDisponibilidad (Integer numeroHabitacion) {
         Habitacion habitacion = buscarHabitacionPorNumero(numeroHabitacion);
         habitacion.mostrarCalendario12Meses();
