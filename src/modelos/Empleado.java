@@ -24,9 +24,8 @@ public class Empleado extends Persona{
         this.usuario = null;
         this.clave = null;
         this.salario = 0.0;
-        this.cargo = TipoEmpleado.RECEPCIONISTA; // O dejarlo como null
+        this.cargo = TipoEmpleado.RECEPCIONISTA;
     }
-
 
     //Getters y Setters
     public String getUsuario() {

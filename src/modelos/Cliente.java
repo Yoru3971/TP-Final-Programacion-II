@@ -22,6 +22,7 @@ public class Cliente extends Persona{
     }
 
     //equals, hashCode y toString
+    //hashCode y equals los hereda de Persona
     @Override
     public String toString() {
         // Códigos de color

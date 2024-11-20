@@ -13,6 +13,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Menu {
+    //Constantes para implementar color en los menu
+    private final String colorRojo = "\u001B[91m";
+    private final String colorVerde = "\u001B[92m";
+    private final String colorAzul = "\u001B[94m";
+    private final String resetColor = "\u001B[0m";
+
     //Aca se guarda la informacion de quien se logea, se usa para verificar si es Admin o Recepcionista
     private Empleado empleadoLogueado;
 
@@ -21,12 +27,6 @@ public class Menu {
     private GestorClientes gestorClientes;
     private GestorHabitaciones gestorHabitaciones;
     private GestorReservas gestorReservas;
-
-    //Constantes para implementar color en los menu
-    private final String colorRojo = "\u001B[91m";
-    private final String colorVerde = "\u001B[92m";
-    private final String colorAzul = "\u001B[94m";
-    private final String resetColor = "\u001B[0m";
 
     // Constructor
     public Menu() {
@@ -267,7 +267,7 @@ public class Menu {
                     System.out.println("    2. Listar habitaciones disponibles");
                     System.out.println("    3. Listar habitaciones no disponibles");
                     System.out.println("    4. Listar habitaciones por tipo");
-                    System.out.println("    5. Listar habitaciones entre precios");
+                    System.out.println("    5. Listar habitaciones en un rango de precios");
                     System.out.println("    0. Volver al menu anterior");
                     opcion = GestorEntradas.pedirCadena("\n    Seleccione una opción: ");
                     switch (opcion) {

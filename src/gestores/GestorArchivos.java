@@ -26,23 +26,24 @@ public class GestorArchivos {
                     (json, type, context) -> LocalDate.parse(json.getAsJsonPrimitive().getAsString()))
             .create();
 
+    //Metodo que llama el Admin para hacer un backup real de los datos
     public static void hacerBackup(HashMap<String, ArrayList<?>> datosBackup) throws IOException {
-        //Obtengo la fecha actual para nombrar la carpeta
+        //Se obtiene la fecha actual para nombrar la carpeta
         LocalDate fechaActual = LocalDate.now();
         DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String nombreCarpeta = "Backup_" + fechaActual.format(formatoFecha);
 
-        //Creo la carpeta de backup
+        //Se crea la carpeta de backup
         File carpetaBackup = new File(nombreCarpeta);
         if (!carpetaBackup.exists() && !carpetaBackup.mkdirs()) {
             throw new IOException("No se pudo crear la carpeta de backup.");
         }
 
-        //Guardo cada lista en su archivo correspondiente
+        //Se guarda cada lista en su archivo correspondiente
         for (Map.Entry<String, ArrayList<?>> entry : datosBackup.entrySet()) {
             String rutaArchivo = new File(carpetaBackup, entry.getKey() + ".json").getAbsolutePath();
 
-            //Chequeo si la lista que estoy serializando es la de habitaciones, para pasarle true como 3er parametro
+            //Chequea si la lista que esta serializando es la de habitaciones, para pasarle true como 3er parametro
             if(entry.getKey().equals("habitaciones")) {
                 escribirArregloEnArchivo(entry.getValue(), rutaArchivo, true);
             } else {
@@ -53,7 +54,7 @@ public class GestorArchivos {
         System.out.println("Backup completado en la carpeta: " + nombreCarpeta);
     }
 
-    //Metodo para escribir arreglos en archivos
+    //Metodos para escribir y leer arreglos
     public static <T> void escribirArregloEnArchivo(ArrayList<T> arreglo, String nombreArchivo, boolean usarAdaptadorLocalDate) {
         if (arreglo == null || arreglo.isEmpty()) {
             System.out.println("El arreglo está vacío. No se escribirá el archivo.");
@@ -77,7 +78,6 @@ public class GestorArchivos {
         }
     }
 
-    //Metodo para leer arreglos de archivos
     public static <T> ArrayList<T> leerArregloDeArchivo(String nombreArchivo, Class<T> clase) {
         ArrayList<T> elementos = new ArrayList<>();
 

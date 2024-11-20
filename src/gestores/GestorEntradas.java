@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 public class GestorEntradas {
 
+    //Desde aca se centraliza la pedida de datos en tddo el proyecto
+
     public static String pedirCadena(String mensaje) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(mensaje);
@@ -35,6 +37,7 @@ public class GestorEntradas {
         return fechaParseada;
     }
 
+    //Una vez que decidimos implementar la consola, se pueden usar comandos como clear screen para mantener la ejecucion del programa mas limpia
     public static void limpiarConsola() {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();

@@ -126,7 +126,6 @@ public class Habitacion {
         }
     }
 
-
     //Metodo auxiliar para imprimir una semana de un mes específico
     private void imprimirSemana(YearMonth mesActual, int semana) {
         int diasEnMes = mesActual.lengthOfMonth();
