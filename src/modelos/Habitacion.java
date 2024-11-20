@@ -85,49 +85,6 @@ public class Habitacion {
         System.out.println();
     }
 
-    //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses con colores
-    /*
-    public void mostrarCalendario12Meses() {
-        LocalDate hoy = LocalDate.now();
-        System.out.println("Calendario de los próximos 12 meses para la Habitación: " + this.numeroHabitacion);
-
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_GREEN = "\u001B[32m";
-
-        for (int mesOffset = 0; mesOffset < 12; mesOffset++) {
-            YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
-            System.out.println("\n" + mesActual.getMonth() + " " + mesActual.getYear());
-            System.out.println("Lu Ma Mi Ju Vi Sa Do");
-
-            //Imprimo los días del mes
-            int diasEnMes = mesActual.lengthOfMonth();
-            LocalDate primerDia = mesActual.atDay(1);
-            int primerDiaSemana = primerDia.getDayOfWeek().getValue();
-
-            for (int i = 1; i < primerDiaSemana; i++) {
-                System.out.print("   ");
-            }
-
-            for (int dia = 1; dia <= diasEnMes; dia++) {
-                LocalDate fechaActual = mesActual.atDay(dia);
-
-                //Se imprime el dia en verde si esta disponible y en rojo si esta ocupado
-                if (fechasReservadas.contains(fechaActual)) {
-                    System.out.printf(ANSI_RED + "%2d " + ANSI_RESET, dia);
-                } else {
-                    System.out.printf(ANSI_GREEN + "%2d " + ANSI_RESET, dia);
-                }
-
-                // Salta a la siguiente línea al final de la semana
-                if ((dia + primerDiaSemana - 1) % 7 == 0) {
-                    System.out.println();
-                }
-            }
-            System.out.println();
-        }
-    }*/
-
     //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses sin colores
     public void mostrarCalendario12Meses() {
         LocalDate hoy = LocalDate.now();
@@ -239,11 +196,12 @@ public class Habitacion {
     @Override
     public String toString() {
         String colorAzul = "\u001B[34m";
-        String colorRojo = "\u001B[31m";
+        String colorVerde = "\u001B[32m";
         String resetColor = "\u001B[0m";
 
-        return "[" + colorAzul + "Habitación N° " + numeroHabitacion+ resetColor + ": " +
-                "Tipo: " + colorRojo + tipoHabitacion + resetColor +
-                ", Estado: " + colorAzul + estadoActual + resetColor + "]]";
+        return "[" + colorAzul + "Habitación "+ resetColor+" - " +
+                "Nro: " +colorVerde + numeroHabitacion + resetColor +
+                "Tipo: " + colorVerde + tipoHabitacion + resetColor +
+                ", Estado: " + colorVerde + estadoActual + resetColor + "]]";
     }
 }
