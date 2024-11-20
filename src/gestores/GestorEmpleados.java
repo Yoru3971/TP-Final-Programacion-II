@@ -5,7 +5,7 @@ import modelos.Cliente;
 import modelos.Empleado;
 import java.util.ArrayList;
 
-public class GestorEmpleados extends GestorPersonas<Empleado> implements IGestionable<String>{
+public class GestorEmpleados extends GestorPersonas<Empleado> {
 
     public GestorEmpleados(ArrayList<Empleado> personas) {
         super(personas);

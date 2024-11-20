@@ -39,13 +39,13 @@ public class GestorEntradas {
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
         } catch (Exception e) {
-            System.err.println("Error al intentar limpiar la consola.");
+            System.err.println("  Error al intentar limpiar la consola.");
         }
     }
 
     public static void pausarConsola() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Presiona Enter para continuar...");
+        System.out.println("  Presiona Enter para continuar...");
         scanner.nextLine();
     }
 }

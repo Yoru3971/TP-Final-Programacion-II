@@ -80,17 +80,16 @@ public abstract class Persona {
     }
     @Override
     public String toString() {
-        String colorAzul = "\u001B[34m";
-        String colorVerde = "\u001B[32m";
-        String colorRojo = "\u001B[31m";
+        String colorAzul = "\u001B[94m";
+        String colorVerde = "\u001B[92m";
         String resetColor = "\u001B[0m";
 
         return "[" + colorAzul + "Persona" + resetColor + " - " +
                 "DNI: " + colorVerde + dni + resetColor +
                 ", Nombre: " + colorVerde + nombre + " " + apellido + resetColor +
-                ", Nacionalidad: " + colorRojo + nacionalidad + resetColor +
+                ", Nacionalidad: " + colorVerde + nacionalidad + resetColor +
                 ", Domicilio: " + colorVerde + domicilio + resetColor +
-                ", Teléfono: " + colorAzul + telefono + resetColor +
-                ", Mail: " + colorRojo + mail + resetColor + "]";
+                ", Teléfono: " + colorVerde + telefono + resetColor +
+                ", Mail: " + colorVerde + mail + resetColor + "]";
     }
 }

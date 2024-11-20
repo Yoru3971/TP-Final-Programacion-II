@@ -4,7 +4,7 @@ import excepciones.*;
 import modelos.Cliente;
 import java.util.ArrayList;
 
-public class GestorClientes extends GestorPersonas<Cliente> implements IGestionable<String> {
+public class GestorClientes extends GestorPersonas<Cliente> {
     public GestorClientes(ArrayList<Cliente> clientes) {
         super(clientes);
     }

@@ -25,8 +25,8 @@ public class Cliente extends Persona{
     @Override
     public String toString() {
         // Códigos de color
-        String colorVerde = "\u001B[32m";
-        String colorAzul = "\u001B[34m";
+        String colorVerde = "\u001B[92m";
+        String colorAzul = "\u001B[94m";
         String resetColor = "\u001B[0m";
 
         return "[" + colorAzul + "Cliente" + resetColor + ": " +
