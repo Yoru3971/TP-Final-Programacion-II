@@ -5,8 +5,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
 public class Reserva {
-    private static int contadorCodigo = 0;
-    private final Integer codigo;
+    private static int contadorID = 0;
+    private final Integer ID;
     private Habitacion habitacion;
     private Cliente cliente;
     private LocalDate checkIn;
@@ -15,7 +15,7 @@ public class Reserva {
 
     //Constructores
     public Reserva(Habitacion habitacion, Cliente cliente, LocalDate checkIn, LocalDate checkOut) {
-        this.codigo = contadorCodigo++;
+        this.ID = contadorID++;
         this.habitacion = habitacion;
         this.cliente = cliente;
         this.checkIn = checkIn;
@@ -54,8 +54,8 @@ public class Reserva {
     }
 
     //Getters y Setters
-    public Integer getCodigo() {
-        return codigo;
+    public Integer getID() {
+        return ID;
     }
     public Habitacion getHabitacion() {
         return habitacion;
@@ -94,11 +94,11 @@ public class Reserva {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reserva reserva = (Reserva) o;
-        return Objects.equals(codigo, reserva.codigo) && Objects.equals(habitacion, reserva.habitacion) && Objects.equals(cliente, reserva.cliente);
+        return Objects.equals(ID, reserva.ID) && Objects.equals(habitacion, reserva.habitacion) && Objects.equals(cliente, reserva.cliente);
     }
     @Override
     public int hashCode() {
-        return Objects.hash(codigo, habitacion, cliente);
+        return Objects.hash(ID, habitacion, cliente);
     }
     @Override
     public String toString() {
@@ -108,7 +108,7 @@ public class Reserva {
         String resetColor = "\u001B[0m";
 
         return "[" + colorAzul + "Reserva" + resetColor + ": " +
-                "Código: " + colorVerde + codigo + resetColor +
+                "Código: " + colorVerde + ID + resetColor +
                 ", N° Habitación: " + colorAzul + habitacion.getNumeroHabitacion() + resetColor +
                 ", DNI Cliente: " + colorRojo + cliente.getDni() + resetColor +
                 ", Fecha Inicio: " + colorVerde + checkIn + resetColor +

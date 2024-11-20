@@ -127,7 +127,7 @@ public class Verificador {
 
     public static boolean verificarReservaNula(Reserva reserva) throws ReservaNulaException, HabitacionNulaException, ClienteNuloException {
         if (Verificador.verificarClienteNulo(reserva.getCliente()) || Verificador.verificarHabitacionNula(reserva.getHabitacion())
-                || reserva.getCodigo().equals(null) || reserva.getCheckIn().equals(null) ||
+                || reserva.getID().equals(null) || reserva.getCheckIn().equals(null) ||
                 reserva.getCheckOut().equals(null) || reserva.getMontoTotal().equals(null)){
                 throw new ReservaNulaException("Reserva invalida");
         }
