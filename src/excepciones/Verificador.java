@@ -100,8 +100,8 @@ public class Verificador {
         if (nombre == null || nombre.trim().isEmpty()) {
             throw new NombreInvalidoException("  El nombre no puede estar vacío.");
         }
-        if (!nombre.matches("[a-zA-Z]+")) {
-            throw new NombreInvalidoException("  Nombre invalido, solo debe contener letras (minusculas y mayusculas, sin espacios)");
+        if (!nombre.matches("[a-zA-Z0-9 ]+")) {
+            throw new NombreInvalidoException("  Nombre invalido, solo debe contener letras (minusculas y mayusculas) y espacios)");
         }
         return true;
     }
@@ -110,8 +110,8 @@ public class Verificador {
         if (apellido == null || apellido.trim().isEmpty()) {
             throw new ApellidoInvalidoException("  El apellido no puede estar vacío.");
         }
-        if (!apellido.matches("[a-zA-Z]+")) {
-            throw new ApellidoInvalidoException("  Apellido invalido, solo debe contener letras (minusculas y mayusculas, sin espacios)");
+        if (!apellido.matches("[a-zA-Z0-9 ]+")) {
+            throw new ApellidoInvalidoException("  Apellido invalido, solo debe contener letras (minusculas y mayusculas) y espacios)");
         }
         return true;
     }
@@ -131,54 +131,82 @@ public class Verificador {
             throw new DomicilioInvalidoException("  El domicilio no puede estar vacío.");
         }
         if (!domicilio.matches("[a-zA-Z0-9 ]+")) {
-            throw new DomicilioInvalidoException("  Domicilio invalido, solo puede contener letras, numeros y espacios");
+            throw new DomicilioInvalidoException("  Domicilio inválido, solo puede contener letras, números y espacios.");
+        }
+        if (domicilio.matches("[a-zA-Z ]+")) {
+            throw new DomicilioInvalidoException("  El domicilio no puede contener solo letras, debe incluir números.");
+        }
+        if (domicilio.matches("[0-9 ]+")) {
+            throw new DomicilioInvalidoException("  El domicilio no puede contener solo números, debe incluir letras.");
         }
         return true;
     }
 
     public static boolean verificarTelefono(String telefono) throws TelefonoInvalidoException {
+       //Otra verificacion que habria que hacer, es que el telefono y el mail tampoco correspondan a los de otros usuarios,
+        // no la incluimos porque consideramos que no era necesario para este trabajo
+
         if (telefono == null || telefono.trim().isEmpty()) {
             throw new TelefonoInvalidoException("  El teléfono no puede estar vacío.");
         }
         if (!telefono.matches("\\d{10,15}")) { // 10 a 15 dígitos
-            throw new TelefonoInvalidoException("  Teléfono invalido, debe contener solo números y el largo debe ser adecuado");
+            throw new TelefonoInvalidoException("  Teléfono invalido, debe contener solo números y un largo de entre 10 y 15 numeros.");
         }
         return true;
     }
 
     public static boolean verificarMail(String mail) throws MailInvalidoException {
+        //Otra verificacion que habria que hacer, es que el telefono y el mail tampoco correspondan a los de otros usuarios,
+        // no la incluimos porque consideramos que no era necesario para este trabajo
+
         if (mail == null || mail.trim().isEmpty()) {
-            throw new MailInvalidoException("  El correo electrónico no puede estar vacío.");
+            throw new MailInvalidoException("  El Email no puede estar vacío.");
         }
         if (!mail.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}")) {
-            throw new MailInvalidoException("  Email invalido, debe tener el formato correcto (ejemplo: nombre@dominio.com)");
+            throw new MailInvalidoException("  Email invalido, debe tener el formato correcto (ejemplo: nombre@dominio.com).");
         }
         return true;
     }
 
-    public static boolean verificarSalario(Double salario) throws SalarioInvalidoException {
-        if (salario == null || salario <= 0) {
-            throw new SalarioInvalidoException("  El salario debe ser un número positivo.");
-        }
-        return true;
-    }
-
-    public static boolean verificarNumeroHabitacion(Integer numero, ArrayList<Habitacion> habitaciones) throws NumeroHabitacionInvalidoException, HabitacionExistenteException {
-        if (numero == null || numero <= 0) {
-            throw new NumeroHabitacionInvalidoException("  El número de habitación debe ser un entero positivo mayor a 0.");
-        }
-
-        for (Habitacion habitacion : habitaciones) {
-            if (habitacion.getNumeroHabitacion().equals(numero)) {
-                throw new HabitacionExistenteException("  El número de habitación ya existe en el sistema.");
+    public static boolean verificarSalario(String salarioInput) throws SalarioInvalidoException {
+        try {
+            Double salario = Double.parseDouble(salarioInput);
+            if (salario <= 0) {
+                throw new SalarioInvalidoException("  El salario debe ser un número positivo.");
             }
+        } catch (NumberFormatException e) {
+            throw new SalarioInvalidoException("  El salario debe ser un número válido.");
         }
         return true;
     }
 
-    public static boolean verificarPrecioHabitacion(Double precio) throws PrecioInvalidoException {
-        if (precio == null || precio <= 0) {
-            throw new PrecioInvalidoException("  El precio diario debe ser un valor positivo.");
+    public static boolean verificarNumeroHabitacion(String numeroInput, ArrayList<Habitacion> habitaciones)
+            throws NumeroHabitacionInvalidoException, HabitacionExistenteException {
+        try {
+            Integer numero = Integer.parseInt(numeroInput);
+            if (numero <= 0) {
+                throw new NumeroHabitacionInvalidoException("  El número de habitación debe ser un entero positivo mayor a 0.");
+            }
+
+            for (Habitacion habitacion : habitaciones) {
+                if (habitacion.getNumeroHabitacion().equals(numero)) {
+                    throw new HabitacionExistenteException("  El número de habitación ya existe en el sistema.");
+                }
+            }
+        } catch (NumberFormatException e) {
+            throw new NumeroHabitacionInvalidoException("  El número de habitación debe ser un entero válido.");
+        }
+        return true;
+    }
+
+    public static boolean verificarPrecioHabitacion(String precioInput) throws PrecioInvalidoException {
+        try {
+            Double precio = Double.parseDouble(precioInput);
+            if (precio <= 0) {
+                throw new PrecioInvalidoException("  El precio diario debe ser un valor positivo.");
+            }
+        } catch (NumberFormatException e) {
+            throw new PrecioInvalidoException("  El precio diario debe ser un número válido.");
         }
         return true;
     }

@@ -17,6 +17,7 @@ public class Habitacion {
 
     //Constructores
     public Habitacion() {
+        this.fechasReservadas = new ArrayList<>();
     }
     public Habitacion(Integer numeroHabitacion, EstadoHabitacion estadoActual, TipoHabitacion tipoHabitacion, Double precioDiario) {
         this.numeroHabitacion = numeroHabitacion;
@@ -86,21 +87,24 @@ public class Habitacion {
     //Metodo para mostrar disponibilidad en formato calendario de los ultimos 12 meses sin colores
     public void mostrarCalendario12Meses() {
         LocalDate hoy = LocalDate.now();
-        System.out.println("Calendario de los próximos 12 meses para la Habitación: " + this.numeroHabitacion);
 
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_GRAY = "\u001B[90m";
+        final String resetColor = "\u001B[0m";
+        final String colorAmarillo = "\u001B[93m";
+        final String colorVerde = "\u001B[92m";
+        final String colorRojo = "\u001B[91m";
 
+        System.out.println(colorAmarillo+"\n  Calendario de los próximos 12 meses para la Habitación: " + this.numeroHabitacion+resetColor);
         for (int mesOffset = 0; mesOffset < 12; mesOffset++) {
             YearMonth mesActual = YearMonth.from(hoy).plusMonths(mesOffset);
-            System.out.println("\n" + mesActual.getMonth() + " " + mesActual.getYear());
-            System.out.println("Lu Ma Mi Ju Vi Sa Do");
+            System.out.println("\n  " + mesActual.getMonth() + " " + mesActual.getYear());
+            System.out.println("  Lu Ma Mi Ju Vi Sa Do");
 
-            //Imprimo los días del mes
+            // Imprimo los días del mes
             int diasEnMes = mesActual.lengthOfMonth();
             LocalDate primerDia = mesActual.atDay(1);
             int primerDiaSemana = primerDia.getDayOfWeek().getValue();
 
+            System.out.print("  ");
             for (int i = 1; i < primerDiaSemana; i++) {
                 System.out.print("   ");
             }
@@ -108,16 +112,17 @@ public class Habitacion {
             for (int dia = 1; dia <= diasEnMes; dia++) {
                 LocalDate fechaActual = mesActual.atDay(dia);
 
-                //Se imprime el día en gris si está ocupado y en blanco si está disponible
+                // Se imprime el día en rojo si está ocupado y en verde si está disponible
                 if (fechasReservadas.contains(fechaActual)) {
-                    System.out.printf(ANSI_GRAY + "%2d " + ANSI_RESET, dia);
+                    System.out.printf(colorRojo + "%2d " + resetColor, dia);
                 } else {
-                    System.out.printf("%2d ", dia);
+                    System.out.printf(colorVerde + "%2d " + resetColor, dia);
                 }
 
-                //Salta a la siguiente línea al final de la semana
+                // Salta a la siguiente línea al final de la semana
                 if ((dia + primerDiaSemana - 1) % 7 == 0) {
                     System.out.println();
+                    System.out.print("  ");
                 }
             }
             System.out.println();

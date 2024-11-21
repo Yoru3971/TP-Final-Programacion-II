@@ -144,7 +144,7 @@ public class Menu {
                                     valido = true;
                                 }
                             } catch (ClaveInvalidaException e) {
-                                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
+                                System.out.println(colorRojo+e.getMessage()+resetColor);
                             }
                         }while(!valido);
                         System.out.println(colorVerde+ "  Clave modificada con éxito"+resetColor);
@@ -158,7 +158,7 @@ public class Menu {
                                     valido = true;
                                 }
                             } catch (UsuarioInvalidoException | UsuarioRepetidoException e){
-                                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
+                                System.out.println(colorRojo+e.getMessage()+resetColor);
                             }
                         } while (!valido);
                         System.out.println(colorVerde+"  Usuario modificado con éxito"+resetColor);
@@ -252,7 +252,14 @@ public class Menu {
                 case "1" -> gestorEmpleados.listar();
                 case "2" -> gestorEmpleados.agregar();
                 case "3" -> gestorEmpleados.modificar(GestorEntradas.pedirCadena("\n  Ingrese el DNI del empleado a modificar: "));
-                case "4" -> gestorEmpleados.eliminar(GestorEntradas.pedirCadena("\n  Ingrese el DNI del empleado a eliminar: "));
+                case "4" -> {
+                    String dniEliminar = GestorEntradas.pedirCadena("\n  Ingrese el DNI del empleado a eliminar: ");
+                    if(empleadoLogueado.getDni().equals(dniEliminar)){
+                        System.out.println(colorRojo+"  No se puede eliminar al empleado mientras esta usando el programa."+resetColor);
+                    }else{
+                        gestorEmpleados.eliminar(dniEliminar);
+                    }
+                }
                 case "5" -> buscarEmpleadoPorDNI();
                 case "0" -> {
                     GestorArchivos.escribirArregloEnArchivo(gestorEmpleados.getEmpleados(), "empleados.json", false);
@@ -431,6 +438,8 @@ public class Menu {
                             checkIn = gestorReservas.pedirFechaReserva("\n  Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
                             if(checkIn.isBefore(LocalDate.now())){
                                 System.out.println(colorRojo + "\n  La fecha de check-in no puede ser previa al dia de hoy. Intente de nuevo." + resetColor);
+                            }else{
+                                fechaInicioValida = true;
                             }
                         }while(!fechaInicioValida);
 
@@ -514,18 +523,18 @@ public class Menu {
         }
     }
     private void buscarHabitacionPorNumero() {
-        int numero = GestorEntradas.pedirEntero("Ingrese el número de la habitación a buscar: ");
+        int numero = GestorEntradas.pedirEntero("\n  Ingrese el número de la habitación a buscar: ");
         Habitacion habitacion = gestorHabitaciones.buscarHabitacionPorNumero(numero);
         if (habitacion != null) {
-            System.out.println("Habitación encontrada: " + habitacion);
+            System.out.println("\n  Habitación encontrada:\n  " + habitacion);
         } else {
-            System.out.println("Habitación no encontrada.");
+            System.out.println(colorRojo+"  Habitación no encontrada."+resetColor);
         }
     }
 
     //Metodo para hacer backup de todos los archivos (solo accesible por el administrador)
     private void realizarBackup() {
-        System.out.println("  Realizando backup...");
+        System.out.println("\n  Realizando backup...");
 
         //Levanto las listas de los archivos actuales (asumiendo que no estan corruptos)
         ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
@@ -537,25 +546,26 @@ public class Menu {
         HashMap<String, ArrayList<?>> datosBackup = new HashMap<>();
 
         if (empleados != null && !empleados.isEmpty()) {
-            datosBackup.put("Empleados", empleados);
+            datosBackup.put("empleados", empleados);
         }
         if (clientes != null && !clientes.isEmpty()) {
-            datosBackup.put("Clientes", clientes);
+            datosBackup.put("clientes", clientes);
         }
         if (habitaciones != null && !habitaciones.isEmpty()) {
-            datosBackup.put("Habitaciones", habitaciones);
+            datosBackup.put("habitaciones", habitaciones);
         }
         if (reservas != null && !reservas.isEmpty()) {
-            datosBackup.put("Reservas", reservas);
+            datosBackup.put("reservas", reservas);
         }
 
         //Llama al metodo hacerBackup del GestorArchivos si hay datos que respaldar
         try {
             if (!datosBackup.isEmpty()) {
                 GestorArchivos.hacerBackup(datosBackup);
-                System.out.println(colorVerde+"\n  Backup realizado exitosamente.");
+                System.out.println(colorVerde+"\n  Backup realizado exitosamente."+resetColor);
+                GestorEntradas.pausarConsola();
             } else {
-                System.out.println("\n  No hay datos para realizar el backup.");
+                System.out.println(colorRojo+"\n  No hay datos para guardar en el backup."+resetColor);
             }
         } catch (IOException e) {
             System.out.println(colorRojo+"\n  Error al realizar el backup: " + e.getMessage());

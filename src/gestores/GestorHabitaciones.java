@@ -43,7 +43,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         //Aca podriamos dejar que corte en cualquier momento, pero estar constantemente preguntando si queres seguir cargando datos nos parecio un poco molesto para el usuario
 
         Habitacion nuevaHabitacion = new Habitacion();
-        System.out.println(colorAmarillo+"\n  Ingrese los datos de la nueva habitación: \n"+resetColor);
+        System.out.println(colorAmarillo+"  Ingrese los datos de la nueva habitación: \n"+resetColor);
 
         pedirNroHabitacion(nuevaHabitacion, "\n  Ingrese el numero: ");
         nuevaHabitacion.setEstadoActual(EstadoHabitacion.DISPONIBLE);
@@ -74,7 +74,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         }
 
         System.out.println("\n  Datos de la habitación a eliminar:");
-        System.out.println(habitacionEliminar);
+        System.out.println("  "+habitacionEliminar);
         System.out.println("\n  ¿Desea confirmar la eliminación?\n  1. Sí \n  2. No \n");
         String opcion = GestorEntradas.pedirCadena("  Ingrese una opción: ");
 
@@ -88,6 +88,8 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
     @Override
     public void modificar(Integer nroHabitacion) {
+        GestorEntradas.limpiarConsola();
+
         Habitacion habitacionModificar = buscarHabitacionPorNumero(nroHabitacion);
         //Como el metodo de busqueda retorna null si no encuentra nada, se puede usar para verificar si existe o no una habitacion con ese numero
         if (habitacionModificar == null) {
@@ -97,11 +99,12 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
         int indiceHabitacionModificar = habitaciones.indexOf(habitacionModificar);
 
+        System.out.println("\n  Datos de la habitación a modificar:");
+        System.out.println("  "+habitacionModificar);
+
         String opcion;
         do {
             GestorEntradas.limpiarConsola();
-            System.out.println("\n  Datos de la habitación a modificar:");
-            System.out.println(habitacionModificar);
 
             System.out.println("\n  ¿Qué desea modificar?");
             System.out.println("  1. Número de habitación");
@@ -344,9 +347,9 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         boolean numeroValido = false;
         do {
             try {
-                Integer numeroHabitacion = GestorEntradas.pedirEntero(mensaje);
+                String numeroHabitacion = GestorEntradas.pedirCadena(mensaje);
                 if(Verificador.verificarNumeroHabitacion(numeroHabitacion, habitaciones)){
-                    habitacion.setNumeroHabitacion(numeroHabitacion);
+                    habitacion.setNumeroHabitacion(Integer.valueOf(numeroHabitacion));
                     numeroValido = true;
                 }
             } catch (NumeroHabitacionInvalidoException | HabitacionExistenteException e) {
@@ -359,9 +362,9 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         boolean precioValido = false;
         do {
             try {
-                Double precioDiario = GestorEntradas.pedirDouble(mensaje);
+                String precioDiario = GestorEntradas.pedirCadena(mensaje);
                 if(Verificador.verificarPrecioHabitacion(precioDiario)){
-                    habitacion.setPrecioDiario(precioDiario);
+                    habitacion.setPrecioDiario(Double.valueOf(precioDiario));
                     precioValido = true;
                 }
             } catch (PrecioInvalidoException e) {

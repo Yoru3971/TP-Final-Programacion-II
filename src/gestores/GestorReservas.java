@@ -69,6 +69,8 @@ public class GestorReservas {
     }
 
     public void modificar(ArrayList<Habitacion> listaHabitaciones, ArrayList<Cliente> listaClientes) {
+        GestorEntradas.limpiarConsola();
+
         Integer codigo = GestorEntradas.pedirEntero("  Ingrese el código de la reserva a modificar: ");
         Reserva reservaModificar = buscarReservaPorCodigo(codigo);
 
