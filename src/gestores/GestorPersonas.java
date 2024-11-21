@@ -5,38 +5,47 @@ import modelos.Persona;
 import java.util.ArrayList;
 
 public abstract class GestorPersonas<T extends Persona> implements IGestionable<String> {
+    //Constantes para implementar color como en los menu
+    private final String colorRojo = "\u001B[91m";
+    private final String colorVerde = "\u001B[92m";
+    private final String colorAzul = "\u001B[94m";
+    private final String resetColor = "\u001B[0m";
+
+    //El gestor de personas se puede heredar por otros gestores que manejen clases que hereden de Persona.
+    //Este arreglo es el que luego se llama desde las clases hijas
     protected ArrayList<T> personas;
 
+    //Constructores
     public GestorPersonas(ArrayList<T> personas) {
         this.personas = personas;
     }
-
     public GestorPersonas() {
         personas = new ArrayList<>();
     }
 
+    //Getters y Setters
     public ArrayList<T> getPersonas() {
         return personas;
     }
-
     public void setPersonas(ArrayList<T> personas) {
         this.personas = personas;
     }
 
     // Métodos ABM y Listar (serán implementados por las clases hijas)
+    //Son abstract porque esta clase lo es, pero ademas provienen de la interfaz Gestionable
     @Override
     public abstract void agregar();
-
     @Override
     public abstract void eliminar(String dni);
-
     @Override
     public abstract void modificar(String dni);
-
     @Override
     public abstract void listar();
 
-    // Métodos genéricos para pedir datos (comunes a todas las personas)
+    //Metodos genericos para pedir datos (comunes a todas las personas)
+    //Todos los metodos funcionan de manera similar, reciben la persona a modificar, piden la carga de datos
+    //(que pasa por verificaciones) y la modifican, no hace falta retornalo porque esto se hace dentro el gestor
+    //entonces se modifica directamente modifica el atributo del cliente que recibe dentro del gestor
     protected void pedirDNI(T persona, String mensaje) {
         boolean dniValido = false;
         do {
@@ -48,7 +57,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     dniValido = true;
                 }
             } catch (DNIInvalidoException | DNIExistenteException e) {
-                System.err.println(e.getMessage());
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
             }
         } while (!dniValido);
     }
@@ -63,7 +72,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     nombreValido = true;
                 }
             } catch (NombreInvalidoException e) {
-                System.err.println(e.getMessage());
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
             }
         } while (!nombreValido);
     }
@@ -78,7 +87,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     apellidoValido = true;
                 }
             } catch (ApellidoInvalidoException e) {
-                System.err.println(e.getMessage());
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
             }
         } while (!apellidoValido);
     }
@@ -93,7 +102,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     nacionalidadValida = true;
                 }
             } catch (NacionalidadInvalidaException e) {
-                System.err.println(e.getMessage());
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
             }
         } while (!nacionalidadValida);
     }
@@ -108,8 +117,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     domicilioValido = true;
                 }
             } catch (DomicilioInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);            }
         } while (!domicilioValido);
     }
 
@@ -123,8 +131,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     telefonoValido = true;
                 }
             } catch (TelefonoInvalidoException e) {
-                System.err.println(e.getMessage());
-            }
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);            }
         } while (!telefonoValido);
     }
 
@@ -138,7 +145,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     mailValido = true;
                 }
             } catch (MailInvalidoException e) {
-                System.err.println(e.getMessage());
+                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
             }
         } while (!mailValido);
     }
