@@ -23,10 +23,10 @@ public class Menu {
     private Empleado empleadoLogueado;
 
     //Aca se levanta y guarda toda la informacion que se maneja
-    private GestorEmpleados gestorEmpleados;
-    private GestorClientes gestorClientes;
-    private GestorHabitaciones gestorHabitaciones;
-    private GestorReservas gestorReservas;
+    private final GestorEmpleados gestorEmpleados;
+    private final GestorClientes gestorClientes;
+    private final GestorHabitaciones gestorHabitaciones;
+    private final GestorReservas gestorReservas;
 
     // Constructor
     public Menu() {
@@ -121,7 +121,7 @@ public class Menu {
                 String dniLogueado = empleadoLogueado.getDni();
 
                 if (usuarioLogueado.equals(nombreLogueado.concat(apellidoLogeado)) && claveLoguado.equals(dniLogueado)){
-                    System.out.println("Para el primer ingreso, por favor modifique su clave y usuario.");
+                    System.out.println("  Para el primer ingreso, por favor modifique su clave y usuario.");
                     boolean valido = false;
 
                         do {
@@ -136,20 +136,18 @@ public class Menu {
                                 System.out.println(colorRojo+e.getMessage());
                             }
                         }while(!valido);
-                        System.out.println("Clave modificada con éxito");
-                        valido = false; // Volvemos a asumir q es falso hasta que sea valido.
+                        System.out.println("  Clave modificada con éxito");
+                        valido = false; // Volvemos a asumir que es falso hasta que sea valido.
 
                         do {
                             try {
-                                String usuario = GestorEntradas.pedirCadena("Ingrese nuevo usuario: ");
+                                String usuario = GestorEntradas.pedirCadena("  Ingrese nuevo usuario: ");
                                 if(Verificador.verificarUsuario(usuario) && Verificador.verificarUsuarioRepetido(usuario, empleadoLogueado)){
                                     empleadoLogueado.setUsuario(usuario);
                                     valido = true;
                                 }
-                            } catch (UsuarioInvalidoException e){
-                                System.out.println(colorRojo+e.getMessage());
-                            }catch (UsuarioRepetidoException e){
-                                System.out.println(colorRojo+e.getMessage());
+                            } catch (UsuarioInvalidoException | UsuarioRepetidoException e){
+                                System.out.println(colorRojo+"  "+e.getMessage());
                             }
                         } while (!valido);
                         System.out.println("Usuario modificado con éxito");
@@ -451,7 +449,7 @@ public class Menu {
                     }
 
                     Habitacion habitacionReemplazar = gestorHabitaciones.buscarHabitacionPorNumero(habitacionEliminar.getNumeroHabitacion());
-                    Integer indiceHabitacion = gestorHabitaciones.getHabitaciones().indexOf(habitacionReemplazar);
+                    int indiceHabitacion = gestorHabitaciones.getHabitaciones().indexOf(habitacionReemplazar);
                     gestorHabitaciones.getHabitaciones().set(indiceHabitacion, habitacionEliminar);
                 }
                 case "5" -> {

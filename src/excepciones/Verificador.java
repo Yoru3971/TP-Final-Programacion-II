@@ -42,7 +42,7 @@ public class Verificador {
             throw new ClaveInvalidaException("La clave debe contener al menos un número.");
         }
         // verifica que la clave contenga un caracter especial
-        if (!clave.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+        if (!clave.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*")) {
             throw new ClaveInvalidaException("La clave debe contener al menos un carácter especial.");
         }
 
@@ -57,17 +57,6 @@ public class Verificador {
             }
         }
         throw new CredencialesIncorrectasException("Usuario o clave incorrectos");
-    }
-
-    public static <T> boolean verificarArregloVacio(ArrayList<T> arreglo) throws ArregloVacioException {
-        if(arreglo.isEmpty()){
-            if (arreglo.getFirst() instanceof Habitacion){
-                throw new ArregloVacioException("No hay "+arreglo.getFirst().getClass().getName().toLowerCase()+"es en el sistema.");
-            }
-            throw new ArregloVacioException("No hay "+arreglo.getFirst().getClass().getName().toLowerCase()+"s en el sistema.");
-        }
-
-        return true;
     }
 
     public static boolean verificarDisponibilidadHabitacion(Habitacion habitacion, LocalDate checkIn, LocalDate checkOut) throws HabitacionNoDisponibleException{

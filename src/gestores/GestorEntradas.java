@@ -11,8 +11,7 @@ public class GestorEntradas {
     public static String pedirCadena(String mensaje) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(mensaje);
-        String palabra = scanner.nextLine();
-        return palabra;
+        return scanner.nextLine();
     }
 
     public static Integer pedirEntero(String mensaje) {
@@ -33,8 +32,7 @@ public class GestorEntradas {
         String input = scanner.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        LocalDate fechaParseada = LocalDate.parse(input, formatter);
-        return fechaParseada;
+        return LocalDate.parse(input, formatter);
     }
 
     //Una vez que decidimos implementar la consola, se pueden usar comandos como clear screen para mantener la ejecucion del programa mas limpia

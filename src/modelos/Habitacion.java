@@ -33,12 +33,10 @@ public class Habitacion {
     }
 
     //Metodo para reservar un día
-    public boolean reservarDia(LocalDate fecha) {
+    public void reservarDia(LocalDate fecha) {
         if (isDisponible(fecha)) {
             fechasReservadas.add(fecha); // Agrega la fecha al conjunto
-            return true;
         }
-        return false;
     }
 
     //Metodo para cancelar la reserva de un dia

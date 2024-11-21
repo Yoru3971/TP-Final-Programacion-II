@@ -26,7 +26,7 @@ public class Reserva {
     //Metodo para calcular el Monto de la Reserva
     public Double calcularMontoTotal(LocalDate checkIn, LocalDate checkOut, Habitacion habitacion) {
         int cantidadDias = (int) ChronoUnit.DAYS.between(checkIn, checkOut);
-        Double total = cantidadDias * habitacion.getPrecioDiario();
+        double total = cantidadDias * habitacion.getPrecioDiario();
 
         if (cliente.getClienteVip()) {
             total -= 0.2 * total; // Descuento del 20% para cliente VIP

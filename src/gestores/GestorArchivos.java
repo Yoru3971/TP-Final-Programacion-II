@@ -36,7 +36,7 @@ public class GestorArchivos {
         //Se crea la carpeta de backup
         File carpetaBackup = new File(nombreCarpeta);
         if (!carpetaBackup.exists() && !carpetaBackup.mkdirs()) {
-            throw new IOException("No se pudo crear la carpeta de backup.");
+            throw new IOException("\n  No se pudo crear la carpeta de backup.");
         }
 
         //Se guarda cada lista en su archivo correspondiente
@@ -44,14 +44,10 @@ public class GestorArchivos {
             String rutaArchivo = new File(carpetaBackup, entry.getKey() + ".json").getAbsolutePath();
 
             //Chequea si la lista que esta serializando es la de habitaciones, para pasarle true como 3er parametro
-            if(entry.getKey().equals("habitaciones")) {
-                escribirArregloEnArchivo(entry.getValue(), rutaArchivo, true);
-            } else {
-                escribirArregloEnArchivo(entry.getValue(), rutaArchivo, false);
-            }
+            escribirArregloEnArchivo(entry.getValue(), rutaArchivo, entry.getKey().equals("habitaciones"));
         }
 
-        System.out.println("Backup completado en la carpeta: " + nombreCarpeta);
+        System.out.println("\n  Backup completado en la carpeta: " + nombreCarpeta);
     }
 
     //Metodos para escribir y leer arreglos
