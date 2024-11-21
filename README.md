@@ -1,4 +1,4 @@
-# 🌟 Sistema de Gestión de Hotel 🏨
+# 🏨 Sistema de Gestión de Hotel 🏨
 
 Este proyecto consiste en el desarrollo de un sistema integral de gestión hotelera, diseñado para optimizar y simplificar las tareas administrativas relacionadas con la gestión de habitaciones, clientes, empleados y reservas. 
 
