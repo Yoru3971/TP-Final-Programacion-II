@@ -47,7 +47,7 @@ Este sistema fue desarrollado como parte de un proyecto académico en el marco d
    ```
 4. Ejecuta el proyecto:
    ```
-   Abre el ejecutable con nombre -> SistemaHotel.exe
+   Abre el ejecutable con nombre -> SistemaHotel.bat
    ```
 ---
 📜 UML 📜
