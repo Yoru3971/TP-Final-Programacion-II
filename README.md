@@ -6,6 +6,14 @@ El objetivo principal es proporcionar una herramienta funcional que facilite la 
 
 Este sistema fue desarrollado como parte de un proyecto académico en el marco de los estudios realizados en la **Universidad Tecnológica Nacional - Facultad Regional Mar del Plata (UTN FRMDP)**. El proyecto refleja el aprendizaje y la aplicación práctica de conocimientos adquiridos en áreas clave como desarrollo de software, bases de datos, y diseño de sistemas.
 
+---
+
+## 👩‍💻 Equipo 👩‍💻
+
+- [Barreiro Julian](https://github.com/JulianBarreiro2k) Front-End Senior
+- [Daverio Emiliano](https://github.com/Yoru3971) Back-End Beast
+- [Intelangelo Felipe](https://github.com/FelipeIntelangelo) Just me
+- [Dicostanzo Nahuel](https://github.com/nahueldico3) We dont need to talk about it
 
 ---
 
@@ -41,28 +49,26 @@ Este sistema fue desarrollado como parte de un proyecto académico en el marco d
    ```
    Abre el ejecutable con nombre -> SistemaHotel.exe
    ```
+---
+📜 UML 📜
+![Diagrama de Clases](img/UML.png)
+---
+## 🖥️ Manual De Uso 🖥️
+![Interfaz Grafica de Login, recordar que tenes que haber creado un Empleado en el .json o entrar al archivo y elegir uno de los ya creados](img/Login.png)
+Despues te va a pedir la contraseña con el mismo diseño.
+![Interfaz de el Menu Administrador hecho en Consola](img/MenuAdmin.png)
+A partir de este punto ya no creo que sea necesario explicar mas, es bastante intuitivo el programa.
+Al recorrerlo se sobre entiende todo, eso si, recordar cerrar el programa volviendo a los menues y cerrando A MANO,
+en el caso que cierren el programa abruptamente los archivos no se modificaran.
 
-## 🖥️ Uso 🖥️
-
-###📜 UML 📜
-![Diagrama de Clases](UML.png)
-   
-
-[Explica brevemente cómo usar el sistema, incluye capturas de pantalla si es posible.]
-[]
-
-## 👩‍💻 Equipo 👩‍💻
-
-- [Barreiro Julian](https://github.com/JulianBarreiro2k)
-- [Daverio Emiliano](https://github.com/Yoru3971)
-- [Intelangelo Felipe](https://github.com/FelipeIntelangelo)
+---
 
 ## 🤝 Contribuciones 🤝
 
 Si deseas contribuir, por favor, abre un *issue* o envía un *pull request*. ¡Toda ayuda es bienvenida!
 Recordarles que somos un equipo pequeño que tuvo poco tiempo en el desarrollo del proyecto.
 
-## Licencia
+## 📜 Licencia 📜
 Licencia Personal a nombre del grupo.
 Licencia de la UTN - Licenciatura en Programacion
 

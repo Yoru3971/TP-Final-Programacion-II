@@ -47,7 +47,7 @@ public class GestorArchivos {
             escribirArregloEnArchivo(entry.getValue(), rutaArchivo, entry.getKey().equals("habitaciones"));
         }
 
-        System.out.println("\n  Backup completado en la carpeta: " + nombreCarpeta);
+        System.out.println("\n  Datos guardados en la carpeta: " + "'"+nombreCarpeta+"'");
     }
 
     //Metodos para escribir y leer arreglos

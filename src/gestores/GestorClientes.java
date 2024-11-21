@@ -85,6 +85,8 @@ public class GestorClientes extends GestorPersonas<Cliente> {
 
     @Override
     public void modificar(String dni) {
+        GestorEntradas.limpiarConsola();
+
         Cliente clienteModificar = buscarClientePorDni(dni);
         //Como el metodo de busqueda retorna null si no encuentra nada, se puede usar para verificar si existe o no un cliente con ese DNI
         if (clienteModificar == null) {
@@ -94,11 +96,12 @@ public class GestorClientes extends GestorPersonas<Cliente> {
 
         int indiceClienteModificar = super.getPersonas().indexOf(clienteModificar);
 
+        System.out.println("\n  Datos del cliente a modificar:");
+        System.out.println("  "+clienteModificar);
+
         String opcion;
         do {
             GestorEntradas.limpiarConsola();
-            System.out.println("\n  Datos del cliente a modificar:");
-            System.out.println(clienteModificar);
 
             System.out.println("\n  ¿Qué desea modificar?");
             System.out.println("  1. DNI");

@@ -91,6 +91,8 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
 
     @Override
     public void modificar(String Dni) {
+        GestorEntradas.limpiarConsola();
+
         Empleado empleadoModificar = buscarEmpleadoPorDni(Dni);
         //Como el metodo de busqueda retorna null si no encuentra nada, se puede usar para verificar si existe o no un empleado con ese DNI
 
@@ -101,11 +103,12 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
 
         int indiceEmpleadoModificar = super.getPersonas().indexOf(empleadoModificar);
 
+        System.out.println("\n  Datos del empleado a modificar:");
+        System.out.println("  "+empleadoModificar);
+
         String opcion;
         do {
             GestorEntradas.limpiarConsola();
-            System.out.println("\n  Datos del empleado a modificar:");
-            System.out.println(empleadoModificar);
 
             System.out.println("\n  ¿Qué desea modificar?");
             System.out.println("  1. DNI");
@@ -218,9 +221,9 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
         boolean salarioValido = false;
         do {
             try {
-                Double salario = GestorEntradas.pedirDouble(mensaje);
+                String salario = GestorEntradas.pedirCadena(mensaje);
                 if(Verificador.verificarSalario(salario)){
-                    empleado.setSalario(salario);
+                    empleado.setSalario(Double.valueOf(salario));
                     salarioValido = true;
                 }
             } catch (SalarioInvalidoException e) {

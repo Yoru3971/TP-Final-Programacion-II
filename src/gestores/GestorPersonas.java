@@ -57,7 +57,7 @@ public abstract class GestorPersonas<T extends Persona> implements IGestionable<
                     dniValido = true;
                 }
             } catch (DNIInvalidoException | DNIExistenteException e) {
-                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
+                System.out.println(colorRojo+e.getMessage()+resetColor);
             }
         } while (!dniValido);
     }

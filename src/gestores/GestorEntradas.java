@@ -21,12 +21,6 @@ public class GestorEntradas {
         return scanner.nextInt();
     }
 
-    public static Double pedirDouble(String mensaje) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(mensaje);
-        return scanner.nextDouble();
-    }
-
     public static LocalDate pedirFecha(String mensaje) {
         Scanner scanner = new Scanner(System.in);
         System.out.print(mensaje);
