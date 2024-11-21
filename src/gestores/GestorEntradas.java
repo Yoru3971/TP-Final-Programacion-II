@@ -54,7 +54,7 @@ public class GestorEntradas {
 
     public static void pausarConsola() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("  Presiona Enter para continuar...");
+        System.out.print("\n  Presiona Enter para continuar...");
         scanner.nextLine();
     }
 }

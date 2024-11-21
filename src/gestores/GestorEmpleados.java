@@ -36,7 +36,7 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
         //Aca podriamos dejar que corte en cualquier momento, pero estar constantemente preguntando si queres seguir cargando datos nos parecio un poco molesto para el usuario
 
         Empleado nuevoEmpleado = new Empleado();
-        System.out.println("\n  Ingrese los datos del nuevo empleado:");
+        System.out.println(colorAmarillo+"\n  Ingrese los datos del nuevo empleado:\n"+resetColor);
 
         pedirDNI(nuevoEmpleado, "  Ingrese DNI: ");
         pedirNombre(nuevoEmpleado, "  Ingrese nombre: ");
@@ -77,8 +77,8 @@ public class GestorEmpleados extends GestorPersonas<Empleado> {
         }
 
         System.out.println("\n  Datos del empleado a eliminar:");
-        System.out.println(empleadoEliminar);
-        System.out.println("\n  ¿Desea confirmar la eliminacion?\n1.Si \n2.No \n");
+        System.out.println("  "+empleadoEliminar);
+        System.out.println("\n  ¿Desea confirmar la eliminacion?\n  1.  Si\n  2. No\n");
         String opcion = GestorEntradas.pedirCadena("  Ingrese una opción: ");
 
         if (opcion.equals("1")) {

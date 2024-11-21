@@ -43,15 +43,15 @@ public class GestorHabitaciones implements IGestionable<Integer> {
         //Aca podriamos dejar que corte en cualquier momento, pero estar constantemente preguntando si queres seguir cargando datos nos parecio un poco molesto para el usuario
 
         Habitacion nuevaHabitacion = new Habitacion();
-        System.out.println("\n  Ingrese los datos de la nueva habitación: ");
+        System.out.println(colorAmarillo+"\n  Ingrese los datos de la nueva habitación: \n"+resetColor);
 
-        pedirNroHabitacion(nuevaHabitacion, "  Ingrese el numero: ");
+        pedirNroHabitacion(nuevaHabitacion, "\n  Ingrese el numero: ");
         nuevaHabitacion.setEstadoActual(EstadoHabitacion.DISPONIBLE);
         nuevaHabitacion.setTipoHabitacion(pedirTipoHabitacion());
-        pedirPrecioDiario(nuevaHabitacion, "  Ingrese el precio por día: ");
+        pedirPrecioDiario(nuevaHabitacion, "\n  Ingrese el precio por día: ");
 
         System.out.println("\n  Datos de la habitación a cargar:");
-        System.out.println(nuevaHabitacion);
+        System.out.println("  "+ nuevaHabitacion);
         System.out.println("\n  ¿Desea confirmar?\n  1. Sí \n  2. No\n");
         String opcion = GestorEntradas.pedirCadena("  Ingrese una opción: ");
 
@@ -271,9 +271,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
 
         EstadoHabitacion nuevoEstado = pedirEstadoHabitacion();
 
-        System.out.println("¿Esta seguro que quiere modificar el estado de la habitacion?");
-        System.out.println("1. Sí");
-        System.out.println("2. No");
+        System.out.println("\n  ¿Esta seguro que quiere modificar el estado de la habitacion?\n  1. Si\n  2. No\n");
 
         int opcionConfirmacion = GestorEntradas.pedirEntero("Seleccione una opción:");
 
@@ -281,9 +279,9 @@ public class GestorHabitaciones implements IGestionable<Integer> {
             habitacionModificar.setEstadoActual(nuevoEstado);
             int indiceHabitacionModificar = habitaciones.indexOf(habitacionModificar);
             habitaciones.set(indiceHabitacionModificar, habitacionModificar);
-            System.out.println("Estado modificado con Exito.");
+            System.out.println(colorVerde+"\n  Estado modificado con Exito."+resetColor);
         } else {
-            System.out.println("Cambio de estado cancelado.");
+            System.out.println(colorRojo+"\n  Cambio de estado cancelado."+resetColor);
         }
     }
 
@@ -305,7 +303,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     //Metodos especificos de Habitacion para pedir datos
     //Tienen la misma estructura que los de GestorPersonas
     private EstadoHabitacion pedirEstadoHabitacion() {
-        System.out.println("  Seleccione el estado de la habitación:");
+        System.out.println("\n  Seleccione el estado de la habitación:");
         System.out.println("  1. Disponible");
         System.out.println("  2. Limpieza");
         System.out.println("  3. Reparación");
@@ -325,7 +323,7 @@ public class GestorHabitaciones implements IGestionable<Integer> {
     }
 
     private TipoHabitacion pedirTipoHabitacion() {
-        System.out.println("  Seleccione el tipo de habitación:");
+        System.out.println("\n  Seleccione el tipo de habitación:");
         System.out.println("  1. Simple");
         System.out.println("  2. Doble");
         System.out.println("  3. Matrimonial");

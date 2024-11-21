@@ -36,7 +36,7 @@ public class GestorClientes extends GestorPersonas<Cliente> {
         //Aca podriamos dejar que corte en cualquier momento, pero estar constantemente preguntando si queres seguir cargando datos nos parecio un poco molesto para el usuario
 
         Cliente nuevoCliente = new Cliente(false);
-        System.out.println("\n  Ingrese los datos del nuevo cliente: ");
+        System.out.println(colorAmarillo+"\n  Ingrese los datos del nuevo cliente: \n"+resetColor);
 
         pedirDNI(nuevoCliente, "  Ingrese DNI: ");
         pedirNombre(nuevoCliente, "  Ingrese nombre: ");

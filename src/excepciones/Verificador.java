@@ -12,8 +12,8 @@ public class Verificador {
             throw new UsuarioInvalidoException("El nombre del usuario no puede estar vacio.");
         }
         // verifico que el largo del nombre de usuario dea mayor a 4 caracteres
-        if(usuario.length() <= 4){
-            throw new UsuarioInvalidoException("El nombre de usuario debe tener al menos 4 caracteres");
+        if(usuario.length() < 6){
+            throw new UsuarioInvalidoException("El nombre de usuario debe tener al menos 6 caracteres");
         }
         // verifico que el nombre de usuario no tenga caracteres especiales con una expresion regular y el uso del metodo matches() de la clase String.
         if (!usuario.matches("^[a-zA-Z0-9_]+$")) {
@@ -30,8 +30,8 @@ public class Verificador {
             throw new ClaveInvalidaException("La clave no puede estar vacia");
         }
         // verifico que el largo del nombre de usuario dea mayor a 12 caracteres
-        if(clave.length() <= 12){
-            throw new ClaveInvalidaException("La clave debe tener al menos 12 caracteres");
+        if(clave.length() < 10){
+            throw new ClaveInvalidaException("La clave debe tener al menos 10 caracteres");
         }
         // verifica que la clave contenga una letra minuscula
         if (!clave.matches(".*[a-z].*")) {
@@ -81,8 +81,8 @@ public class Verificador {
             throw new DNIInvalidoException("El DNI solo debe contener números.");
         }
         // Verificar longitud mínima
-        if (dni.length() < 8) {
-            throw new DNIInvalidoException("El DNI debe tener al menos 8 dígitos.");
+        if (dni.length() < 8 || dni.length() >11) {
+            throw new DNIInvalidoException("El DNI debe tener al menos 8 y 10 dígitos.");
         }
         return true;
     }
@@ -183,9 +183,11 @@ public class Verificador {
         return true;
     }
 
-    public static boolean verificarUsuarioRepetido(String usuario, Empleado empleado) throws UsuarioRepetidoException{
-        if (empleado.getUsuario().equals(usuario)){
-            throw new UsuarioRepetidoException("Usuario ya existente en el sistema.");
+    public static boolean verificarUsuarioRepetido(String usuario, ArrayList<Empleado> empleados) throws UsuarioRepetidoException{
+        for(Empleado e: empleados){
+            if(e.getUsuario().equals(usuario)){
+                throw new UsuarioRepetidoException("Usuario ya existente en el sistema.");
+            }
         }
         return true;
     }

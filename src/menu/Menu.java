@@ -99,17 +99,25 @@ public class Menu {
                 JOptionPane.showMessageDialog(null, "¡Bienvenido, " + empleadoLogueado.getNombre() + "!", "Login Exitoso", JOptionPane.INFORMATION_MESSAGE);
             }
         } catch (RuntimeException e) {
-            System.err.println("No se pudo abrir el archivo.");
+            System.err.println(colorRojo+"  No se pudo abrir el archivo."+resetColor);
         }
     }
     public void ejecutarPrograma() {
+        //Abre empleados para poder guardar el cambio de usuario y clave del recepcionista la primera vez
+        ArrayList<Empleado> empleados = GestorArchivos.leerArregloDeArchivo("empleados.json", Empleado.class);
+
         try{
             logIn();
         }catch(NullPointerException e){
-            System.err.println("Hubo un error en el LogIn.");
+            System.out.println(colorRojo+"\nHubo un error en el LogIn."+resetColor);
+            GestorEntradas.pausarConsola();
         }
 
+        int indiceEmpleadoReemplazar = empleados.indexOf(empleadoLogueado);
+        System.out.println(indiceEmpleadoReemplazar);
+
         try{
+            GestorEntradas.limpiarConsola();
             if (empleadoLogueado.getCargo() == TipoEmpleado.ADMINISTRADOR) {
                 menuAdministrador();
 
@@ -121,42 +129,49 @@ public class Menu {
                 String dniLogueado = empleadoLogueado.getDni();
 
                 if (usuarioLogueado.equals(nombreLogueado.concat(apellidoLogeado)) && claveLoguado.equals(dniLogueado)){
-                    System.out.println("  Para el primer ingreso, por favor modifique su clave y usuario.");
+                    System.out.println("\n  Para el primer ingreso, por favor modifique su clave y usuario.");
+                    System.out.println(colorAzul+"  La clave debe tener al menos 10 caracteres, una minuscula, una mayuscula y un caracter especial."+resetColor);
+                    System.out.println(colorAzul+"  El usuario debe tener 6 caracteres alfanumericos y guiones bajos"+resetColor);
                     boolean valido = false;
 
                         do {
                             try {
-                                String clave = GestorEntradas.pedirCadena("Ingrese nueva clave: ");
+                                String clave = GestorEntradas.pedirCadena("\n  Ingrese nueva clave: ");
+
                                 if(Verificador.verificarClave(clave)){
-                                //No es necesario verificar si el la clave es igual al DNI ya que el verificarClave te pide 12 caracteres por lo que ya lo filtra por logica.
+                                //No es necesario verificar si el la clave es igual al DNI ya que el verificarClave te pide 10 caracteres por lo que ya lo filtra por logica.
                                     empleadoLogueado.setClave(clave);
                                     valido = true;
                                 }
                             } catch (ClaveInvalidaException e) {
-                                System.out.println(colorRojo+e.getMessage());
+                                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
                             }
                         }while(!valido);
-                        System.out.println("  Clave modificada con éxito");
+                        System.out.println(colorVerde+ "  Clave modificada con éxito"+resetColor);
                         valido = false; // Volvemos a asumir que es falso hasta que sea valido.
 
                         do {
                             try {
-                                String usuario = GestorEntradas.pedirCadena("  Ingrese nuevo usuario: ");
-                                if(Verificador.verificarUsuario(usuario) && Verificador.verificarUsuarioRepetido(usuario, empleadoLogueado)){
+                                String usuario = GestorEntradas.pedirCadena("\n  Ingrese nuevo usuario: ");
+                                if(Verificador.verificarUsuario(usuario) && Verificador.verificarUsuarioRepetido(usuario, empleados)){
                                     empleadoLogueado.setUsuario(usuario);
                                     valido = true;
                                 }
                             } catch (UsuarioInvalidoException | UsuarioRepetidoException e){
-                                System.out.println(colorRojo+"  "+e.getMessage());
+                                System.out.println(colorRojo+"  "+e.getMessage()+resetColor);
                             }
                         } while (!valido);
-                        System.out.println("Usuario modificado con éxito");
-                }
+                        System.out.println(colorVerde+"  Usuario modificado con éxito"+resetColor);
 
+                        empleados.set(indiceEmpleadoReemplazar, empleadoLogueado);
+                        GestorArchivos.escribirArregloEnArchivo(empleados,"empleados.json",false);
+                        GestorEntradas.pausarConsola();
+                }
                 menuRecepcionista();
             }
         }catch(RuntimeException re){
             System.out.println(colorRojo+"Hubo un error en la ejecución del programa.");
+            GestorEntradas.pausarConsola();
         }
     }
 
@@ -180,7 +195,10 @@ public class Menu {
                 case "3" -> gestionarClientes();
                 case "4" -> gestionarReservas();
                 case "5" -> realizarBackup();
-                case "0" -> System.out.println("\n  Saliendo...");
+                case "0" ->{
+                    System.out.println("\n  Saliendo...");
+                    GestorEntradas.pausarConsola();
+                }
                 default -> {
                     System.out.println(colorRojo + "\n  Opción inválida. Intente nuevamente." + resetColor);
                     GestorEntradas.pausarConsola();
@@ -203,7 +221,10 @@ public class Menu {
                 case "1" -> gestionarHabitacionesRecep();
                 case "2" -> gestionarClientes();
                 case "3" -> gestionarReservas();
-                case "0" -> System.out.println("\n  Saliendo...");
+                case "0" -> {
+                    System.out.println("\n  Saliendo...");
+                    GestorEntradas.pausarConsola();
+                }
                 default -> {
                     System.out.println(colorRojo + "\n  Opción inválida. Intente nuevamente." + resetColor);
                     GestorEntradas.pausarConsola();
@@ -308,13 +329,13 @@ public class Menu {
             switch (opcion) {
                 case "1" -> {
                     GestorEntradas.limpiarConsola();
-                    System.out.println("\n  " + colorAzul + "=== Listar ===" + resetColor);
-                    System.out.println("    1. Listar todas las habitaciones");
-                    System.out.println("    2. Listar habitaciones disponibles");
-                    System.out.println("    3. Listar habitaciones no disponibles");
-                    System.out.println("    4. Listar habitaciones por tipo");
-                    System.out.println("    5. Listar habitaciones entre precios");
-                    System.out.println("    0. Volver al menu anterior");
+                    System.out.println(colorAzul + "\n=== Listar ===" + resetColor);
+                    System.out.println("  1. Listar todas las habitaciones");
+                    System.out.println("  2. Listar habitaciones disponibles");
+                    System.out.println("  3. Listar habitaciones no disponibles");
+                    System.out.println("  4. Listar habitaciones por tipo");
+                    System.out.println("  5. Listar habitaciones entre precios");
+                    System.out.println("  0. Volver al menu anterior");
                     opcion = GestorEntradas.pedirCadena("\n    Seleccione una opción: ");
                     switch (opcion) {
                         case "1" -> gestorHabitaciones.listar();
@@ -405,7 +426,7 @@ public class Menu {
 
                     while (!fechasDisponibles) {
                         boolean fechaInicioValida = false;
-                        
+
                         do{
                             checkIn = gestorReservas.pedirFechaReserva("\n  Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
                             if(checkIn.isBefore(LocalDate.now())){
@@ -475,12 +496,12 @@ public class Menu {
 
     //Metodos de busqueda
     private void buscarEmpleadoPorDNI() {
-        String dni = GestorEntradas.pedirCadena("Ingrese el DNI del empleado a buscar: ");
+        String dni = GestorEntradas.pedirCadena("  Ingrese el DNI del empleado a buscar: ");
         Empleado empleado = gestorEmpleados.buscarEmpleadoPorDni(dni);
         if (empleado != null) {
-            System.out.println("Empleado encontrado: " + empleado);
+            System.out.println("  Empleado encontrado:\n  "+empleado);
         } else {
-            System.out.println("Empleado no encontrado.");
+            System.out.println(colorRojo + "  Empleado no encontrado."+resetColor);
         }
     }
     private void buscarClientePorDNI() {
