@@ -1,10 +1,11 @@
-# 🌟 Sistema de Gestión de Hotel
+# 🌟 Sistema de Gestión de Hotel 🏨
 
-Este proyecto es un sistema de gestión de hotel diseñado para facilitar la administración de habitaciones, clientes, empleados y reservas. Está desarrollado como parte de un proyecto académico.
+Este proyecto es un sistema de gestión de hotel diseñado para facilitar la administración de habitaciones, clientes, empleados y reservas.
+Está desarrollado como parte de un proyecto académico de la Universidad Tecnologica Nacional de Mar del Plata.
 
 ---
 
-## ✨ Funcionalidades principales
+## ✨ Funcionalidades principales ⚒️
 
 - 🛏️ **ABM de habitaciones**: Crear, modificar, eliminar y listar habitaciones.
 - 👥 **ABM de clientes**: Gestionar la información de los huéspedes del hotel.
@@ -13,12 +14,12 @@ Este proyecto es un sistema de gestión de hotel diseñado para facilitar la adm
 
 ---
 
-## 🛠️ Tecnologías utilizadas
+## 🛠️ Tecnologías utilizadas 🛠️
 
 - **Backend**: [Java]
 - **Frontend**: [Swing]
 - **Base de datos**: [Gson]
-- **Control de versiones**: Git y GitHub
+- **Control de versiones**: [Git y GitHub]
 
 ---
 
@@ -29,16 +30,18 @@ Este proyecto es un sistema de gestión de hotel diseñado para facilitar la adm
    git clone https://github.com/Yoru3971/TP-Final-Programacion-II
    ```
 2. Configura las variables de entorno (si aplica):
+   ```bash
    - Abre y busca el archivo de empleados - Elige un administrador para ingresar al sistema o cree uno con el mismo formato del .json
-
-3. Ejecuta el proyecto:
    ```
-   Abre el SistemaHotel.exe
+4. Ejecuta el proyecto:
+   ```
+   Abre el ejecutable con nombre -> SistemaHotel.exe
    ```
 
 ## 🖥️ Uso 🖥️
 
 [Explica brevemente cómo usar el sistema, incluye capturas de pantalla si es posible.]
+[]
 
 ## 👩‍💻 Equipo 👩‍💻
 
@@ -50,8 +53,12 @@ Este proyecto es un sistema de gestión de hotel diseñado para facilitar la adm
 
 Si deseas contribuir, por favor, abre un *issue* o envía un *pull request*. ¡Toda ayuda es bienvenida!
 
+
+Recordarles que somos un equipo pequeño que tuvo poco tiempo en el desarrollo del proyecto.
 ## Licencia
 
+Licencia de la UTN - Licenciatura en Programacion
 
+Muchas gracias por la cursada [Lucre y Adrian  ♥] 
 
 ---
