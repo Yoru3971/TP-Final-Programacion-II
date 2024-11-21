@@ -1,7 +1,11 @@
 # 🌟 Sistema de Gestión de Hotel 🏨
 
-Este proyecto es un sistema de gestión de hotel diseñado para facilitar la administración de habitaciones, clientes, empleados y reservas.
-Está desarrollado como parte de un proyecto académico de la Universidad Tecnologica Nacional de Mar del Plata.
+Este proyecto consiste en el desarrollo de un sistema integral de gestión hotelera, diseñado para optimizar y simplificar las tareas administrativas relacionadas con la gestión de habitaciones, clientes, empleados y reservas. 
+
+El objetivo principal es proporcionar una herramienta funcional que facilite la operación diaria de un hotel, permitiendo un manejo eficiente de los recursos y mejorando la experiencia tanto de los usuarios internos como de los clientes finales. 
+
+Este sistema fue desarrollado como parte de un proyecto académico en el marco de los estudios realizados en la **Universidad Tecnológica Nacional - Facultad Regional Mar del Plata (UTN FRMDP)**. El proyecto refleja el aprendizaje y la aplicación práctica de conocimientos adquiridos en áreas clave como desarrollo de software, bases de datos, y diseño de sistemas.
+
 
 ---
 
@@ -40,6 +44,10 @@ Está desarrollado como parte de un proyecto académico de la Universidad Tecnol
 
 ## 🖥️ Uso 🖥️
 
+###📜 UML 📜
+![Diagrama de Clases](UML.png)
+   
+
 [Explica brevemente cómo usar el sistema, incluye capturas de pantalla si es posible.]
 []
 
@@ -52,13 +60,12 @@ Está desarrollado como parte de un proyecto académico de la Universidad Tecnol
 ## 🤝 Contribuciones 🤝
 
 Si deseas contribuir, por favor, abre un *issue* o envía un *pull request*. ¡Toda ayuda es bienvenida!
-
-
 Recordarles que somos un equipo pequeño que tuvo poco tiempo en el desarrollo del proyecto.
-## Licencia
 
+## Licencia
+Licencia Personal a nombre del grupo.
 Licencia de la UTN - Licenciatura en Programacion
 
-Muchas gracias por la cursada [Lucre y Adrian  ♥] 
+✨ Muchas gracias por la cursada [Lucre y Adrian] ✨
 
 ---
