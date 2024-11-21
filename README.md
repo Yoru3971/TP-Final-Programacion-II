@@ -55,8 +55,13 @@ Este sistema fue desarrollado como parte de un proyecto académico en el marco d
 ---
 ## 🖥️ Manual De Uso 🖥️
 ![Interfaz Grafica de Login, recordar que tenes que haber creado un Empleado en el .json o entrar al archivo y elegir uno de los ya creados](img/Login.png)
+
+
 Despues te va a pedir la contraseña con el mismo diseño.
+
 ![Interfaz de el Menu Administrador hecho en Consola](img/MenuAdmin.png)
+
+
 A partir de este punto ya no creo que sea necesario explicar mas, es bastante intuitivo el programa.
 Al recorrerlo se sobre entiende todo, eso si, recordar cerrar el programa volviendo a los menues y cerrando A MANO,
 en el caso que cierren el programa abruptamente los archivos no se modificaran.
