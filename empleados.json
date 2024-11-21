@@ -1,1 +1,41 @@
-[{"usuario":"jPerez","clave":"admin123","salario":50000.0,"cargo":"ADMINISTRADOR","dni":"12345678","nombre":"Juan","apellido":"Pérez","nacionalidad":"Argentino","domicilio":"Av. Siempre Viva 742","telefono":"1234567890","mail":"juan.perez@example.com"},{"usuario":"mGonzalez","clave":"recep456","salario":30000.0,"cargo":"RECEPCIONISTA","dni":"87654321","nombre":"Maria","apellido":"González","nacionalidad":"Uruguaya","domicilio":"Calle Falsa 123","telefono":"0987654321","mail":"maria.gonzalez@example.com"},{"usuario":"EmilianoDaverio","clave":"94846175","salario":900000.0,"cargo":"RECEPCIONISTA","dni":"94846175","nombre":"Emiliano","apellido":"Daverio","nacionalidad":"Uruguaya","domicilio":"Araoz 3020","telefono":"2236760611","mail":"emilianodaverio@gmail.com"}]
+[
+  {
+    "usuario": "Yoru3791",
+    "clave": "claveyoru",
+    "salario": 1000.0,
+    "cargo": "ADMINISTRADOR",
+    "dni": "94846175",
+    "nombre": "Emiliano",
+    "apellido": "Daverio",
+    "nacionalidad": "Uruguayo",
+    "domicilio": "Araoz 3020",
+    "telefono": "2236760611",
+    "mail": "emilianodaverio@gmail.com"
+  },
+  {
+    "usuario": "FelipeIntelangelo",
+    "clave": "43303269",
+    "salario": 0.0,
+    "cargo": "RECEPCIONISTA",
+    "dni": "43303269",
+    "nombre": "Felipe",
+    "apellido": "Intelangelo",
+    "nacionalidad": "Argentina",
+    "domicilio": "Artigas 908",
+    "telefono": "2236696408",
+    "mail": "felipeintelangelo@gmail.com"
+  },
+  {
+    "usuario": "Julian",
+    "clave": "clavejuli",
+    "salario": 500.0,
+    "cargo": "RECEPCIONISTA",
+    "dni": "42946427",
+    "nombre": "Julian",
+    "apellido": "Barreiro",
+    "nacionalidad": "Argentina",
+    "domicilio": "Lopez de Gomara 6029",
+    "telefono": "2234211041",
+    "mail": "julianbarreiro@gmail.com"
+  }
+]

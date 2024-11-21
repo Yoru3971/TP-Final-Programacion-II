@@ -395,16 +395,23 @@ public class Menu {
                     Habitacion habitacion = gestorHabitaciones.pedirHabitacion();
 
                     System.out.println("\n  Datos del cliente");
-                    System.out.println(cliente);
+                    System.out.println("  "+cliente);
                     System.out.println("\n  Datos de la habitación");
-                    System.out.println(habitacion);
+                    System.out.println("  "+habitacion);
 
                     boolean fechasDisponibles = false;
                     LocalDate checkIn = null;
                     LocalDate checkOut = null;
 
                     while (!fechasDisponibles) {
-                        checkIn = gestorReservas.pedirFechaReserva("\n  Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+                        boolean fechaInicioValida = false;
+                        
+                        do{
+                            checkIn = gestorReservas.pedirFechaReserva("\n  Ingrese la fecha de check-in (formato: yyyy-MM-dd): ");
+                            if(checkIn.isBefore(LocalDate.now())){
+                                System.out.println(colorRojo + "\n  La fecha de check-in no puede ser previa al dia de hoy. Intente de nuevo." + resetColor);
+                            }
+                        }while(!fechaInicioValida);
 
                         boolean fechasCorrectamenteOrdenadas = false;
                         do {

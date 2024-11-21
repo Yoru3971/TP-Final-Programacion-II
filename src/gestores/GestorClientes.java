@@ -215,7 +215,7 @@ public class GestorClientes extends GestorPersonas<Cliente> {
         boolean clienteEncontrado = false;
 
         do{
-            cliente = buscarClientePorDni(GestorEntradas.pedirCadena("\nIngrese el dni del titular de la reserva: "));
+            cliente = buscarClientePorDni(GestorEntradas.pedirCadena("\n  Ingrese el dni del titular de la reserva: "));
 
             if(cliente == null){
                 System.out.println("Cliente no encontrado. Intente de nuevo");

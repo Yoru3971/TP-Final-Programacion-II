@@ -198,7 +198,7 @@ public class Habitacion {
 
         return "[" + colorAzul + "Habitación "+ resetColor+" - " +
                 "Nro: " +colorVerde + numeroHabitacion + resetColor +
-                "Tipo: " + colorVerde + tipoHabitacion + resetColor +
+                ", Tipo: " + colorVerde + tipoHabitacion + resetColor +
                 ", Estado: " + colorVerde + estadoActual + resetColor + "]]";
     }
 }

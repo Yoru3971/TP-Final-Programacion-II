@@ -83,7 +83,7 @@ public class GestorArchivos {
             elementos = gson.fromJson(reader, listType);
 
             if (elementos == null || elementos.isEmpty()) {
-                System.out.println("La base de datos está vacía");
+                System.out.println("\n  La base de datos está vacía");
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo: " + e.getMessage());

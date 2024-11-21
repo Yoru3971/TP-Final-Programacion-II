@@ -1,1 +1,90 @@
-[{"codigo":0,"habitacion":{"numeroHabitacion":101,"fechasReservadas":["2024-12-01","2024-12-02","2024-12-03","2024-12-04"],"estadoActual":"DISPONIBLE","tipoHabitacion":"SIMPLE","precioDiario":150.0},"cliente":{"clienteVip":false,"dni":"12345678","nombre":"Juan","apellido":"Perez","nacionalidad":"Argentina","domicilio":"Calle Falsa 123","telefono":"1122334455","mail":"juan.perez@example.com"},"checkIn":"2024-12-01","checkOut":"2024-12-04","montoTotal":450.0},{"codigo":1,"habitacion":{"numeroHabitacion":202,"fechasReservadas":["2024-12-10","2024-12-11","2024-12-12","2024-12-13","2024-12-14"],"estadoActual":"DISPONIBLE","tipoHabitacion":"DOBLE","precioDiario":200.0},"cliente":{"clienteVip":true,"dni":"87654321","nombre":"Ana","apellido":"Lopez","nacionalidad":"Uruguaya","domicilio":"Av. Principal 456","telefono":"2213344556","mail":"ana.lopez@example.com"},"checkIn":"2024-12-10","checkOut":"2024-12-14","montoTotal":640.0},{"codigo":2,"habitacion":{"numeroHabitacion":303,"fechasReservadas":["2024-12-20","2024-12-21","2024-12-22","2024-12-23","2024-12-24"],"estadoActual":"DISPONIBLE","tipoHabitacion":"SUITE","precioDiario":250.0},"cliente":{"clienteVip":false,"dni":"45678901","nombre":"Carlos","apellido":"Gomez","nacionalidad":"Chilena","domicilio":"Paseo de la Paz 789","telefono":"3344556677","mail":"carlos.gomez@example.com"},"checkIn":"2024-12-20","checkOut":"2024-12-24","montoTotal":1250.0}]
+[
+  {
+    "codigo": 0,
+    "habitacion": {
+      "numeroHabitacion": 101,
+      "fechasReservadas": [
+        "2024-12-01",
+        "2024-12-02",
+        "2024-12-03",
+        "2024-12-04"
+      ],
+      "estadoActual": "DISPONIBLE",
+      "tipoHabitacion": "SIMPLE",
+      "precioDiario": 150.0
+    },
+    "cliente": {
+      "clienteVip": false,
+      "dni": "12345678",
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "nacionalidad": "Argentina",
+      "domicilio": "Calle Falsa 123",
+      "telefono": "1122334455",
+      "mail": "juan.perez@example.com"
+    },
+    "checkIn": "2024-12-01",
+    "checkOut": "2024-12-04",
+    "montoTotal": 450.0
+  },
+  
+  {
+    "codigo": 1,
+    "habitacion": {
+      "numeroHabitacion": 202,
+      "fechasReservadas": [
+        "2024-12-10",
+        "2024-12-11",
+        "2024-12-12",
+        "2024-12-13",
+        "2024-12-14"
+      ],
+      "estadoActual": "DISPONIBLE",
+      "tipoHabitacion": "DOBLE",
+      "precioDiario": 200.0
+    },
+    "cliente": {
+      "clienteVip": true,
+      "dni": "87654321",
+      "nombre": "Ana",
+      "apellido": "Lopez",
+      "nacionalidad": "Uruguaya",
+      "domicilio": "Av. Principal 456",
+      "telefono": "2213344556",
+      "mail": "ana.lopez@example.com"
+    },
+    "checkIn": "2024-12-10",
+    "checkOut": "2024-12-14",
+    "montoTotal": 640.0
+  },
+
+  {
+    "codigo": 2,
+    "habitacion": {
+      "numeroHabitacion": 303,
+      "fechasReservadas": [
+        "2024-12-20",
+        "2024-12-21",
+        "2024-12-22",
+        "2024-12-23",
+        "2024-12-24"
+      ],
+      "estadoActual": "DISPONIBLE",
+      "tipoHabitacion": "SUITE",
+      "precioDiario": 250.0
+    },
+    "cliente": {
+      "clienteVip": false,
+      "dni": "45678901",
+      "nombre": "Carlos",
+      "apellido": "Gomez",
+      "nacionalidad": "Chilena",
+      "domicilio": "Paseo de la Paz 789",
+      "telefono": "3344556677",
+      "mail": "carlos.gomez@example.com"
+    },
+    "checkIn": "2024-12-20",
+    "checkOut": "2024-12-24",
+    "montoTotal": 1250.0
+  }
+]

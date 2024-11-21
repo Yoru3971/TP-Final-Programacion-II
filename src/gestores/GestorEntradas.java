@@ -2,6 +2,7 @@ package gestores;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class GestorEntradas {
@@ -31,8 +32,15 @@ public class GestorEntradas {
         System.out.print(mensaje);
         String input = scanner.nextLine();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaParseada = null;
 
-        return LocalDate.parse(input, formatter);
+        try{
+            fechaParseada = LocalDate.parse(input, formatter);
+        }catch(DateTimeParseException e){
+            return null;
+        }
+
+        return fechaParseada;
     }
 
     //Una vez que decidimos implementar la consola, se pueden usar comandos como clear screen para mantener la ejecucion del programa mas limpia
@@ -46,7 +54,7 @@ public class GestorEntradas {
 
     public static void pausarConsola() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("  Presiona Enter para continuar...");
+        System.out.print("  Presiona Enter para continuar...");
         scanner.nextLine();
     }
 }
