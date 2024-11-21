@@ -10,9 +10,10 @@ Este sistema fue desarrollado como parte de un proyecto académico en el marco d
 
 ## 👩‍💻 Equipo 👩‍💻
 
-- [Barreiro Julian](https://github.com/JulianBarreiro2k)
-- [Daverio Emiliano](https://github.com/Yoru3971)
-- [Intelangelo Felipe](https://github.com/FelipeIntelangelo)
+- [Barreiro Julian](https://github.com/JulianBarreiro2k) Front-End Senior
+- [Daverio Emiliano](https://github.com/Yoru3971) Back-End Beast
+- [Intelangelo Felipe](https://github.com/FelipeIntelangelo) Just me
+- [Dicostanzo Nahuel](https://github.com/nahueldico3) We dont need to talk about it
 
 ---
 
@@ -49,13 +50,16 @@ Este sistema fue desarrollado como parte de un proyecto académico en el marco d
    Abre el ejecutable con nombre -> SistemaHotel.exe
    ```
 ---
-##📜 UML 📜
+📜 UML 📜
 ![Diagrama de Clases](img/UML.png)
 ---
 ## 🖥️ Manual De Uso 🖥️
-
-[Explica brevemente cómo usar el sistema, incluye capturas de pantalla si es posible.]
-[]
+![Interfaz Grafica de Login, recordar que tenes que haber creado un Empleado en el .json o entrar al archivo y elegir uno de los ya creados](img/Login.png)
+Despues te va a pedir la contraseña con el mismo diseño.
+![Interfaz de el Menu Administrador hecho en Consola](img/MenuAdmin.png)
+A partir de este punto ya no creo que sea necesario explicar mas, es bastante intuitivo el programa.
+Al recorrerlo se sobre entiende todo, eso si, recordar cerrar el programa volviendo a los menues y cerrando A MANO,
+en el caso que cierren el programa abruptamente los archivos no se modificaran.
 
 ---
 
